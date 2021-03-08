@@ -1,0 +1,107 @@
+<form>
+  <label>Process Flags</label>
+  <description>Digital Guardian Process Flags</description>
+  <fieldset submitButton="false">
+    <input type="text" token="proctok" searchWhenChanged="true">
+      <label>Process Name</label>
+      <default>*</default>
+      <prefix>*</prefix>
+      <suffix>*</suffix>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="text" token="flagtok" searchWhenChanged="true">
+      <label>Flags</label>
+      <prefix>*</prefix>
+      <suffix>*</suffix>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="dropdown" token="comptok" searchWhenChanged="true">
+      <label>Company</label>
+      <fieldForLabel>company</fieldForLabel>
+      <fieldForValue>company</fieldForValue>
+      <search>
+        <query>index=logiq sourcetype=prcsflgs|stats count by company</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <prefix>company="</prefix>
+      <suffix>"</suffix>
+      <choice value="">All</choice>
+      <default></default>
+    </input>
+    <input type="dropdown" token="hosttok" searchWhenChanged="true">
+      <label>Host Name</label>
+      <fieldForLabel>host</fieldForLabel>
+      <fieldForValue>host</fieldForValue>
+      <search>
+        <query>index=logiq |stats count by host</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <choice value="*">All</choice>
+      <default>*</default>
+    </input>
+    <input type="time" token="timetok" searchWhenChanged="true">
+      <label>Time Range</label>
+      <default>
+        <earliest>0</earliest>
+        <latest></latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>process flags from prcsflgs.dat</title>
+      <table>
+        <title>Process Flags</title>
+        <search>
+          <query>index=logiq sourcetype=prcsflgs process=$proctok$ flags=$flagtok$ $comptok$ host=$hosttok$ |sort process|table process, flags, company</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="drilldown">cell</option>
+      </table>
+    </panel>
+    <panel>
+      <title>propagated process flags from parent process from dg.log/dglog.bak</title>
+      <table>
+        <title>Process Flags Propagated from Parent Process</title>
+        <search>
+          <query>index=logiq sourcetype=dglog EventType="[processCache_AddProcess]" process=$proctok$ flags=$flagtok$ host=$hosttok$|dedup process propagatedFrom|table process, flags, propagatedFrom</query>
+          <earliest>$timetok.earliest$</earliest>
+          <latest>$timetok.latest$</latest>
+        </search>
+        <option name="drilldown">cell</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>DoAddProcessEntryToList and processCache_AddProcess from dg.log/dglog.bak</title>
+        <search>
+          <query>index=logiq sourcetype=dglog EventType="[DoAddProcessEntryToList]" OR EventType="[processCache_AddProcess]" process=$proctok$|table _time, EventType, pid, process,flags, propagatedFrom</query>
+          <earliest>$timetok.earliest$</earliest>
+          <latest>$timetok.latest$</latest>
+        </search>
+        <option name="drilldown">cell</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <single>
+        <title>Number of Processes In prcsflgs.dat</title>
+        <search>
+          <query>index=logiq sourcetype="prcsflgs" process=$proctok$ flags=$flagtok$ $comptok$ host=$hosttok$|stats count(process)</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </single>
+    </panel>
+  </row>
+</form>

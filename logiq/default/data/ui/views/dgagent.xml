@@ -1,0 +1,88 @@
+<form>
+  <label>ProServ-DGAgent</label>
+  <description>Professional Services</description>
+  <fieldset submitButton="false">
+    <input type="time" token="timetok" searchWhenChanged="true">
+      <label>Time Range</label>
+      <default>
+        <earliest>0</earliest>
+        <latest></latest>
+      </default>
+    </input>
+    <input type="dropdown" token="hosttok" searchWhenChanged="true">
+      <label>Host Name</label>
+      <fieldForLabel>host</fieldForLabel>
+      <fieldForValue>host</fieldForValue>
+      <search>
+        <query>index=logiq|stats count by host</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <choice value="*">All</choice>
+      <default>*</default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <title>DG Agent Version</title>
+        <search>
+          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType=\[CDataProcessor::Start\] "Agent Version:"</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+    <panel>
+      <event>
+        <title>DG Agent Starting</title>
+        <search>
+          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType=\[DgAgentModule::PreMessageLoop\] "Agent starting..."</query>
+          <earliest>$timetok.earliest$</earliest>
+          <latest>$timetok.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="list.drilldown">none</option>
+        <option name="list.wrap">1</option>
+        <option name="maxLines">5</option>
+        <option name="raw.drilldown">full</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">0</option>
+        <option name="table.drilldown">all</option>
+        <option name="table.sortDirection">asc</option>
+        <option name="table.wrap">1</option>
+        <option name="type">list</option>
+      </event>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <event>
+        <title>Agent Certificate</title>
+        <search>
+          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType=\[CDgClientCryptoV3::LoadCertificateFromFile\]</query>
+          <earliest>$timetok.earliest$</earliest>
+          <latest>$timetok.latest$</latest>
+        </search>
+        <option name="list.drilldown">none</option>
+      </event>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <event>
+        <title>Agent Migration Re-Registering</title>
+        <search>
+          <query>index=logiq sourcetype=dglog host=$hosttok$ (EventType=\[CSettingsProcessor::TriggerReRegister\] "Server has requested agent to re-register...") OR (EventType=\[CDataProcessor::SendAgentInfoToKernel\] "Sending:") OR (EventType=\[CDataProcessor::RegisterMachine\] "Registration with server successful")</query>
+          <earliest>$timetok.earliest$</earliest>
+          <latest>$timetok.latest$</latest>
+        </search>
+        <option name="list.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </event>
+    </panel>
+  </row>
+</form>

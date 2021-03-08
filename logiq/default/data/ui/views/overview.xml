@@ -1,0 +1,8 @@
+<dashboard script="html/script.js" stylesheet="html/style.css">
+  <label>Overview</label>
+  <row>
+    <panel>
+      <html id="instructions" src="html/index.html"/>
+    </panel>
+  </row>
+</dashboard>

@@ -1,0 +1,77 @@
+<form>
+  <label>Applications Installed</label>
+  <fieldset submitButton="false">
+    <input type="dropdown" token="vendtok" searchWhenChanged="true">
+      <label>Vendor</label>
+      <fieldForLabel>Vendor</fieldForLabel>
+      <fieldForValue>Vendor</fieldForValue>
+      <search>
+        <query>index="logiq" sourcetype=DIAG14|stats count BY Vendor</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <choice value="*">All</choice>
+      <default>*</default>
+    </input>
+    <input type="dropdown" token="hosttok" searchWhenChanged="true">
+      <label>Host Name</label>
+      <fieldForLabel>host</fieldForLabel>
+      <fieldForValue>host</fieldForValue>
+      <search>
+        <query>index=logiq |stats count by host</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <choice value="*">All</choice>
+      <default>*</default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <chart>
+        <title>Vendors</title>
+        <search>
+          <query>index="logiq" sourcetype=DIAG14 host=$hosttok$ $vendtok$|stats count(Name) by Vendor</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">all</option>
+        <option name="refresh.display">progressbar</option>
+        <drilldown>
+          <set token="Vendor">$click.value$</set>
+        </drilldown>
+      </chart>
+    </panel>
+    <panel>
+      <chart>
+        <title>Applications</title>
+        <search>
+          <query>index="logiq" sourcetype=DIAG14 host=$hosttok$ $vendtok$|stats count(Version) by Name</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Applications Installed</title>
+        <search>
+          <query>index="logiq" sourcetype=DIAG14 host=$hosttok$ $vendtok$|dedup Vendor, Version |sort Vendor, Name, -version|table Vendor, Name, Version,InstallDate,InstallLocation</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="drilldown">cell</option>
+        <option name="refresh.display">progressbar</option>
+        <drilldown>
+          <link target="_blank">search?q=index%3D%22logiq%22%20sourcetype%3DDIAG14%20host%3D$hosttok$_DGDiag%20$vendtok$%20%22$click.name2$%22%3D%22$click.value2$%22&amp;earliest=0&amp;latest=</link>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+</form>
