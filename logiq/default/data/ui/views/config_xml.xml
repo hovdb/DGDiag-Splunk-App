@@ -1,0 +1,45 @@
+<form>
+  <label>Config XML</label>
+  <fieldset submitButton="false">
+    <input type="dropdown" token="hosttok" searchWhenChanged="true">
+      <label>Host Name</label>
+      <fieldForLabel>host</fieldForLabel>
+      <fieldForValue>host</fieldForValue>
+      <search>
+        <query>index=logiq |stats count by host</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <choice value="*">All</choice>
+      <default>*</default>
+    </input>
+    <input type="text" token="tagtok" searchWhenChanged="true">
+      <label>Search Tag Name in config.xml</label>
+      <default>*</default>
+      <prefix>*</prefix>
+      <suffix>*</suffix>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="text" token="valtok" searchWhenChanged="true">
+      <label>Search Config Value in config.xml</label>
+      <default>*</default>
+      <suffix>*</suffix>
+      <initialValue>*</initialValue>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <title>Formated Output of config.xml</title>
+        <search>
+          <query>index=logiq host=$hosttok$ sourcetype=config_xml NOT !|rex field=_raw "^(?P&lt;Config_Tag&gt;[^\t &gt;]+)[\t ]*(?P&lt;Config_Attrib&gt;[^&gt;]*)&gt;(?P&lt;Config_Value&gt;[^&lt;]*)"|reverse|search Config_Tag=$tagtok$ Config_Value=$valtok$  |table Config_Tag, Config_Value, Config_Attrib</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="count">100</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</form>

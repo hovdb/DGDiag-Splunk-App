@@ -1,0 +1,341 @@
+[app/ui]
+version = 8.1.1
+modtime = 1613074239.038515000
+
+[app/launcher]
+version = 8.1.1
+modtime = 1613074239.039686000
+
+[props/logiq]
+owner = admin
+version = 8.1.1
+modtime = 1613075845.095932000
+
+[indexes/logiq]
+owner = admin
+version = 8.1.1
+modtime = 1613076522.961466000
+
+[props/dglog]
+owner = admin
+version = 8.1.1
+modtime = 1613610987.589072000
+
+[props/configxml]
+owner = admin
+version = 8.1.2
+modtime = 1614202288.825385000
+
+[props/tester]
+owner = admin
+version = 8.1.1
+modtime = 1613082033.313226000
+
+[props/DIAG14]
+owner = admin
+version = 8.1.1
+modtime = 1613084524.601611000
+
+[views/dgwip]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 8.1.2
+modtime = 1615259332.262793000
+
+[views/applications_installed]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 8.1.2
+modtime = 1615261977.140153000
+
+[props/DIAG07]
+version = 8.1.1
+modtime = 1613159386.988976000
+
+[props/system_info]
+owner = admin
+version = 8.1.1
+modtime = 1613159906.821452000
+
+[indexes/systeminfo]
+owner = admin
+version = 8.1.1
+modtime = 1613159914.776694000
+
+[props/diag10]
+owner = admin
+version = 8.1.1
+modtime = 1613574021.820927000
+
+[indexes/test10]
+owner = admin
+version = 8.1.1
+modtime = 1613574042.143277000
+
+[views/services_info]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.1
+modtime = 1613781317.055684000
+
+[views/overview]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 8.1.1
+modtime = 1613593643.321633000
+
+[views/process_flags]
+owner = admin
+version = 8.1.2
+modtime = 1615261989.699460000
+
+[props/dglog/EXTRACT-EventType]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 8.1.1
+modtime = 1613769095.388864000
+
+[views/file_up_load]
+owner = admin
+version = 8.1.1
+modtime = 1613668679.346470000
+
+[views/upload]
+owner = admin
+version = 8.1.1
+modtime = 1613676042.177234000
+
+[props/dgwip/EXTRACT-dgwip]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 8.1.1
+modtime = 1613769084.752759000
+
+[views/dg_log]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 8.1.2
+modtime = 1615261919.844710000
+
+[props/prcsflgs/EXTRACT-process%2Cflags%2Ccompany]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 8.1.1
+modtime = 1613778045.762817000
+
+[props/DIAG12]
+owner = admin
+version = 8.1.1
+modtime = 1613773822.404119000
+
+[props/DIAG12/EXTRACT-process%2Cpid%2Cdll]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 8.1.1
+modtime = 1613774091.033093000
+
+[views/task_list]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.2
+modtime = 1615261964.868400000
+
+[nav/default]
+version = 8.1.2
+modtime = 1615297081.325607000
+
+[props/prcsflgs/EXTRACT-company]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 8.1.1
+modtime = 1613778398.630440000
+
+[app/install/install_source_checksum]
+version = 8.1.2
+modtime = 1614188051.361659000
+
+[inputs/monitor%3A%2F%2F%2Flogiq%2F%2A%2FDIAG07-HW_INFO.LOG]
+version = 8.1.2
+modtime = 1614189160.493876000
+
+[inputs/monitor%3A%2F%2F%2Flogiq%2F%2A%2FDIAG10-SERVICES_INFO.CSV]
+version = 8.1.2
+modtime = 1614189167.719951000
+
+[inputs/monitor%3A%2F%2F%2Flogiq%2F%2A%2FDIAG12-TASKLIST.LOG]
+version = 8.1.2
+modtime = 1614189190.322883000
+
+[inputs/monitor%3A%2F%2F%2Flogiq%2F%2A%2FDIAG14-APPLICATIONS-LIST.CSV]
+version = 8.1.2
+modtime = 1614189192.747323000
+
+[inputs/monitor%3A%2F%2F%2Flogiq%2F%2A%2Fconfig.xml]
+version = 8.1.2
+modtime = 1614189197.705590000
+
+[inputs/monitor%3A%2F%2F%2Flogiq%2F%2A%2Fdgwip%2A.log]
+version = 8.1.2
+modtime = 1614189210.466219000
+
+[inputs/monitor%3A%2F%2F%2Flogiq%2F%2A%2Fdglog%2A.bak]
+version = 8.1.2
+modtime = 1614189222.535081000
+
+[inputs/monitor%3A%2F%2F%2Flogiq%2F%2A%2Fdg.log]
+version = 8.1.2
+modtime = 1614189225.502023000
+
+[props/dglog/EXTRACT-dglog%20%3A%20EXTRACT-diskspace]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.2
+modtime = 1614191909.400302000
+
+[props/dglog/EXTRACT-process%2Cflags%2CpropagatedFrom]
+access = read : [ * ], write : [ admin ]
+export = none
+owner = admin
+version = 8.1.2
+modtime = 1614198585.916351000
+
+[indexes/test]
+owner = admin
+version = 8.1.2
+modtime = 1614202481.526919000
+
+[transforms/configfields]
+version = 8.1.2
+modtime = 1614203693.726688000
+
+[props/dglog/EXTRACT-process%2Cflags]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.2
+modtime = 1614216707.232428000
+
+[savedsearches/dglog_prcsflgs]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.2
+modtime = 1614217850.176953000
+
+[props/dglog/EXTRACT-process_path]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.2
+modtime = 1614372112.205866000
+
+[props/config_xml]
+owner = admin
+version = 8.1.2
+modtime = 1614794969.258953000
+
+[indexes/test2]
+owner = admin
+version = 8.1.2
+modtime = 1614221481.631209000
+
+[views/aci_classification]
+owner = admin
+version = 8.1.2
+modtime = 1615258746.687877000
+
+[props/dglog/EXTRACT-entity%2Cfrequency]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.2
+modtime = 1614268620.746932000
+
+[views/config_xml]
+owner = admin
+version = 8.1.2
+modtime = 1615262006.227453000
+
+[views/aci_overview]
+owner = admin
+version = 8.1.2
+modtime = 1614397101.856024000
+
+[props/dglog/EXTRACT-excluded%2Cnot_excluded]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.2
+modtime = 1614398466.889336000
+
+[props/dglog/EXTRACT-DGCI_DoContentInspection%2Cstart_end%2Cfile]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.2
+modtime = 1614400413.488168000
+
+[views/rule_debug]
+owner = admin
+version = 8.1.2
+modtime = 1614805502.703993000
+
+[props/dglog/EXTRACT-dglog%20%3A%20EXTRACT-RuleVarName]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.2
+modtime = 1614707297.740597000
+
+[props/dglog/EXTRACT-dglog%20%3A%20EXTRACT-RuleVarValue]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.2
+modtime = 1614707311.227142000
+
+[props/dglog/EXTRACT-dglog%20%3A%20EXTRACT-RuleVariables]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.2
+modtime = 1614707321.217420000
+
+[props/dglog/EXTRACT-RuleVarValue]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.2
+modtime = 1614707777.907183000
+
+[indexes/testers]
+owner = admin
+version = 8.1.2
+modtime = 1614719326.998611000
+
+[views/dgagent]
+owner = admin
+version = 8.1.2
+modtime = 1615262041.708402000
+
+[views/proservaci]
+owner = admin
+version = 8.1.2
+modtime = 1615262033.361905000
+
+[views/compare_config]
+owner = admin
+version = 8.1.2
+modtime = 1615294136.707362000

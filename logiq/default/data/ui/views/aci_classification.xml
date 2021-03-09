@@ -1,0 +1,126 @@
+<form>
+  <label>ACI Classification</label>
+  <description>Classification data from dg.log/dglog.bak</description>
+  <fieldset submitButton="false">
+    <input type="dropdown" token="hosttok" searchWhenChanged="true">
+      <label>Host Name</label>
+      <fieldForLabel>host</fieldForLabel>
+      <fieldForValue>host</fieldForValue>
+      <search>
+        <query>index=logiq|stats count by host</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <choice value="*">All</choice>
+      <default>*</default>
+    </input>
+    <input type="dropdown" token="acttok" searchWhenChanged="true">
+      <label>Action</label>
+      <fieldForLabel>action</fieldForLabel>
+      <fieldForValue>action</fieldForValue>
+      <search>
+        <query>index=logiq sourcetype=dglog ACI_ClassifyFile2|stats count BY action</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <choice value="*">All</choice>
+      <initialValue>*</initialValue>
+      <default>*</default>
+    </input>
+    <input type="text" token="srctok" searchWhenChanged="true">
+      <label>src</label>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="text" token="dsttok" searchWhenChanged="true">
+      <label>dst</label>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="text" token="eltok" searchWhenChanged="true">
+      <label>Elapsed &amp; Duration &gt; (MS)</label>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="time" token="timetok" searchWhenChanged="true">
+      <label>Time Range</label>
+      <default>
+        <earliest>0</earliest>
+        <latest></latest>
+      </default>
+    </input>
+    <input type="dropdown" token="enttok" searchWhenChanged="true">
+      <label>Entity</label>
+      <fieldForLabel>entity</fieldForLabel>
+      <fieldForValue>entity</fieldForValue>
+      <search>
+        <query>index=logiq sourcetype=dglog EventType="[_DGCI_DoContentInspection]"|stats count by entity</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <choice value="*">All</choice>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>time elapsed ms</title>
+      <table>
+        <search>
+          <query>index=logiq sourcetype=dglog ACI_ClassifyFile2 host=$hosttok$ action=$acttok$ src=*$srctok$* dst=*$dsttok$* elapsed&gt;$eltok$|table _time, elapsed, action, target, src, dst, excluded, not_excluded</query>
+          <earliest>$timetok.earliest$</earliest>
+          <latest>$timetok.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">50</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+        <format type="color" field="elapsed">
+          <colorPalette type="list">[#53A051,#F8BE34,#F1813F,#DC4E41]</colorPalette>
+          <scale type="threshold">3,6,10</scale>
+        </format>
+        <drilldown>
+          <link target="_blank">/app/logiq/dg_log?$click.name2$=$click.value2$</link>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Content Inspection Entity Frequency</title>
+        <search>
+          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType="[_DGCI_DoContentInspection]" entity=$enttok$|table _time, entity, frequency</query>
+          <earliest>$timetok.earliest$</earliest>
+          <latest>$timetok.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>CI Duration</title>
+        <search>
+          <query>index=logiq sourcetype=dglog host=$hosttok$ duration&gt;*|table _time, duration, EventType, start_end, File</query>
+          <earliest>$timetok.earliest$</earliest>
+          <latest>$timetok.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+        <format type="color" field="duration">
+          <colorPalette type="list">[#53A051,#006D9C,#F8BE34,#F1813F,#DC4E41]</colorPalette>
+          <scale type="threshold">150,300,600,1200</scale>
+        </format>
+      </table>
+    </panel>
+  </row>
+</form>

@@ -1,0 +1,63 @@
+<form>
+  <label>ProServ-Rule Debug</label>
+  <description>Professional Services Rule Debug</description>
+  <fieldset submitButton="false">
+    <input type="dropdown" token="hosttok" searchWhenChanged="true">
+      <label>Host Name</label>
+      <fieldForLabel>host</fieldForLabel>
+      <fieldForValue>host</fieldForValue>
+      <search>
+        <query>index=logiq|stats count by host</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <choice value="*">All</choice>
+      <default>*</default>
+    </input>
+    <input type="text" token="rulevarNtok">
+      <label>RuleVariable Name</label>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="dropdown" token="rulevartok" searchWhenChanged="true">
+      <label>RuleVariable</label>
+      <fieldForLabel>RuleVariables</fieldForLabel>
+      <fieldForValue>RuleVariables</fieldForValue>
+      <search>
+        <query>index=logiq host=$hosttok$ sourcetype=dglog RuleVariables=*|stats count by RuleVariables</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <choice value="*">All</choice>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="time" token="timetok" searchWhenChanged="true">
+      <label>Time Range</label>
+      <default>
+        <earliest>0</earliest>
+        <latest></latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <search>
+          <query>index=logiq host=$hosttok$ sourcetype=dglog RuleVariables=$rulevartok$ RuleVarName=*$rulevarNtok$*|sort - _time|table _time, RuleVariables, RuleVarName, RuleVarValue</query>
+          <earliest>$timetok.earliest$</earliest>
+          <latest>$timetok.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">100</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">row</option>
+        <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+      </table>
+    </panel>
+  </row>
+</form>

@@ -1,0 +1,22 @@
+<nav search_view="search">
+  <view name="overview" default='true' />
+  <view name="dgwip" />
+  <view name="applications_installed" />
+  <view name="services_info" />
+  <view name="process_flags" />
+  <view name="dg_log" />
+  <view name="task_list" />
+  <view name="aci_classification" />
+  <collection label="Config.xml">
+    <view name="config_xml" />
+    <view name="compare_config" />
+  </collection>
+  <collection label="ProServ" >
+    <view name="rule_debug" />
+    <view name="proservaci" />
+    <view name="dgagent" />
+  </collection>
+  <view name="search" />
+  <view name="dashboards" />
+  <view name="splunk_httpinput" />
+</nav>

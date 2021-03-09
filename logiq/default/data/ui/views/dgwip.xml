@@ -1,0 +1,90 @@
+<form>
+  <label>DGWIP Logs</label>
+  <fieldset submitButton="false">
+    <input type="dropdown" token="hosttok" searchWhenChanged="true">
+      <label>Host Name</label>
+      <fieldForLabel>host</fieldForLabel>
+      <fieldForValue>host</fieldForValue>
+      <search>
+        <query>index=logiq|stats count by host</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <choice value="*">All</choice>
+      <default>*</default>
+    </input>
+    <input type="dropdown" token="proctok" searchWhenChanged="true">
+      <label>Process</label>
+      <choice value="*">all</choice>
+      <fieldForLabel>process</fieldForLabel>
+      <fieldForValue>process</fieldForValue>
+      <search>
+        <query>index=logiq sourcetype=dgwip |stats count by process</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <default>*</default>
+    </input>
+    <input type="time" token="timetok" searchWhenChanged="true">
+      <label>Time Selection</label>
+      <default>
+        <earliest>0</earliest>
+        <latest></latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <title>DGWip Skipped URLs</title>
+      <chart>
+        <title>URLs</title>
+        <search>
+          <query>index=logiq sourcetype=dgwip host=$hosttok$ process=$proctok$ skip=* |stats count BY url</query>
+          <earliest>$timetok.earliest$</earliest>
+          <latest>$timetok.latest$</latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">none</option>
+        <option name="charting.legend.placement">bottom</option>
+        <option name="refresh.display">progressbar</option>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <title>Skip Candidates</title>
+      <table>
+        <search>
+          <query>index=logiq sourcetype=dgwip host=$hosttok$ process=$proctok$ skip=* |dedup url|sort -process|table skip, process, url, protocol, method,status</query>
+          <earliest>$timetok.earliest$</earliest>
+          <latest>$timetok.latest$</latest>
+          <sampleRatio>1</sampleRatio>
+        </search>
+        <option name="count">20</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">cell</option>
+        <option name="percentagesRow">false</option>
+        <option name="rowNumbers">false</option>
+        <option name="totalsRow">false</option>
+        <option name="wrap">true</option>
+        <drilldown>
+          <link target="_blank">search?q=index%3Dlogiq%20sourcetype%3Ddgwip%20host%3D$hosttok$%20skip%3D%22$click.value$%22%20%22$click.name2$%22%3D%22$click.value2$*%22&amp;earliest=0&amp;latest=</link>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>config.xml wip settings</title>
+        <search>
+          <query>index=logiq host=$hosttok$ sourcetype=config_xml NOT !|rex field=_raw "^(?P&lt;Config_Tag&gt;[^\t &gt;]+)[\t ]*(?P&lt;Config_Attrib&gt;[^&gt;]*)&gt;(?P&lt;Config_Value&gt;[^&lt;]*)"|reverse|search Config_Tag=*wip* Config_Value=*  |table Config_Tag, Config_Value, Config_Attrib</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="count">50</option>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+</form>

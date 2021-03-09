@@ -1,0 +1,94 @@
+<form>
+  <label>Task List</label>
+  <description>Task List</description>
+  <fieldset submitButton="false">
+    <input type="dropdown" token="hosttok" searchWhenChanged="true">
+      <label>Host Name</label>
+      <fieldForLabel>host</fieldForLabel>
+      <fieldForValue>host</fieldForValue>
+      <search>
+        <query>index=logiq |stats count by host</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <choice value="*">All</choice>
+      <default>*</default>
+    </input>
+    <input type="text" token="proctok" searchWhenChanged="true">
+      <label>Process Name</label>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="text" token="pidtok" searchWhenChanged="true">
+      <label>Process ID</label>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="text" token="dlltok" searchWhenChanged="true">
+      <label>DLL</label>
+      <default>*</default>
+      <prefix>*</prefix>
+      <suffix>*</suffix>
+      <initialValue>*</initialValue>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <single>
+        <title>Unique Processes</title>
+        <search>
+          <query>index=logiq sourcetype=diag12 host=$hosttok$ process=$proctok$ pid=$pidtok$ dll=$dlltok$|dedup process|stats count</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="height">247</option>
+        <option name="refresh.display">progressbar</option>
+      </single>
+    </panel>
+    <panel>
+      <chart>
+        <title># of PID per process</title>
+        <search>
+          <query>index=logiq sourcetype=diag12 host=$hosttok$ process=$proctok$ pid=$pidtok$ dll=$dlltok$|chart count(pid) BY process</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="charting.chart">pie</option>
+        <option name="charting.drilldown">all</option>
+        <option name="refresh.display">progressbar</option>
+        <drilldown>
+          <set token="proctok">$row.process$</set>
+        </drilldown>
+      </chart>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Task List</title>
+        <search>
+          <query>index=logiq sourcetype=diag12 host=$hosttok$ process=$proctok$ pid=$pidtok$ dll=$dlltok$|table process, pid,dll</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="drilldown">cell</option>
+        <drilldown>
+          <link target="_blank">/app/logiq/dg_log?form.pid=$click.value2$</link>
+        </drilldown>
+      </table>
+    </panel>
+    <panel>
+      <table>
+        <title>Unique Processes Names</title>
+        <search>
+          <query>index=logiq sourcetype=diag12 host=$hosttok$ process=$proctok$ pid=$pidtok$ dll=$dlltok$|dedup process|table process</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</form>
