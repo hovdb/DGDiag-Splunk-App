@@ -100,7 +100,7 @@
       <table>
         <title>ProcessFlags applied to process during run-time</title>
         <search>
-          <query>index=logiq sourcetype=dglog PID=* | transaction PID connected=false maxspan=3s | search processCache="ADD PROCESS" process=$proctok$ PID=$pidtok$ | eval Time = strftime(_time, "%Y-%d-%m %H:%M:%S.%3N") | fields - _time | table  Time, PID, process, process_path, flags_sorted | rename process AS Process, process_path AS "Process Path" flags_sorted AS "Process Flags"</query>
+          <query>index=logiq sourcetype=dglog PID=* | transaction PID connected=false maxspan=3s | search processCache="ADD PROCESS" process=$proctok$ PID=$pidtok$ processFlags=$flagtok$ | eval Time = strftime(_time, "%Y-%d-%m %H:%M:%S.%3N") | fields - _time | table  Time, PID, process, process_path, flags_sorted | rename process AS Process, process_path AS "Process Path" flags_sorted AS "Process Flags"</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
