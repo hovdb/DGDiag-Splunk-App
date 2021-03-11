@@ -49,7 +49,42 @@
         <latest></latest>
       </default>
     </input>
+    <input depends="$hidden$" type="text" token="configtok" searchWhenChanged="true">
+      <label>ConfigTok</label>
+      <default>@</default>
+      <initialValue>@</initialValue>
+    </input>
   </fieldset>
+  <row>
+    <panel>
+      <table>
+        <title>Role Mode (click Role to display default associated flags)</title>
+        <search>
+          <query>index=logiq host=$hosttok$ sourcetype=config_xml NOT !|rex field=_raw "^(?P&lt;Config_Tag&gt;[^\t &gt;]+)[\t ]*(?P&lt;Config_Attrib&gt;[^&gt;]*)&gt;(?P&lt;RoleMode&gt;[^&lt;]*)"|reverse|search Config_Tag="agentRole"|table RoleMode</query>
+          <earliest>$timetok.earliest$</earliest>
+          <latest>$timetok.latest$</latest>
+        </search>
+        <option name="count">1</option>
+        <option name="drilldown">cell</option>
+        <drilldown>
+          <set token="configtok">$click.value$</set>
+        </drilldown>
+      </table>
+    </panel>
+    <panel>
+      <table>
+        <title>Drill Down from Role Mode Selection (displays default process flags)</title>
+        <search>
+          <query>index=logiq host=$hosttok$ sourcetype=config_xml NOT !|rex field=_raw "^(?P&lt;Config_Tag&gt;[^\t &gt;]+)[\t ]*(?P&lt;Config_Attrib&gt;[^&gt;]*)&gt;(?P&lt;Config_Value&gt;[^&lt;]*)"|search Config_Tag=$configtok$ |table defaultProcessFlags</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="count">1</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
   <row>
     <panel>
       <title>process flags from prcsflgs.dat</title>
@@ -77,6 +112,18 @@
     </panel>
   </row>
   <row>
+    <panel>
+      <table>
+        <title>ON PROC</title>
+        <search>
+          <query>index=logiq sourcetype=dglog PID=* process=$proctok$|table _time,Code,processCache,process,PID,parent_process,parent_PID,processFlags</query>
+          <earliest>$timetok.earliest$</earliest>
+          <latest>$timetok.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
     <panel>
       <table>
         <title>DoAddProcessEntryToList and processCache_AddProcess from dg.log/dglog.bak</title>

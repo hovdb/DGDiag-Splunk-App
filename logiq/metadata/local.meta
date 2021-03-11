@@ -91,7 +91,7 @@ modtime = 1613593643.321633000
 [views/process_flags]
 owner = admin
 version = 8.1.2
-modtime = 1615261989.699460000
+modtime = 1615433988.693854000
 
 [props/dglog/EXTRACT-EventType]
 access = read : [ * ], write : [ admin ]
@@ -140,8 +140,8 @@ modtime = 1613773822.404119000
 access = read : [ * ], write : [ admin ]
 export = none
 owner = admin
-version = 8.1.1
-modtime = 1613774091.033093000
+version = 8.1.2
+modtime = 1615428103.589575000
 
 [views/task_list]
 access = read : [ * ], write : [ admin, power ]
@@ -261,7 +261,7 @@ access = read : [ * ], write : [ admin, power ]
 export = none
 owner = admin
 version = 8.1.2
-modtime = 1614268620.746932000
+modtime = 1615429931.345067000
 
 [views/config_xml]
 owner = admin
@@ -285,7 +285,7 @@ access = read : [ * ], write : [ admin, power ]
 export = none
 owner = admin
 version = 8.1.2
-modtime = 1614400413.488168000
+modtime = 1615427839.121232000
 
 [views/rule_debug]
 owner = admin
@@ -339,3 +339,10 @@ modtime = 1615262033.361905000
 owner = admin
 version = 8.1.2
 modtime = 1615294136.707362000
+
+[props/dglog/EXTRACT-processCache%2CPID%2Cprocess%2Cparent_PID%2Cparent_process]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.2
+modtime = 1615433207.211551000
