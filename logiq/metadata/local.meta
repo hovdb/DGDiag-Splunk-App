@@ -91,7 +91,7 @@ modtime = 1613593643.321633000
 [views/process_flags]
 owner = admin
 version = 8.1.2
-modtime = 1615433988.693854000
+modtime = 1615492509.528363000
 
 [props/dglog/EXTRACT-EventType]
 access = read : [ * ], write : [ admin ]
@@ -346,3 +346,10 @@ export = none
 owner = admin
 version = 8.1.2
 modtime = 1615433207.211551000
+
+[props/config_xml/EXTRACT-Config_Tag%2CConfig_Attrib%2CConfig_Value]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.2
+modtime = 1615483148.502331000
