@@ -126,6 +126,19 @@
   </row>
   <row>
     <panel>
+      <table>
+        <title>Process ID Process, and Path</title>
+        <search>
+          <query>index=logiq sourcetype=dglog PID=$pidtok$ | transaction PID connected=false maxspan=3s | search process=$proctok$ processCache="ADD PROCESS" | eval Time = strftime(_time, "%Y-%d-%m %H:%M:%S.%3N") | fields - _time | table  Time, PID, process, process_path | rename process AS Process, process_path AS "Process Path"</query>
+          <earliest>$timetok.earliest$</earliest>
+          <latest>$timetok.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
       <title>process flags from prcsflgs.dat</title>
       <table>
         <title>Process Flags</title>
