@@ -85,8 +85,8 @@ modtime = 1613781317.055684000
 access = read : [ * ], write : [ admin ]
 export = none
 owner = admin
-version = 8.1.1
-modtime = 1613593643.321633000
+version = 8.1.2
+modtime = 1615503582.428364000
 
 [views/process_flags]
 owner = admin
@@ -163,7 +163,7 @@ modtime = 1613778398.630440000
 
 [app/install/install_source_checksum]
 version = 8.1.2
-modtime = 1614188051.361659000
+modtime = 1615503055.725207000
 
 [inputs/monitor%3A%2F%2F%2Flogiq%2F%2A%2FDIAG07-HW_INFO.LOG]
 version = 8.1.2

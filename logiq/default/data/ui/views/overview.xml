@@ -2,6 +2,23 @@
   <label>Overview</label>
   <row>
     <panel>
+      <single>
+        <title>App Version</title>
+        <search>
+          <query>| rest /services/apps/local | search disabled=0 label=logiq| table version</query>
+          <earliest>-24h@h</earliest>
+          <latest>now</latest>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="height">50</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
       <html id="instructions" src="html/index.html"/>
     </panel>
   </row>
