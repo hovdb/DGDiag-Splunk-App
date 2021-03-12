@@ -1,13 +1,6 @@
 <form>
   <label>ProServ-ACI</label>
   <fieldset submitButton="false">
-    <input type="time" token="timetok" searchWhenChanged="true">
-      <label>Time Range</label>
-      <default>
-        <earliest>0</earliest>
-        <latest></latest>
-      </default>
-    </input>
     <input type="dropdown" token="hosttok" searchWhenChanged="true">
       <label>Host Name</label>
       <fieldForLabel>host</fieldForLabel>
@@ -19,6 +12,13 @@
       </search>
       <choice value="*">All</choice>
       <default>*</default>
+    </input>
+    <input type="time" token="timetok" searchWhenChanged="true">
+      <label>Time Range</label>
+      <default>
+        <earliest>0</earliest>
+        <latest></latest>
+      </default>
     </input>
     <input type="text" token="searchtok" searchWhenChanged="true">
       <label>Search for keyword or string("")</label>

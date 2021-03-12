@@ -4,7 +4,10 @@
   <meta charset="UTF-8">
   <title>Digital Guardian LogIQ</title>
   <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Open+Sans'><link rel="stylesheet" href="./style.css">
-
+  <b>To manually load individual log files click here:</b>
+  <a href="/manager/logiq/adddatamethods/selectsource?input_mode=0">Load Data</a>
+  <br> For example.  If you want to load DIAG12-TASKLIST.LOG.  Select the file & click Next. Click the drop down for Source Type>Custom and scroll down to locate DIAG12 & click Next. For the input settings specify the name of the machine where the log file came from, and drop down to select the logiq index, click Review & Submit.</br>
+    
 </head>
 <body>
 <!-- partial:index.partial.html -->
@@ -22,7 +25,7 @@
           <div class="el__content">
             <div class="el__text">DGWIP</div>
             <br></br>
-            <div class=el__body">DGWip (Web Inspection Proxy) logs provide insight into skip candidates and URLS which may have an issue with the Digital Guardian client proxy. You can search on DGWip logs from a specific host, browser process, and time selection. Under the Skip Candidate table you can drill into each value to perform a search with that item as a filter. Any logs with a log name such as dgwip*.log will be ingested and parsed using dgwip as the sourcetype. To run a seach to see all raw data run: index=logiq sourcetype=dgwip.  The DGWIP tab also provides insight into the WIP settings in config.xml.  If debug logging is enabled you can also search for EventType Cassini under the DG Log tab.</div> 
+	    <div class=el__body">DGWip (Web Inspection Proxy) logs provide insight into skip candidates and URLS which may have an issue with the Digital Guardian client proxy. You can search on DGWip logs from a specific host, browser process, and time selection. Under the Skip Candidate table you can drill into each value to perform a search with that item as a filter. Any logs with a log name such as dgwip*.log will be ingested and parsed using dgwip as the sourcetype. To run a seach to see all raw data run: index=logiq sourcetype=dgwip.  The DGWIP tab also provides insight into the WIP settings in config.xml.  If debug logging is enabled you can also search for EventType Cassini under the DG Log tab.</div> 
             <style>
             .el__content {
             color: white;

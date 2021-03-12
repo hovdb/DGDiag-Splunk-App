@@ -2,6 +2,18 @@
   <label>Process Flags</label>
   <description>Digital Guardian Process Flags</description>
   <fieldset submitButton="false">
+    <input type="dropdown" token="hosttok" searchWhenChanged="true">
+      <label>Host Name</label>
+      <fieldForLabel>host</fieldForLabel>
+      <fieldForValue>host</fieldForValue>
+      <search>
+        <query>index=logiq |stats count by host</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <choice value="*">All</choice>
+      <default>*</default>
+    </input>
     <input type="text" token="proctok" searchWhenChanged="true">
       <label>Process Name</label>
       <default>*</default>
@@ -30,18 +42,6 @@
       <choice value="">All</choice>
       <default></default>
     </input>
-    <input type="dropdown" token="hosttok" searchWhenChanged="true">
-      <label>Host Name</label>
-      <fieldForLabel>host</fieldForLabel>
-      <fieldForValue>host</fieldForValue>
-      <search>
-        <query>index=logiq |stats count by host</query>
-        <earliest>0</earliest>
-        <latest></latest>
-      </search>
-      <choice value="*">All</choice>
-      <default>*</default>
-    </input>
     <input type="time" token="timetok" searchWhenChanged="true">
       <label>Time Range</label>
       <default>
@@ -49,7 +49,96 @@
         <latest></latest>
       </default>
     </input>
+    <input type="text" token="pidtok" searchWhenChanged="true">
+      <label>PID</label>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
   </fieldset>
+  <row>
+    <panel>
+      <single>
+        <title>Current Role Mode Applied to Agent</title>
+        <search>
+          <query>index=logiq host=$hosttok$ sourcetype=config_xml NOT ! Config_Tag="agentRole"|stats count BY Config_Value</query>
+          <earliest>$timetok.earliest$</earliest>
+          <latest>$timetok.latest$</latest>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="drilldown">all</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="useColors">1</option>
+        <drilldown>
+          <set token="configtok">$click.value$</set>
+        </drilldown>
+      </single>
+    </panel>
+    <panel>
+      <single>
+        <title>Default Role Mode Flags</title>
+        <search>
+          <query>index=logiq host=$hosttok$ sourcetype=config_xml NOT ! Config_Tag="agentRole"|stats count BY Config_Value|map search="search index=logiq host=$hosttok$ sourcetype=config_xml NOT ! Config_Tag=$$Config_Value$$|table defaultProcessFlags"</query>
+          <earliest>$timetok.earliest$</earliest>
+          <latest>$timetok.latest$</latest>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>ProcessFlags applied to process during run-time</title>
+        <search>
+          <query>index=logiq sourcetype=dglog PID=* process=$proctok$ PID=$pidtok$ processFlags=$flagtok$|table _time,process,processFlags,PID,parent_process,parent_PID</query>
+          <earliest>$timetok.earliest$</earliest>
+          <latest>$timetok.latest$</latest>
+        </search>
+        <option name="drilldown">cell</option>
+        <drilldown>
+          <set token="pidtok">$row.PID$</set>
+          <set token="proctok">$row.process$</set>
+        </drilldown>
+      </table>
+    </panel>
+    <panel>
+      <table>
+        <title>Process Flags Potentially Propagated from Parent Process</title>
+        <search>
+          <query>index=logiq sourcetype=dglog EventType="[processCache_AddProcess]" process=$proctok$ flags=$flagtok$ host=$hosttok$ pid=$pidtok$|table _time,process, flags,pid,propagatedFrom</query>
+          <earliest>$timetok.earliest$</earliest>
+          <latest>$timetok.latest$</latest>
+        </search>
+        <option name="drilldown">cell</option>
+        <drilldown>
+          <set token="pidtok">$row.pid$</set>
+          <set token="proctok">$row.process$</set>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Process ID Process, and Path</title>
+        <search>
+          <query>index=logiq sourcetype=dglog PID=$pidtok$ | transaction PID connected=false maxspan=3s | search process=$proctok$ processCache="ADD PROCESS" | eval Time = strftime(_time, "%Y-%d-%m %H:%M:%S.%3N") | fields - _time | table  Time, PID, process, process_path | rename process AS Process, process_path AS "Process Path"</query>
+          <earliest>$timetok.earliest$</earliest>
+          <latest>$timetok.latest$</latest>
+        </search>
+        <option name="drilldown">cell</option>
+        <drilldown>
+          <set token="pidtok">$row.PID$</set>
+          <set token="proctok">$row.Process$</set>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
   <row>
     <panel>
       <title>process flags from prcsflgs.dat</title>
@@ -57,31 +146,6 @@
         <title>Process Flags</title>
         <search>
           <query>index=logiq sourcetype=prcsflgs process=$proctok$ flags=$flagtok$ $comptok$ host=$hosttok$ |sort process|table process, flags, company</query>
-          <earliest>0</earliest>
-          <latest></latest>
-        </search>
-        <option name="drilldown">cell</option>
-      </table>
-    </panel>
-    <panel>
-      <title>propagated process flags from parent process from dg.log/dglog.bak</title>
-      <table>
-        <title>Process Flags Propagated from Parent Process</title>
-        <search>
-          <query>index=logiq sourcetype=dglog EventType="[processCache_AddProcess]" process=$proctok$ flags=$flagtok$ host=$hosttok$|dedup process propagatedFrom|table process, flags, propagatedFrom</query>
-          <earliest>$timetok.earliest$</earliest>
-          <latest>$timetok.latest$</latest>
-        </search>
-        <option name="drilldown">cell</option>
-      </table>
-    </panel>
-  </row>
-  <row>
-    <panel>
-      <table>
-        <title>DoAddProcessEntryToList and processCache_AddProcess from dg.log/dglog.bak</title>
-        <search>
-          <query>index=logiq sourcetype=dglog EventType="[DoAddProcessEntryToList]" OR EventType="[processCache_AddProcess]" process=$proctok$|table _time, EventType, pid, process,flags, propagatedFrom</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
@@ -96,8 +160,8 @@
         <title>Number of Processes In prcsflgs.dat</title>
         <search>
           <query>index=logiq sourcetype="prcsflgs" process=$proctok$ flags=$flagtok$ $comptok$ host=$hosttok$|stats count(process)</query>
-          <earliest>0</earliest>
-          <latest></latest>
+          <earliest>$timetok.earliest$</earliest>
+          <latest>$timetok.latest$</latest>
         </search>
         <option name="drilldown">none</option>
         <option name="refresh.display">progressbar</option>

@@ -7,7 +7,16 @@
   <view name="dg_log" />
   <view name="task_list" />
   <view name="aci_classification" />
-  <view name="config_xml" />
+  <collection label="Config.xml">
+    <view name="config_xml" />
+    <view name="compare_config" />
+  </collection>
+  <collection label="ProServ" >
+    <view name="rule_debug" />
+    <view name="proservaci" />
+    <view name="dgagent" />
+  </collection>
   <view name="search" />
   <view name="dashboards" />
 </nav>
+

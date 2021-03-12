@@ -6,5 +6,4 @@ DGDiag needs to be extracted into subfolders under /opt/logiq.
 
 The app was developed by Bjorn Hovd Digital Guardian.
 
-For support contact bhovd@digitalguardian.com
 

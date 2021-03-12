@@ -1,24 +1,24 @@
 <form>
   <label>Applications Installed</label>
   <fieldset submitButton="false">
-    <input type="dropdown" token="vendtok" searchWhenChanged="true">
-      <label>Vendor</label>
-      <fieldForLabel>Vendor</fieldForLabel>
-      <fieldForValue>Vendor</fieldForValue>
-      <search>
-        <query>index="logiq" sourcetype=DIAG14|stats count BY Vendor</query>
-        <earliest>0</earliest>
-        <latest></latest>
-      </search>
-      <choice value="*">All</choice>
-      <default>*</default>
-    </input>
     <input type="dropdown" token="hosttok" searchWhenChanged="true">
       <label>Host Name</label>
       <fieldForLabel>host</fieldForLabel>
       <fieldForValue>host</fieldForValue>
       <search>
         <query>index=logiq |stats count by host</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <choice value="*">All</choice>
+      <default>*</default>
+    </input>
+    <input type="dropdown" token="vendtok" searchWhenChanged="true">
+      <label>Vendor</label>
+      <fieldForLabel>Vendor</fieldForLabel>
+      <fieldForValue>Vendor</fieldForValue>
+      <search>
+        <query>index="logiq" sourcetype=DIAG14|stats count BY Vendor</query>
         <earliest>0</earliest>
         <latest></latest>
       </search>

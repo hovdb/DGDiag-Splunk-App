@@ -2,6 +2,18 @@
   <label>Task List</label>
   <description>Task List</description>
   <fieldset submitButton="false">
+    <input type="dropdown" token="hosttok" searchWhenChanged="true">
+      <label>Host Name</label>
+      <fieldForLabel>host</fieldForLabel>
+      <fieldForValue>host</fieldForValue>
+      <search>
+        <query>index=logiq |stats count by host</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <choice value="*">All</choice>
+      <default>*</default>
+    </input>
     <input type="text" token="proctok" searchWhenChanged="true">
       <label>Process Name</label>
       <default>*</default>
@@ -18,18 +30,6 @@
       <prefix>*</prefix>
       <suffix>*</suffix>
       <initialValue>*</initialValue>
-    </input>
-    <input type="dropdown" token="hosttok" searchWhenChanged="true">
-      <label>Host Name</label>
-      <fieldForLabel>host</fieldForLabel>
-      <fieldForValue>host</fieldForValue>
-      <search>
-        <query>index=logiq |stats count by host</query>
-        <earliest>0</earliest>
-        <latest></latest>
-      </search>
-      <choice value="*">All</choice>
-      <default>*</default>
     </input>
   </fieldset>
   <row>
