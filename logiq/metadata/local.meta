@@ -234,7 +234,7 @@ owner = admin
 version = 8.1.2
 modtime = 1614217850.176953000
 
-[props/dglog/EXTRACT-process_path]
+[props/dglog/EXTRACT-PID%2Cprocess_path%2Cprocess]
 access = read : [ * ], write : [ admin, power ]
 export = none
 owner = admin
