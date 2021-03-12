@@ -49,11 +49,6 @@
         <latest></latest>
       </default>
     </input>
-    <input depends="$hidden$" type="text" token="configtok" searchWhenChanged="true">
-      <label>ConfigTok</label>
-      <default>@</default>
-      <initialValue>@</initialValue>
-    </input>
     <input type="text" token="pidtok" searchWhenChanged="true">
       <label>PID</label>
       <default>*</default>
@@ -100,7 +95,7 @@
       <table>
         <title>ProcessFlags applied to process during run-time</title>
         <search>
-          <query>index=logiq sourcetype=dglog PID=* | transaction PID connected=false maxspan=3s | search processCache="ADD PROCESS" process=$proctok$ PID=$pidtok$ processFlags=$flagtok$ | eval Time = strftime(_time, "%Y-%d-%m %H:%M:%S.%3N") | fields - _time | table  Time, PID, process, process_path, flags_sorted | rename process AS Process, process_path AS "Process Path" flags_sorted AS "Process Flags"</query>
+          <query>index=logiq sourcetype=dglog PID=* process=$proctok$ PID=$pidtok$ processFlags=$flagtok$|table _time,process,processFlags,PID,parent_process,parent_PID</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
@@ -120,7 +115,10 @@
           <latest>$timetok.latest$</latest>
         </search>
         <option name="drilldown">cell</option>
-        <option name="refresh.display">progressbar</option>
+        <drilldown>
+          <set token="pidtok">$row.pid$</set>
+          <set token="proctok">$row.process$</set>
+        </drilldown>
       </table>
     </panel>
   </row>
@@ -133,7 +131,11 @@
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
-        <option name="drilldown">none</option>
+        <option name="drilldown">cell</option>
+        <drilldown>
+          <set token="pidtok">$row.PID$</set>
+          <set token="proctok">$row.Process$</set>
+        </drilldown>
       </table>
     </panel>
   </row>
@@ -144,20 +146,6 @@
         <title>Process Flags</title>
         <search>
           <query>index=logiq sourcetype=prcsflgs process=$proctok$ flags=$flagtok$ $comptok$ host=$hosttok$ |sort process|table process, flags, company</query>
-          <earliest>$timetok.earliest$</earliest>
-          <latest>$timetok.latest$</latest>
-        </search>
-        <option name="drilldown">cell</option>
-        <option name="refresh.display">progressbar</option>
-      </table>
-    </panel>
-  </row>
-  <row>
-    <panel>
-      <table>
-        <title>isVirtualBoxProcess</title>
-        <search>
-          <query>index=logiq sourcetype=dglog EventType="[IsAVirtualBoxProcess]"PID=$pidtok$|table _time, PID, process_path</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
