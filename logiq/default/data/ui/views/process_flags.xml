@@ -95,7 +95,7 @@
       <table>
         <title>ProcessFlags applied to process during run-time</title>
         <search>
-          <query>index=logiq sourcetype=dglog PID=* process=$proctok$ PID=$pidtok$ processFlags=$flagtok$|table _time,process,processFlags,PID,parent_process,parent_PID</query>
+          <query>index=logiq sourcetype=dglog PID=* processCache="ADD PROCESS" process=$proctok$ PID=$pidtok$ processFlags=$flagtok$ | eval Time = strftime(_time, "%Y-%d-%m %H:%M:%S.%3N") | fields - _time | table Time,PID,process,processFlags,parent_PID,parent_process | rename process AS Process, processFlags AS "Process Flags", parent_PID AS "Parent PID", parent_process AS "Parent Process"</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
@@ -106,11 +106,13 @@
         </drilldown>
       </table>
     </panel>
-    <panel>
+  </row>
+  <row>
+     <panel>
       <table>
         <title>Process Flags Potentially Propagated from Parent Process</title>
         <search>
-          <query>index=logiq sourcetype=dglog EventType="[processCache_AddProcess]" process=$proctok$ processFlags=$flagtok$ host=$hosttok$ PID=$pidtok$|table _time,process,processFlags,PID,propagatedFrom</query>
+          <query>index=logiq sourcetype=dglog EventType="[processCache_AddProcess]" propagatedFrom=* process=$proctok$ processFlags=$flagtok$ host=$hosttok$ PID=$pidtok$ | eval Time = strftime(_time, "%Y-%d-%m %H:%M:%S.%3N") | fields - _time | table Time,process,processFlags,PID,propagatedFrom | rename process AS Process, processFlags AS "Process Flags", propagatedFrom AS "Propagated From"</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
@@ -127,7 +129,7 @@
       <table>
         <title>Process ID Process, and Path</title>
         <search>
-          <query>index=logiq sourcetype=dglog PID=$pidtok$ | transaction PID connected=false maxspan=3s | search process=$proctok$ processCache="ADD PROCESS" | eval Time = strftime(_time, "%Y-%d-%m %H:%M:%S.%3N") | fields - _time | table  Time, PID, process, process_path | rename process AS Process, process_path AS "Process Path"</query>
+          <query>index=logiq sourcetype=dglog PID=$pidtok$ | transaction PID connected=false maxspan=3s | search process=$proctok$ processCache="ADD PROCESS" | eval Time = strftime(_time, "%Y-%d-%m %H:%M:%S.%3N") | fields - _time | table Time, PID, process, process_path | rename process AS Process, process_path AS "Process Path"</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
