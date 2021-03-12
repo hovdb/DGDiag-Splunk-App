@@ -110,7 +110,7 @@
       <table>
         <title>Process Flags Potentially Propagated from Parent Process</title>
         <search>
-          <query>index=logiq sourcetype=dglog EventType="[processCache_AddProcess]" process=$proctok$ flags=$flagtok$ host=$hosttok$ pid=$pidtok$|table _time,process, flags,pid,propagatedFrom</query>
+          <query>index=logiq sourcetype=dglog EventType="[processCache_AddProcess]" process=$proctok$ processFlags=$flagtok$ host=$hosttok$ PID=$pidtok$|table _time,process,processFlags,PID,propagatedFrom</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
@@ -145,7 +145,7 @@
       <table>
         <title>Process Flags</title>
         <search>
-          <query>index=logiq sourcetype=prcsflgs process=$proctok$ flags=$flagtok$ $comptok$ host=$hosttok$ |sort process|table process, flags, company</query>
+          <query>index=logiq sourcetype=prcsflgs process=$proctok$ processFlags=$flagtok$ $comptok$ host=$hosttok$ |sort process|table process, processFlags, company</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
@@ -159,7 +159,7 @@
       <single>
         <title>Number of Processes In prcsflgs.dat</title>
         <search>
-          <query>index=logiq sourcetype="prcsflgs" process=$proctok$ flags=$flagtok$ $comptok$ host=$hosttok$|stats count(process)</query>
+          <query>index=logiq sourcetype="prcsflgs" process=$proctok$ processFlags=$flagtok$ $comptok$ host=$hosttok$|stats count(process)</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
