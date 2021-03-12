@@ -102,7 +102,7 @@
         <option name="drilldown">cell</option>
         <drilldown>
           <set token="pidtok">$row.PID$</set>
-          <set token="proctok">$row.process$</set>
+          <set token="proctok">$row.Process$</set>
         </drilldown>
       </table>
     </panel>
@@ -118,8 +118,8 @@
         </search>
         <option name="drilldown">cell</option>
         <drilldown>
-          <set token="pidtok">$row.pid$</set>
-          <set token="proctok">$row.process$</set>
+          <set token="pidtok">$row.PID$</set>
+          <set token="proctok">$row.Process$</set>
         </drilldown>
       </table>
     </panel>
@@ -127,7 +127,7 @@
   <row>
     <panel>
       <table>
-        <title>Process ID Process, and Path</title>
+        <title>Process ID Process and Path</title>
         <search>
           <query>index=logiq sourcetype=dglog PID=$pidtok$ | transaction PID connected=false maxspan=3s | search process=$proctok$ processCache="ADD PROCESS" | eval Time = strftime(_time, "%Y-%d-%m %H:%M:%S.%3N") | fields - _time | table Time, PID, process, process_path | rename process AS Process, process_path AS "Process Path"</query>
           <earliest>$timetok.earliest$</earliest>
