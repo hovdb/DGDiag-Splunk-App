@@ -15,16 +15,16 @@
       <default>*</default>
     </input>
     <input type="text" token="rulevarNtok">
-      <label>RuleVariable Name</label>
+      <label>Rule variable name</label>
       <default>*</default>
       <initialValue>*</initialValue>
     </input>
     <input type="dropdown" token="rulevartok" searchWhenChanged="true">
-      <label>RuleVariable</label>
-      <fieldForLabel>RuleVariables</fieldForLabel>
-      <fieldForValue>RuleVariables</fieldForValue>
+      <label>Rule variable action</label>
+      <fieldForLabel>ruleVarAction</fieldForLabel>
+      <fieldForValue>ruleVarAction</fieldForValue>
       <search>
-        <query>index=logiq host=$hosttok$ sourcetype=dglog RuleVariables=*|stats count by RuleVariables</query>
+        <query>index=logiq host=$hosttok$ sourcetype=dglog ruleVarAction=*|stats count by ruleVarAction</query>
         <earliest>0</earliest>
         <latest></latest>
       </search>
@@ -44,7 +44,7 @@
     <panel>
       <table>
         <search>
-          <query>index=logiq host=$hosttok$ sourcetype=dglog RuleVariables=$rulevartok$ RuleVarName=*$rulevarNtok$*|sort - _time|table _time, RuleVariables, RuleVarName, RuleVarValue</query>
+          <query>index=logiq host=$hosttok$ sourcetype=dglog ruleVarAction=$rulevartok$ ruleVarName=*$rulevarNtok$* | eval Time = strftime(_time, "%Y-%m-%d %H:%M:%S.%3N") | fields - _time | table Time, ruleVarAction, ruleVarName, ruleVarValue</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
           <sampleRatio>1</sampleRatio>

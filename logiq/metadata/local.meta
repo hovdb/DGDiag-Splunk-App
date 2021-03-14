@@ -292,33 +292,33 @@ owner = admin
 version = 8.1.2
 modtime = 1614805502.703993000
 
-[props/dglog/EXTRACT-dglog%20%3A%20EXTRACT-RuleVarName]
-access = read : [ * ], write : [ admin, power ]
-export = none
-owner = admin
-version = 8.1.2
-modtime = 1614707297.740597000
-
-[props/dglog/EXTRACT-dglog%20%3A%20EXTRACT-RuleVarValue]
-access = read : [ * ], write : [ admin, power ]
-export = none
-owner = admin
-version = 8.1.2
-modtime = 1614707311.227142000
-
-[props/dglog/EXTRACT-dglog%20%3A%20EXTRACT-RuleVariables]
+[props/dglog/EXTRACT-dglog%20%3A%20EXTRACT-ruleVarAction%2CruleVarName%2CruleVarType%2CruleVarScope%2CruleVarValue]
 access = read : [ * ], write : [ admin, power ]
 export = none
 owner = admin
 version = 8.1.2
 modtime = 1614707321.217420000
 
-[props/dglog/EXTRACT-RuleVarValue]
+[props/dglog/EXTRACT-dglog%20%3A%20EXTRACT-ruleVarAction%2CruleVarName%2CruleVarType%2CruleVarScope]
 access = read : [ * ], write : [ admin, power ]
 export = none
 owner = admin
 version = 8.1.2
-modtime = 1614707777.907183000
+modtime = 1614707321.217420000
+
+[props/dglog/EXTRACT-dglog%20%3A%20EXTRACT-ruleVarAction%2CruleVarName%2CruleVarType%2CruleVarScope%2CruleVarCount]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.2
+modtime = 1614707321.217420000
+
+[props/dglog/EXTRACT-dglog%20%3A%20EXTRACT-ruleVarName%2CruleVarType%2CruleVarIndex]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.2
+modtime = 1614707321.217420000
 
 [indexes/testers]
 owner = admin
