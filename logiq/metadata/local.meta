@@ -131,7 +131,7 @@ owner = admin
 version = 8.1.2
 modtime = 1615261919.844710000
 
-[props/prcsflgs/EXTRACT-process%2Cflags%2Ccompany]
+[props/prcsflgs/EXTRACT-process%2CprocessFlags%2Ccompany]
 access = read : [ * ], write : [ admin ]
 export = none
 owner = admin
@@ -340,7 +340,7 @@ owner = admin
 version = 8.1.2
 modtime = 1615294136.707362000
 
-[props/dglog/EXTRACT-EventType%2CprocessCache%2CPID%2Cprocess%2Cparent_PID%2Cparent_process]
+[props/dglog/EXTRACT-EventType%2CcacheAction%2CPID%2Cprocess%2Cparent_PID%2Cparent_process%2CprocessGUID%2CparentGUID]
 access = read : [ * ], write : [ admin, power ]
 export = none
 owner = admin
