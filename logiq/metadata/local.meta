@@ -131,7 +131,7 @@ owner = admin
 version = 8.1.2
 modtime = 1615261919.844710000
 
-[props/prcsflgs/EXTRACT-process%2Cflags%2Ccompany]
+[props/prcsflgs/EXTRACT-process%2CprocessFlags%2Ccompany]
 access = read : [ * ], write : [ admin ]
 export = none
 owner = admin
@@ -170,7 +170,7 @@ modtime = 1613778398.630440000
 
 [app/install/install_source_checksum]
 version = 8.1.2
-modtime = 1615591500.632634000
+modtime = 1615768001.142048000
 
 [inputs/monitor%3A%2F%2F%2Flogiq%2F%2A%2FDIAG07-HW_INFO.LOG]
 version = 8.1.2
@@ -292,33 +292,33 @@ owner = admin
 version = 8.1.2
 modtime = 1614805502.703993000
 
-[props/dglog/EXTRACT-dglog%20%3A%20EXTRACT-RuleVarName]
-access = read : [ * ], write : [ admin, power ]
-export = none
-owner = admin
-version = 8.1.2
-modtime = 1614707297.740597000
-
-[props/dglog/EXTRACT-dglog%20%3A%20EXTRACT-RuleVarValue]
-access = read : [ * ], write : [ admin, power ]
-export = none
-owner = admin
-version = 8.1.2
-modtime = 1614707311.227142000
-
-[props/dglog/EXTRACT-dglog%20%3A%20EXTRACT-RuleVariables]
+[props/dglog/EXTRACT-dglog%20%3A%20EXTRACT-ruleVarAction%2CruleVarName%2CruleVarType%2CruleVarScope%2CruleVarValue]
 access = read : [ * ], write : [ admin, power ]
 export = none
 owner = admin
 version = 8.1.2
 modtime = 1614707321.217420000
 
-[props/dglog/EXTRACT-RuleVarValue]
+[props/dglog/EXTRACT-dglog%20%3A%20EXTRACT-ruleVarAction%2CruleVarName%2CruleVarType%2CruleVarScope]
 access = read : [ * ], write : [ admin, power ]
 export = none
 owner = admin
 version = 8.1.2
-modtime = 1614707777.907183000
+modtime = 1614707321.217420000
+
+[props/dglog/EXTRACT-dglog%20%3A%20EXTRACT-ruleVarAction%2CruleVarName%2CruleVarType%2CruleVarScope%2CruleVarCount]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.2
+modtime = 1614707321.217420000
+
+[props/dglog/EXTRACT-dglog%20%3A%20EXTRACT-ruleVarName%2CruleVarType%2CruleVarIndex]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.2
+modtime = 1614707321.217420000
 
 [indexes/testers]
 owner = admin
@@ -340,7 +340,7 @@ owner = admin
 version = 8.1.2
 modtime = 1615294136.707362000
 
-[props/dglog/EXTRACT-EventType%2CprocessCache%2CPID%2Cprocess%2Cparent_PID%2Cparent_process]
+[props/dglog/EXTRACT-EventType%2CcacheAction%2CPID%2Cprocess%2Cparent_PID%2Cparent_process%2CprocessGUID%2CparentGUID]
 access = read : [ * ], write : [ admin, power ]
 export = none
 owner = admin
