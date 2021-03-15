@@ -170,7 +170,7 @@ modtime = 1613778398.630440000
 
 [app/install/install_source_checksum]
 version = 8.1.2
-modtime = 1615768001.142048000
+modtime = 1615814447.188364000
 
 [inputs/monitor%3A%2F%2F%2Flogiq%2F%2A%2FDIAG07-HW_INFO.LOG]
 version = 8.1.2
@@ -353,4 +353,25 @@ export = none
 owner = admin
 version = 8.1.2
 modtime = 1615483148.502331000
+
+[props/dglog/EVAL-sorted_flags]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.2
+modtime = 1615817541.148179000
+
+[props/dglog/EVAL-ruleVarAction]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.2
+modtime = 1615817541.148179000
+
+[props/dglog/EXTRACT-logFileName]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.2
+modtime = 1615817000.313111000
 
