@@ -37,7 +37,7 @@
       <single>
         <title>Unique Processes</title>
         <search>
-          <query>index=logiq sourcetype=diag12 host=$hosttok$ process=$proctok$ pid=$pidtok$ dll=$dlltok$|dedup process|stats count</query>
+          <query>index=logiq sourcetype=DIAG12 host=$hosttok$ process=$proctok$ PID=$pidtok$ dll=$dlltok$|dedup process|stats count</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
@@ -50,7 +50,7 @@
       <chart>
         <title># of PID per process</title>
         <search>
-          <query>index=logiq sourcetype=diag12 host=$hosttok$ process=$proctok$ pid=$pidtok$ dll=$dlltok$|chart count(pid) BY process</query>
+          <query>index=logiq sourcetype=diag12 host=$hosttok$ process=$proctok$ PID=$pidtok$ dll=$dlltok$|chart count(PID) BY process</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
@@ -68,11 +68,12 @@
       <table>
         <title>Task List</title>
         <search>
-          <query>index=logiq sourcetype=diag12 host=$hosttok$ process=$proctok$ pid=$pidtok$ dll=$dlltok$|table process, pid,dll</query>
+          <query>index=logiq sourcetype=diag12 host=$hosttok$ process=$proctok$ PID=$pidtok$ dll=$dlltok$|table process, PID,dll</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
         <option name="drilldown">cell</option>
+        <option name="refresh.display">progressbar</option>
         <drilldown>
           <link target="_blank">/app/logiq/dg_log?form.pid=$click.value2$</link>
         </drilldown>
@@ -82,7 +83,7 @@
       <table>
         <title>Unique Processes Names</title>
         <search>
-          <query>index=logiq sourcetype=diag12 host=$hosttok$ process=$proctok$ pid=$pidtok$ dll=$dlltok$|dedup process|table process</query>
+          <query>index=logiq sourcetype=diag12 host=$hosttok$ process=$proctok$ PID=$pidtok$ dll=$dlltok$|dedup process|table process</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>

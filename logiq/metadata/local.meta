@@ -140,8 +140,8 @@ modtime = 1613778045.762817000
 
 [props/DIAG12]
 owner = admin
-version = 8.1.1
-modtime = 1613773822.404119000
+version = 8.1.2
+modtime = 1615905882.776323000
 
 [props/DIAG12/EXTRACT-process%2Cpid%2Cdll]
 access = read : [ * ], write : [ admin ]
@@ -155,7 +155,7 @@ access = read : [ * ], write : [ admin, power ]
 export = none
 owner = admin
 version = 8.1.2
-modtime = 1615261964.868400000
+modtime = 1615906359.218151000
 
 [nav/default]
 version = 8.1.2
@@ -170,7 +170,7 @@ modtime = 1613778398.630440000
 
 [app/install/install_source_checksum]
 version = 8.1.2
-modtime = 1615814447.188364000
+modtime = 1615905225.423509000
 
 [inputs/monitor%3A%2F%2F%2Flogiq%2F%2A%2FDIAG07-HW_INFO.LOG]
 version = 8.1.2
