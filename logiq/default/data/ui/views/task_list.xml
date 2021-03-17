@@ -68,7 +68,7 @@
       <table>
         <title>Task List</title>
         <search>
-          <query>index=logiq sourcetype=diag12 host=$hosttok$ process=$proctok$ PID=$pidtok$ dll=$dlltok$|table process, PID,dll</query>
+          <query>index=logiq sourcetype=diag12 host=$hosttok$ process=$proctok$ PID=$pidtok$ dll=$dlltok$|makemv tokenizer=",?\s*([^,]+)" dll|fieldformat dll=mvjoin(dll, ", ")|table process,PID,dll</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
