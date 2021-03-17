@@ -108,7 +108,7 @@
     </panel>
   </row>
   <row>
-     <panel>
+    <panel>
       <table>
         <title>Process Flags Potentially Propagated from Parent Process</title>
         <search>
@@ -130,7 +130,7 @@
       <table>
         <title>Process Flags</title>
         <search>
-          <query>index=logiq sourcetype=prcsflgs process=$proctok$ processFlags=$flagtok$ $comptok$ host=$hosttok$ |sort process|table process, processFlags, company</query>
+          <query>index=logiq sourcetype=prcsflgs process=$proctok$ processFlags=$flagtok$ $comptok$ host=$hosttok$ |reverse|table process, processFlags, company</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>

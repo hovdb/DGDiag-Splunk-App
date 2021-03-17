@@ -91,7 +91,7 @@ modtime = 1615503582.428364000
 [views/process_flags]
 owner = admin
 version = 8.1.2
-modtime = 1615512552.354672000
+modtime = 1616011212.444190000
 
 [props/dglog/EXTRACT-processFlags]
 access = read : [ * ], write : [ admin ]
@@ -104,8 +104,8 @@ modtime = 1613769095.388864000
 access = read : [ * ], write : [ admin ]
 export = none
 owner = admin
-version = 8.1.1
-modtime = 1613769095.388864000
+version = 8.1.2
+modtime = 1616011710.722935000
 
 [views/file_up_load]
 owner = admin
@@ -129,7 +129,7 @@ access = read : [ * ], write : [ admin ]
 export = none
 owner = admin
 version = 8.1.2
-modtime = 1615261919.844710000
+modtime = 1616015436.005059000
 
 [props/prcsflgs/EXTRACT-process%2CprocessFlags%2Ccompany]
 access = read : [ * ], write : [ admin ]
@@ -155,7 +155,7 @@ access = read : [ * ], write : [ admin, power ]
 export = none
 owner = admin
 version = 8.1.2
-modtime = 1615906359.218151000
+modtime = 1616011233.993529000
 
 [nav/default]
 version = 8.1.2
@@ -170,7 +170,7 @@ modtime = 1613778398.630440000
 
 [app/install/install_source_checksum]
 version = 8.1.2
-modtime = 1615905225.423509000
+modtime = 1616005918.245650000
 
 [inputs/monitor%3A%2F%2F%2Flogiq%2F%2A%2FDIAG07-HW_INFO.LOG]
 version = 8.1.2

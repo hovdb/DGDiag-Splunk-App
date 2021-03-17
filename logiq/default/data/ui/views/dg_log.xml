@@ -16,9 +16,9 @@
     <input type="text" token="eventtok" searchWhenChanged="true">
       <label>Event Type Filter</label>
       <default>*</default>
-      <prefix>EventType=*</prefix>
-      <suffix>*</suffix>
       <initialValue>*</initialValue>
+      <prefix>*</prefix>
+      <suffix>*</suffix>
     </input>
     <input type="dropdown" token="errtok" searchWhenChanged="true">
       <label>ALL OR ONLY ERROR</label>
@@ -78,7 +78,7 @@
       <table>
         <title>Event Types</title>
         <search>
-          <query>index=logiq sourcetype=dglog host=$hosttok$ $eventtok$ $errtok$|dedup EventType|sort EventType|table EventType</query>
+          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType=$eventtok|s$ $errtok$|dedup EventType|sort EventType|table EventType</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
@@ -96,7 +96,7 @@
       <event>
         <title>Events</title>
         <search>
-          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType="$EventType$" $errtok$</query>
+          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType=$EventType|s$ $errtok$</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
@@ -110,7 +110,7 @@
       <table>
         <title>IsAVirtualBoxProcess from dg.log/dglog.bak</title>
         <search>
-          <query>index=logiq sourcetype=dglog EventType="[IsAVirtualBoxProcess]"PID=$pid$|table _time, PID, process_path</query>
+          <query>index=logiq sourcetype=dglog EventType="[IsAVirtualBoxProcess]" PID=$pid$|table _time, PID, process_path</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
