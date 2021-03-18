@@ -44,7 +44,7 @@
       <single>
         <title>Free Disk Space</title>
         <search>
-          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType="[DgServiceMonitor::CheckLowDiskSpace]"|stats last(diskspace)</query>
+          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType="DgServiceMonitor::CheckLowDiskSpace"|stats last(diskspace)</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
@@ -62,13 +62,14 @@
       <single>
         <title>Agent Version</title>
         <search>
-          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType=\[CDataProcessor::Start\] "Agent Version:"|rex field=_raw Agent\sVersion:\s(?P&lt;Agent_Version&gt;\S+)|stats last(Agent_Version)</query>
+          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType="CDataProcessor::Start" "Agent Version:"|rex field=_raw Agent\sVersion:\s(?P&lt;Agent_Version&gt;\S+)|stats last(Agent_Version)</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
         <option name="colorMode">block</option>
         <option name="drilldown">none</option>
         <option name="rangeColors">["0x53a051","0x0877a6","0xf8be34","0xf1813f","0xdc4e41"]</option>
+        <option name="refresh.display">progressbar</option>
         <option name="useColors">1</option>
       </single>
     </panel>
@@ -110,7 +111,7 @@
       <table>
         <title>IsAVirtualBoxProcess from dg.log/dglog.bak</title>
         <search>
-          <query>index=logiq sourcetype=dglog EventType="[IsAVirtualBoxProcess]" PID=$pid$|table _time, PID, process_path</query>
+          <query>index=logiq sourcetype=dglog EventType="IsAVirtualBoxProcess" PID=$pid$|table _time, PID, process_path</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>

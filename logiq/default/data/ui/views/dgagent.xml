@@ -27,7 +27,7 @@
       <single>
         <title>DG Agent Version</title>
         <search>
-          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType=\[CDataProcessor::Start\] "Agent Version:"|rex field=_raw Agent\sVersion:\s(?P&lt;Agent_Version&gt;\S+)|stats last(Agent_Version)</query>
+          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType="CDataProcessor::Start" "Agent Version:"|rex field=_raw Agent\sVersion:\s(?P&lt;Agent_Version&gt;\S+)|stats last(Agent_Version)</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
@@ -43,7 +43,7 @@
       <event>
         <title>DG Agent Starting</title>
         <search>
-          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType=\[DgAgentModule::PreMessageLoop\] "Agent starting..."</query>
+          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType="DgAgentModule::PreMessageLoop" "Agent starting..."</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
           <sampleRatio>1</sampleRatio>
@@ -67,7 +67,7 @@
       <event>
         <title>Agent Certificate</title>
         <search>
-          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType=\[CDgClientCrypto*\]</query>
+          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType="CDgClientCrypto*"</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
@@ -81,7 +81,7 @@
       <event>
         <title>Agent Migration Re-Registering</title>
         <search>
-          <query>index=logiq sourcetype=dglog host=$hosttok$ (EventType=\[CSettingsProcessor::TriggerReRegister\] "Server has requested agent to re-register...") OR (EventType=\[CDataProcessor::SendAgentInfoToKernel\] "Sending:") OR (EventType=\[CDataProcessor::RegisterMachine\] "Registration with server successful")</query>
+          <query>index=logiq sourcetype=dglog host=$hosttok$ (EventType="CSettingsProcessor::TriggerReRegister" "Server has requested agent to re-register...") OR (EventType="CDataProcessor::SendAgentInfoToKernel" "Sending:") OR (EventType="CDataProcessor::RegisterMachine" "Registration with server successful")</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>

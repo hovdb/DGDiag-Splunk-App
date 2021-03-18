@@ -16,10 +16,10 @@
     </input>
     <input type="dropdown" token="acttok" searchWhenChanged="true">
       <label>Action</label>
-      <fieldForLabel>action</fieldForLabel>
-      <fieldForValue>action</fieldForValue>
+      <fieldForLabel>eventAction</fieldForLabel>
+      <fieldForValue>eventAction</fieldForValue>
       <search>
-        <query>index=logiq sourcetype=dglog ACI_ClassifyFile2|stats count BY action</query>
+        <query>index=logiq sourcetype=dglog EventType="ACI_ClassifyFile2"|stats count BY eventAction</query>
         <earliest>0</earliest>
         <latest></latest>
       </search>
@@ -27,13 +27,20 @@
       <initialValue>*</initialValue>
       <default>*</default>
     </input>
-    <input type="text" token="srctok" searchWhenChanged="true">
-      <label>src</label>
+    <input type="dropdown" token="targettok">
+      <label>Action Target</label>
+      <choice value="*">Any</choice>
       <default>*</default>
-      <initialValue>*</initialValue>
+      <fieldForLabel>actionTarget</fieldForLabel>
+      <fieldForValue>actionTarget</fieldForValue>
+      <search>
+        <query>index=logiq sourcetype=dglog EventType="ACI_ClassifyFile2"|stats count by actionTarget</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
     </input>
-    <input type="text" token="dsttok" searchWhenChanged="true">
-      <label>dst</label>
+    <input type="text" token="pathtok" searchWhenChanged="true">
+      <label>Path</label>
       <default>*</default>
       <initialValue>*</initialValue>
     </input>
@@ -54,7 +61,7 @@
       <fieldForLabel>entity</fieldForLabel>
       <fieldForValue>entity</fieldForValue>
       <search>
-        <query>index=logiq sourcetype=dglog EventType="[_DGCI_DoContentInspection]"|stats count by entity</query>
+        <query>index=logiq sourcetype=dglog EventType="_DGCI_DoContentInspection"|stats count by entity</query>
         <earliest>0</earliest>
         <latest></latest>
       </search>
@@ -68,7 +75,7 @@
       <title>time elapsed ms</title>
       <table>
         <search>
-          <query>index=logiq sourcetype=dglog ACI_ClassifyFile2 host=$hosttok$ action=$acttok$ src=*$srctok$* dst=*$dsttok$* elapsed&gt;$eltok$|table _time, elapsed, action, target, src, dst, excluded, not_excluded</query>
+          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType="ACI_ClassifyFile2" elapsedMS&gt;$eltok$ eventAction=$acttok$ actionTarget=$targettok$ eventSrcPath=*$pathtok|s$* OR eventDstPath=*$pathtok|s$*|table _time, elapsedMS, eventAction, actionTarget, eventSrcPath, eventDstPath, excluded, not_excluded</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
           <sampleRatio>1</sampleRatio>
@@ -96,7 +103,7 @@
       <table>
         <title>Content Inspection Entity Frequency</title>
         <search>
-          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType="[_DGCI_DoContentInspection]" entity=$enttok$|table _time, entity, frequency</query>
+          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType="_DGCI_DoContentInspection" entity=$enttok$|table _time, entity, frequency</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
@@ -120,6 +127,20 @@
           <colorPalette type="list">[#53A051,#006D9C,#F8BE34,#F1813F,#DC4E41]</colorPalette>
           <scale type="threshold">150,300,600,1200</scale>
         </format>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Sum of elapsed time per action and path</title>
+        <search>
+          <query>index=logiq sourcetype=dglog host=* EventType="ACI_ClassifyFile2" elapsedMS&gt;$eltok$ eventAction=$acttok$ eventSrcPath=*$pathtok|s$* OR eventDstPath=*$pathtok|s$*|eval actionPath=if(actionTarget="dest",eventDstPath,eventSrcPath)|stats sum(elapsedMS) AS "Sum of elapsed ms" by eventAction,actionPath|rename eventAction AS "Action" actionPath AS Path|sort -"Sum of elapsed ms"</query>
+          <earliest>$timetok.earliest$</earliest>
+          <latest>$timetok.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
       </table>
     </panel>
   </row>
