@@ -91,7 +91,7 @@ modtime = 1615503582.428364000
 [views/process_flags]
 owner = admin
 version = 8.1.2
-modtime = 1616011212.444190000
+modtime = 1616084264.012525000
 
 [props/dglog/EXTRACT-processFlags]
 access = read : [ * ], write : [ admin ]
@@ -105,7 +105,7 @@ access = read : [ * ], write : [ admin ]
 export = none
 owner = admin
 version = 8.1.2
-modtime = 1616011710.722935000
+modtime = 1616079887.513278000
 
 [views/file_up_load]
 owner = admin
@@ -129,7 +129,7 @@ access = read : [ * ], write : [ admin ]
 export = none
 owner = admin
 version = 8.1.2
-modtime = 1616015436.005059000
+modtime = 1616084148.701597000
 
 [props/prcsflgs/EXTRACT-process%2CprocessFlags%2Ccompany]
 access = read : [ * ], write : [ admin ]
@@ -170,7 +170,7 @@ modtime = 1613778398.630440000
 
 [app/install/install_source_checksum]
 version = 8.1.2
-modtime = 1616015752.284419000
+modtime = 1616094851.965358000
 
 [inputs/monitor%3A%2F%2F%2Flogiq%2F%2A%2FDIAG07-HW_INFO.LOG]
 version = 8.1.2
@@ -254,7 +254,7 @@ modtime = 1614221481.631209000
 [views/aci_classification]
 owner = admin
 version = 8.1.2
-modtime = 1614621980.461677000
+modtime = 1616091679.831497000
 
 [props/dglog/EXTRACT-entity%2Cfrequency]
 access = read : [ * ], write : [ admin, power ]
@@ -328,12 +328,12 @@ modtime = 1614719326.998611000
 [views/dgagent]
 owner = admin
 version = 8.1.2
-modtime = 1614800366.701080000
+modtime = 1616092221.091624000
 
 [views/proservaci]
 owner = admin
 version = 8.1.2
-modtime = 1615262033.361905000
+modtime = 1616092135.481216000
 
 [views/compare_config]
 owner = admin
@@ -345,7 +345,7 @@ access = read : [ * ], write : [ admin, power ]
 export = none
 owner = admin
 version = 8.1.2
-modtime = 1615433207.211551000
+modtime = 1616079921.508821000
 
 [props/config_xml/EXTRACT-Config_Tag%2CConfig_Attrib%2CConfig_Value]
 access = read : [ * ], write : [ admin, power ]
@@ -374,4 +374,11 @@ export = none
 owner = admin
 version = 8.1.2
 modtime = 1615817000.313111000
+
+[props/dglog/EXTRACT-EventType%2CeventAction%2CactionTarget%2CeventSrcPath%2CeventDstPath%2CelapsedMS]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.2
+modtime = 1616092443.141126000
 

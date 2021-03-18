@@ -68,12 +68,13 @@
       <table>
         <title>Task List</title>
         <search>
-          <query>index=logiq sourcetype=diag12 host=$hosttok$ process=$proctok$ PID=$pidtok$ dll=$dlltok$|makemv tokenizer=",?\s*([^,]+)" dll|fieldformat dll=mvjoin(dll, ", ")|table process,PID,dll</query>
+          <query>index=logiq sourcetype=diag12 host=$hosttok$ process=$proctok$ PID=$pidtok$ dll=$dlltok$|rex field=dll mode=sed "s/\s+(.+)/\1/g"|makemv tokenizer=",?\s*([^,]+)" dll|eval _sorted=mvmap(dll, lower(dll)),_sorted=mvzip(_sorted,dll,"|"),_sorted=mvsort(_sorted),_sorted=mvmap(_sorted,mvindex(split(_sorted,"|"),1)),_sorted=mvjoin(_sorted, ", ")|rename _sorted AS DLLs process AS _process|eval Process=lower(_process)|fieldformat Process=_process</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
         <option name="drilldown">cell</option>
         <option name="refresh.display">progressbar</option>
+        <fields>["Process","PID","DLLs"]</fields>
         <drilldown>
           <link target="_blank">/app/logiq/dg_log?form.pid=$click.value2$</link>
         </drilldown>
@@ -83,10 +84,11 @@
       <table>
         <title>Unique Processes Names</title>
         <search>
-          <query>index=logiq sourcetype=diag12 host=$hosttok$ process=$proctok$ PID=$pidtok$ dll=$dlltok$|dedup process|table process</query>
+          <query>index=logiq sourcetype=diag12 host=$hosttok$ process=$proctok$ PID=$pidtok$ dll=$dlltok$|rename process AS _process|eval Process=lower(_process)|dedup Process|fieldformat Process=_process</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
+        <fields>Process</fields>
         <option name="drilldown">none</option>
         <option name="refresh.display">progressbar</option>
       </table>

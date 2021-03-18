@@ -31,7 +31,7 @@
       <event>
         <title>ACI Timeouts due to large files\content</title>
         <search>
-          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType=\[CTextFilter::ReadText\] "Keyview Timeout working on file" $searchtok$</query>
+          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType="CTextFilter::ReadText" "Keyview Timeout working on file" $searchtok$</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
@@ -45,7 +45,7 @@
       <event>
         <title>Retrieve the file and ACI Frequency:</title>
         <search>
-          <query>index=logiq sourcetype=dglog host=$hosttok$ (EventType=\[_DGCI_DoContentInspection\] "END CI time for File") OR (EventType=\[_DGCI_DoContentInspection\] "Entity") OR (EventType=\[CTextExtractor::KV_ExtractText\] "duration=") OR (EventType=\[CTextExtractor::KV_ExtractText\] "\*") $searchtok$</query>
+          <query>index=logiq sourcetype=dglog host=$hosttok$ (EventType="_DGCI_DoContentInspection" "END CI time for File") OR (EventType="_DGCI_DoContentInspection" "Entity") OR (EventType="CTextExtractor::KV_ExtractText" "duration=") OR (EventType="CTextExtractor::KV_ExtractText" "\*") $searchtok$</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
@@ -60,7 +60,7 @@
       <event>
         <title>ACI Inspection Time</title>
         <search>
-          <query>index=logiq sourcetype=dglog host=$hosttok$ (EventType=\[_DGCLASSIFY_DoWork3::timer::DoContentInspection2\] "Duration =") OR (EventType=\[_DGCI_DoContentInspection\] "START CI time for File") OR (EventType=\[_DGCI_DoContentInspection\] "END CI time for File") OR (EventType=\[CTextExtractor::KV_ExtractText\] "Total time spent on") $searchtok$</query>
+          <query>index=logiq sourcetype=dglog host=$hosttok$ (EventType="_DGCLASSIFY_DoWork3::timer::DoContentInspection2" "Duration =") OR (EventType="_DGCI_DoContentInspection" "START CI time for File") OR (EventType="_DGCI_DoContentInspection" "END CI time for File") OR (EventType="CTextExtractor::KV_ExtractText" "Total time spent on") $searchtok$</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
@@ -74,7 +74,7 @@
       <event>
         <title>ACI_ClassifyFile2 action</title>
         <search>
-          <query>index=logiq sourcetype=dglog host=$hosttok$ ACI_ClassifyFile2 action=* $searchtok$</query>
+          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType=ACI_ClassifyFile2 eventAction=* $searchtok$</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
@@ -88,7 +88,7 @@
       <event>
         <title>ACI Matches</title>
         <search>
-          <query>index=logiq sourcetype=dglog host=$hosttok$ (EventType=\[CBaseExtractor::retrieveItems\] "Match") OR (EventType=\[CEntityExtractor::retrieveItems\] "Match") $searchtok$</query>
+          <query>index=logiq sourcetype=dglog host=$hosttok$ (EventType="CBaseExtractor::retrieveItems" "Match") OR (EventType="CEntityExtractor::retrieveItems" "Match") $searchtok$</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
@@ -102,7 +102,7 @@
       <event>
         <title>ACI Threshold Exceeded</title>
         <search>
-          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType=\[CCIProcessor::_ClassifyFile\] "Turning content inspection OFF" $searchtok$</query>
+          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType="CCIProcessor::_ClassifyFile" "Turning content inspection OFF" $searchtok$</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
@@ -116,7 +116,7 @@
       <event>
         <title>Content Pattern Entity</title>
         <search>
-          <query>index=logiq sourcetype=dglog host=$hosttok$ (EventType=\[CBaseExtractor::retrieveItems\] "Match")OR (EventType=\[CBaseExtractor::retrieveItems\] "matchesConsidered ==") $searchtok$</query>
+          <query>index=logiq sourcetype=dglog host=$hosttok$ (EventType="CBaseExtractor::retrieveItems" "Match") OR (EventType="CBaseExtractor::retrieveItems" "matchesConsidered ==") $searchtok$</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>

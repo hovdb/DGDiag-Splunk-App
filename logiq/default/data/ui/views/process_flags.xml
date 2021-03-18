@@ -95,11 +95,12 @@
       <table>
         <title>ProcessFlags applied to process during run-time</title>
         <search>
-          <query>index=logiq sourcetype=dglog EventType IN ("[processCache_AddProcess]","[IsAVirtualBoxProcess]") process=$proctok$ | where isnull(propagatedFrom) | transaction PID connected=false maxspan=3s | search (PID=$pidtok$ OR parent_PID=$pidtok$) processFlags=$flagtok$ | eval Time = strftime(_time, "%Y-%m-%d %H:%M:%S.%3N") | fields - _time | table Time,PID,process,processFlags,process_path,parent_PID,parent_process | rename process AS Process, processFlags AS "Process Flags", process_path AS "Process Path", parent_PID AS "Parent PID", parent_process AS "Parent Process"</query>
+          <query>index=logiq sourcetype=dglog EventType IN ("processCache_AddProcess","IsAVirtualBoxProcess") process=$proctok$ | where isnull(propagatedFrom) | transaction PID connected=false maxspan=3s | search (PID=$pidtok$ OR parent_PID=$pidtok$) processFlags=$flagtok$ | eval Time = strftime(_time, "%Y-%m-%d %H:%M:%S.%3N") | fields - _time | table Time,PID,process,processFlags,process_path,parent_PID,parent_process | rename process AS Process, processFlags AS "Process Flags", process_path AS "Process Path", parent_PID AS "Parent PID", parent_process AS "Parent Process"</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
         <option name="drilldown">cell</option>
+        <option name="refresh.display">progressbar</option>
         <drilldown>
           <set token="pidtok">$row.PID$</set>
           <set token="proctok">$row.Process$</set>
@@ -112,11 +113,12 @@
       <table>
         <title>Process Flags Potentially Propagated from Parent Process</title>
         <search>
-          <query>index=logiq sourcetype=dglog EventType="[processCache_AddProcess]" propagatedFrom=* process=$proctok$ processFlags=$flagtok$ host=$hosttok$ PID=$pidtok$ | eval Time = strftime(_time, "%Y-%m-%d %H:%M:%S.%3N") | fields - _time | table Time,process,processFlags,PID,propagatedFrom | rename process AS Process, processFlags AS "Process Flags", propagatedFrom AS "Propagated From"</query>
+          <query>index=logiq sourcetype=dglog EventType="processCache_AddProcess" propagatedFrom=* process=$proctok$ processFlags=$flagtok$ host=$hosttok$ PID=$pidtok$ | eval Time = strftime(_time, "%Y-%m-%d %H:%M:%S.%3N") | fields - _time | table Time,process,processFlags,PID,propagatedFrom | rename process AS Process, processFlags AS "Process Flags", propagatedFrom AS "Propagated From"</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
         <option name="drilldown">cell</option>
+        <option name="refresh.display">progressbar</option>
         <drilldown>
           <set token="pidtok">$row.PID$</set>
           <set token="proctok">$row.Process$</set>
