@@ -170,7 +170,7 @@ modtime = 1613778398.630440000
 
 [app/install/install_source_checksum]
 version = 8.1.2
-modtime = 1616071170.429339000
+modtime = 1616093192.576925000
 
 [inputs/monitor%3A%2F%2F%2Flogiq%2F%2A%2FDIAG07-HW_INFO.LOG]
 version = 8.1.2
@@ -375,7 +375,7 @@ owner = admin
 version = 8.1.2
 modtime = 1615817000.313111000
 
-[props/dglog/EXTRACT-EventType%2CeventAction%2CactionTarget%2CeventSourcePath%2CeventDestPath%2CelapsedMS]
+[props/dglog/EXTRACT-EventType%2CeventAction%2CactionTarget%2CeventSrcPath%2CeventDstPath%2CelapsedMS]
 access = read : [ * ], write : [ admin, power ]
 export = none
 owner = admin
