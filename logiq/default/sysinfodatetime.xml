@@ -1,0 +1,11 @@
+<datetime>
+    <define name="sysinfo_datetime" extract="year,month,day,hour,minute,second">
+        <text><![CDATA[^\s*ENVIRONMENT INFORMATION FROM [^ ]+ ON\s(\d{4})-(\d{2})-(\d{2}) AT (\d{2}):(\d{2}):(\d{2})]]></text>
+    </define>
+    <timePatterns>
+      <use name="sysinfo_datetime"/> 
+    </timePatterns>
+    <datePatterns>
+      <use name="sysinfo_datetime"/> 
+    </datePatterns>
+</datetime>
