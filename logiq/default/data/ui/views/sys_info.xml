@@ -20,7 +20,7 @@
       <table>
         <title>System Information</title>
         <search>
-          <query>index=logiq sourcetype=diag06 host=$hosttok$</query>
+          <query>index=logiq sourcetype=DIAG06 host=$hosttok$</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
