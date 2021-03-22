@@ -32,6 +32,17 @@
       <default>*</default>
       <initialValue>*</initialValue>
     </input>
+    <input type="checkbox" token="timetok.earliest">
+      <label>Limit to last session for:</label>
+      <fieldForLabel>host</fieldForLabel>
+      <fieldForValue>sessionStartTime</fieldForValue>
+      <search>
+        <query>|savedsearch sessionStart hosttok=$hosttok|s$</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <delimiter> </delimiter>
+    </input>
     <input type="time" token="timetok" searchWhenChanged="true">
       <label>Time Range</label>
       <default>
@@ -44,7 +55,7 @@
     <panel>
       <table>
         <search>
-		  <query>index=logiq host=$hosttok$ sourcetype=dglog ruleVarAction=$rulevartok$ ruleVarName=*$rulevarNtok$* | transaction ruleVarName ruleVarAction maxspan=0s startswith=eval(isnull(ruleVarIndex)) mvlist=true | eval ruleVarAction=mvdedup(ruleVarAction) | eval ruleVarName=mvdedup(ruleVarName) | eval ruleVarValue=mvfilter(ruleVarValue!="NULL") | eval ruleVarIndex=mvfilter(ruleVarIndex!="NULL") | eval Time = strftime(_time, "%Y-%m-%d %H:%M:%S.%3N") | fields - _time | table Time, ruleVarAction, ruleVarName, ruleVarValue</query>
+          <query>index=logiq host=$hosttok$ sourcetype=dglog ruleVarAction=$rulevartok$ ruleVarName=*$rulevarNtok$* | transaction ruleVarName ruleVarAction maxspan=0s startswith=eval(isnull(ruleVarIndex)) mvlist=true | eval ruleVarAction=mvdedup(ruleVarAction) | eval ruleVarName=mvdedup(ruleVarName) | eval ruleVarValue=mvfilter(ruleVarValue!="NULL") | eval ruleVarIndex=mvfilter(ruleVarIndex!="NULL") | eval Time = strftime(_time, "%Y-%m-%d %H:%M:%S.%3N") | fields - _time | table Time, ruleVarAction, ruleVarName, ruleVarValue</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
           <sampleRatio>1</sampleRatio>

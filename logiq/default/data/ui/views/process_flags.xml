@@ -42,6 +42,15 @@
       <choice value="">All</choice>
       <default></default>
     </input>
+    <input type="checkbox" token="timetok.earliest">
+      <label>Limit to last session for:</label>
+      <delimiter> </delimiter>
+      <fieldForLabel>host</fieldForLabel>
+      <fieldForValue>sessionStartTime</fieldForValue>
+      <search>
+        <query>|savedsearch sessionStart hosttok=$hosttok|s$</query>
+      </search>
+    </input>
     <input type="time" token="timetok" searchWhenChanged="true">
       <label>Time Range</label>
       <default>
@@ -133,8 +142,8 @@
         <title>Process Flags</title>
         <search>
           <query>index=logiq sourcetype=prcsflgs process=$proctok$ processFlags=$flagtok$ $comptok$ host=$hosttok$ |reverse|table process, processFlags, company</query>
-          <earliest>$timetok.earliest$</earliest>
-          <latest>$timetok.latest$</latest>
+          <earliest>0</earliest>
+          <latest></latest>
         </search>
         <option name="drilldown">cell</option>
         <option name="refresh.display">progressbar</option>
