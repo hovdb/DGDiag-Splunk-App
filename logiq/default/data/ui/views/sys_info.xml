@@ -20,12 +20,13 @@
       <table>
         <title>System Information</title>
         <search>
-          <query>index=logiq sourcetype=DIAG06 host=$hosttok|s$ systemUptime=* OR systemBuild=* OR productVersion=* OR kernelVersion=*|rex field=systemUptime mode=sed "s/(\d+) days (\d+) hours (\d+) minutes (\d+) seconds/\1+\2:\3:\4/g"|eval Time=strftime(_time, "%Y-%m-%d %H:%M:%S.%3N")|table Time,host,kernelVersion,productVersion,systemBuild,systemUptime|stats values(*) as * by host|rename Time as "Diagnostic Time"|rename host AS Host|rename kernelVersion AS Windows|rename productVersion AS Version|rename systemBuild AS Build|rename systemUptime AS Uptime|table Host,"Diagnostic Time",Windows,Version,Build,Uptime</query>
+          <query>index=logiq sourcetype=DIAG06 host=$hosttok|s$ systemUptime=* OR systemBuild=* OR productVersion=* OR kernelVersion=*|rex field=systemUptime mode=sed "s/(\d+) days? (\d+) hours? (\d+) minutes? (\d+) seconds?/\1+\2:\3:\4/g"|eval Time=strftime(_time, "%Y-%m-%d %H:%M:%S.%3N")|convert dur2sec(systemUptime)|eval sessionStartTime=_time-systemUptime|eval readableSessionTime=strftime(sessionStartTime, "%Y-%m-%d %H:%M:%S.%3N")|table Time,host,kernelVersion,productVersion,systemBuild,readableSessionTime|stats values(*) as * by host|rename Time as "Diagnostic Time"|rename host AS Host|rename kernelVersion AS Windows|rename productVersion AS Version|rename systemBuild AS Build|rename readableSessionTime AS "Last session start"|table Host,Windows,Version,Build,"Diagnostic Time","Last session start"</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
-        <option name="drilldown">cell</option>
+        <option name="drilldown">none</option>
         <option name="refresh.display">progressbar</option>
+        <option name="totalsRow">false</option>
       </table>
     </panel>
   </row>

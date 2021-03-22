@@ -26,6 +26,17 @@
       <choice value="">ALL</choice>
       <default></default>
     </input>
+    <input type="checkbox" token="timetok.earliest">
+      <label>Limit to last session for:</label>
+      <fieldForLabel>host</fieldForLabel>
+      <fieldForValue>sessionStartTime</fieldForValue>
+      <search>
+        <query>|savedsearch sessionStart hosttok=$hosttok|s$|head 1</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <delimiter> </delimiter>
+    </input>
     <input type="time" token="timetok" searchWhenChanged="true">
       <label>Event Time</label>
       <default>
