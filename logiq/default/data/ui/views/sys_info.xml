@@ -1,0 +1,32 @@
+<form>
+  <label>System Information</label>
+  <description>System Information</description>
+  <fieldset submitButton="false">
+    <input type="dropdown" token="hosttok" searchWhenChanged="true">
+      <label>Host Name</label>
+      <fieldForLabel>host</fieldForLabel>
+      <fieldForValue>host</fieldForValue>
+      <search>
+        <query>index=logiq |stats count by host</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <choice value="*">All</choice>
+      <default>*</default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <title>System Information</title>
+        <search>
+          <query>index=logiq sourcetype=DIAG06 host=$hosttok|s$ systemUptime=* OR systemBuild=* OR productVersion=* OR kernelVersion=*|rex field=systemUptime mode=sed "s/(\d+) days (\d+) hours (\d+) minutes (\d+) seconds/\1+\2:\3:\4/g"|eval Time=strftime(_time, "%Y-%m-%d %H:%M:%S.%3N")|table Time,host,kernelVersion,productVersion,systemBuild,systemUptime|stats values(*) as * by host|rename Time as "Diagnostic Time"|rename host AS Host|rename kernelVersion AS Windows|rename productVersion AS Version|rename systemBuild AS Build|rename systemUptime AS Uptime|table Host,"Diagnostic Time",Windows,Version,Build,Uptime</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="drilldown">cell</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</form>

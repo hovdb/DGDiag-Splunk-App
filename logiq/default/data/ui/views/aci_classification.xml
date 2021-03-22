@@ -75,7 +75,7 @@
       <table>
         <title>Total elapsed time per action</title>
         <search>
-          <query>index=logiq sourcetype=dglog host=* EventType="ACI_ClassifyFile2" elapsedMS&gt;$eltok$ eventAction=$acttok$ eventSrcPath=*$pathtok|s$* OR eventDstPath=*$pathtok|s$*|stats earliest(_time) as startTime latest(_time) as endTime range(_time) as duration count(eventAction) AS eventCount sum(elapsedMS) AS sumElapsedMS BY eventAction|eval Path="*".$pathtok|s$."*"|rename Path AS "Path spec"|rename eventAction AS "Action"|sort 0 -sumElapsedMS|eval startTime=strftime(startTime, "%Y-%m-%d %H:%M:%S.%3N")|eval endTime=strftime(endTime, "%Y-%m-%d %H:%M:%S.%3N")|eval duration=tostring(duration, "duration")|eval sumElapsedMS=tostring(sumElapsedMS/1000, "duration")|rename eventCount AS "Action count" sumElapsedMS AS "Total time spent in ACI" startTime AS "Start Time" endTime AS "End Time" duration AS "Event duration"</query>
+          <query>index=logiq sourcetype=dglog host=* EventType="ACI_ClassifyFile2" elapsedMS&gt;$eltok$ eventAction=$acttok$ eventSrcPath=$pathtok|s$ OR eventDstPath=$pathtok|s$|stats earliest(_time) as startTime latest(_time) as endTime range(_time) as duration count(eventAction) AS eventCount sum(elapsedMS) AS sumElapsedMS BY eventAction|eval Path=$pathtok|s$|rename Path AS "Path spec"|rename eventAction AS "Action"|sort 0 -sumElapsedMS|eval startTime=strftime(startTime, "%Y-%m-%d %H:%M:%S.%3N")|eval endTime=strftime(endTime, "%Y-%m-%d %H:%M:%S.%3N")|eval duration=tostring(duration, "duration")|eval sumElapsedMS=tostring(sumElapsedMS/1000, "duration")|rename eventCount AS "Action count" sumElapsedMS AS "Total time spent in ACI" startTime AS "Start Time" endTime AS "End Time" duration AS "Event duration"</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
@@ -90,11 +90,12 @@
       <table>
         <title>Elapsed time per action and path</title>
         <search>
-          <query>index=logiq sourcetype=dglog host=* EventType="ACI_ClassifyFile2" elapsedMS&gt;$eltok$ eventAction=$acttok$ eventSrcPath=*$pathtok|s$* OR eventDstPath=*$pathtok|s$*|eval actionPath=if(actionTarget="dest",eventDstPath,eventSrcPath)|stats sum(elapsedMS) AS SumElapsedMS by eventAction,actionPath|rename eventAction AS "Action" actionPath AS Path|sort 0 -SumElapsedMS|rename SumElapsedMS AS "Sum of elapsed ms"</query>
+          <query>index=logiq sourcetype=dglog host=* EventType="ACI_ClassifyFile2" elapsedMS&gt;$eltok$ eventAction=$acttok$ eventSrcPath=$pathtok|s$ OR eventDstPath=$pathtok|s$|eval actionPath=if(actionTarget="dest",eventDstPath,eventSrcPath)|stats sum(elapsedMS) AS SumElapsedMS by eventAction,actionPath|rename eventAction AS "Action" actionPath AS Path|sort 0 -SumElapsedMS|rename SumElapsedMS AS "Sum of elapsed ms"</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
         <option name="drilldown">row</option>
+        <option name="refresh.display">progressbar</option>
         <option name="rowNumbers">true</option>
         <option name="totalsRow">true</option>
       </table>
@@ -105,7 +106,7 @@
       <title>time elapsed ms</title>
       <table>
         <search>
-          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType="ACI_ClassifyFile2" elapsedMS&gt;$eltok$ eventAction=$acttok$ actionTarget=$targettok$ eventSrcPath=*$pathtok|s$* OR eventDstPath=*$pathtok|s$*|table _time, elapsedMS, eventAction, actionTarget, eventSrcPath, eventDstPath, excluded, not_excluded</query>
+          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType="ACI_ClassifyFile2" elapsedMS&gt;$eltok$ eventAction=$acttok$ actionTarget=$targettok$ eventSrcPath=$pathtok|s$ OR eventDstPath=$pathtok|s$|table _time, elapsedMS, eventAction, actionTarget, eventSrcPath, eventDstPath, excluded, not_excluded</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
           <sampleRatio>1</sampleRatio>
