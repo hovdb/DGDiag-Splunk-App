@@ -32,7 +32,7 @@
       <table>
         <title>Formated Output of config.xml</title>
         <search>
-          <query>index=logiq host=$hosttok$ sourcetype=config_xml NOT !|rex field=_raw "^(?P&lt;Config_Tag&gt;[^\t &gt;]+)[\t ]*(?P&lt;Config_Attrib&gt;[^&gt;]*)&gt;(?P&lt;Config_Value&gt;[^&lt;]*)"|reverse|search Config_Tag=$tagtok$ Config_Value=$valtok$  |table Config_Tag, Config_Value, Config_Attrib</query>
+          <query>index=logiq host=$hosttok|s$ sourcetype=config_xml NOT !|rex field=_raw "^(?P&lt;Config_Tag&gt;[^\t &gt;]+)[\t ]*(?P&lt;Config_Attrib&gt;[^&gt;]*)&gt;(?P&lt;Config_Value&gt;[^&lt;]*)"|reverse|search Config_Tag=$tagtok$ Config_Value=$valtok$  |table Config_Tag, Config_Value, Config_Attrib</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
