@@ -35,19 +35,20 @@
       <table>
         <title>Full list comparing both config.xml</title>
         <search>
-          <query>index=logiq host=$hosttok2$ sourcetype=config_xml NOT !|rex field=_raw "^(?P&lt;Config_Tag&gt;[^\t &gt;]+)[\t ]*(?P&lt;Config_Attrib&gt;[^&gt;]*)&gt;(?P&lt;Config_Value&gt;[^&lt;]*)"|append [search index=logiq host=$hosttok1$ sourcetype=config_xml NOT !|rex field=_raw "^(?P&lt;Config_Tag2&gt;[^\t &gt;]+)[\t ]*(?P&lt;Config_Attrib2&gt;[^&gt;]*)&gt;(?P&lt;Config_Value2&gt;[^&lt;]*)"]|eval config1=Config_Tag." - ".Config_Value." - ".Config_Attrib|eval config2=Config_Tag2." - ".Config_Value2." - ".Config_Attrib2| eval Settings=coalesce(config1, config2) |search $tagtok$|sort - Settings|table host,Settings</query>
+          <query>index=logiq host=$hosttok2|s$ sourcetype=config_xml NOT !|rex field=_raw "^(?P&lt;Config_Tag&gt;[^\t &gt;]+)[\t ]*(?P&lt;Config_Attrib&gt;[^&gt;]*)&gt;(?P&lt;Config_Value&gt;[^&lt;]*)"|append [search index=logiq host=$hosttok1$ sourcetype=config_xml NOT !|rex field=_raw "^(?P&lt;Config_Tag2&gt;[^\t &gt;]+)[\t ]*(?P&lt;Config_Attrib2&gt;[^&gt;]*)&gt;(?P&lt;Config_Value2&gt;[^&lt;]*)"]|eval config1=Config_Tag." - ".Config_Value." - ".Config_Attrib|eval config2=Config_Tag2." - ".Config_Value2." - ".Config_Attrib2| eval Settings=coalesce(config1, config2) |search $tagtok$|sort - Settings|table host,Settings</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
         <option name="count">100</option>
         <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
       </table>
     </panel>
     <panel>
       <table>
         <title>Differences between the two config.xml</title>
         <search>
-          <query>index=logiq host=$hosttok1$ sourcetype=config_xml NOT !|rex field=_raw "^(?P&lt;Config_Tag&gt;[^\t &gt;]+)[\t ]*(?P&lt;Config_Attrib&gt;[^&gt;]*)&gt;(?P&lt;Config_Value&gt;[^&lt;]*)"|append [search index=logiq host=$hosttok2$ sourcetype=config_xml NOT !|rex field=_raw "^(?P&lt;Config_Tag2&gt;[^\t &gt;]+)[\t ]*(?P&lt;Config_Attrib2&gt;[^&gt;]*)&gt;(?P&lt;Config_Value2&gt;[^&lt;]*)"]|eval config1=Config_Tag." - ".Config_Value." - ".Config_Attrib|eval config2=Config_Tag2." - ".Config_Value2." - ".Config_Attrib2|eval Settings=coalesce(config1, config2) |sort - Settings|search $tagtok$|stats count values(Settings) by Settings|where count=1|sort - Settings|table Settings</query>
+          <query>index=logiq host=$hosttok1|s$ sourcetype=config_xml NOT !|rex field=_raw "^(?P&lt;Config_Tag&gt;[^\t &gt;]+)[\t ]*(?P&lt;Config_Attrib&gt;[^&gt;]*)&gt;(?P&lt;Config_Value&gt;[^&lt;]*)"|append [search index=logiq host=$hosttok2$ sourcetype=config_xml NOT !|rex field=_raw "^(?P&lt;Config_Tag2&gt;[^\t &gt;]+)[\t ]*(?P&lt;Config_Attrib2&gt;[^&gt;]*)&gt;(?P&lt;Config_Value2&gt;[^&lt;]*)"]|eval config1=Config_Tag." - ".Config_Value." - ".Config_Attrib|eval config2=Config_Tag2." - ".Config_Value2." - ".Config_Attrib2|eval Settings=coalesce(config1, config2) |sort - Settings|search $tagtok$|stats count values(Settings) by Settings|where count=1|sort - Settings|table Settings</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>

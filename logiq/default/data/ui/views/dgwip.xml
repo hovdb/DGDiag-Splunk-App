@@ -50,7 +50,7 @@
       <chart>
         <title>URLs</title>
         <search>
-          <query>index=logiq sourcetype=dgwip host=$hosttok$ process=$proctok$ skip=* |stats count BY url</query>
+          <query>index=logiq host=$hosttok|s$ sourcetype=dgwip process=$proctok$ skip=* |stats count BY url</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
@@ -66,7 +66,7 @@
       <title>Skip Candidates</title>
       <table>
         <search>
-          <query>index=logiq sourcetype=dgwip host=$hosttok$ process=$proctok$ skip=* |dedup url|sort -process|table skip, process, url, protocol, method,status</query>
+          <query>index=logiq host=$hosttok|s$ sourcetype=dgwip process=$proctok$ skip=* |dedup url|sort -process|table skip, process, url, protocol, method,status</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
           <sampleRatio>1</sampleRatio>
@@ -75,6 +75,7 @@
         <option name="dataOverlayMode">none</option>
         <option name="drilldown">cell</option>
         <option name="percentagesRow">false</option>
+        <option name="refresh.display">progressbar</option>
         <option name="rowNumbers">false</option>
         <option name="totalsRow">false</option>
         <option name="wrap">true</option>
@@ -89,12 +90,13 @@
       <table>
         <title>config.xml wip settings</title>
         <search>
-          <query>index=logiq host=$hosttok$ sourcetype=config_xml NOT !|rex field=_raw "^(?P&lt;Config_Tag&gt;[^\t &gt;]+)[\t ]*(?P&lt;Config_Attrib&gt;[^&gt;]*)&gt;(?P&lt;Config_Value&gt;[^&lt;]*)"|reverse|search Config_Tag=*wip* Config_Value=*  |table Config_Tag, Config_Value, Config_Attrib</query>
+          <query>index=logiq host=$hosttok|s$ sourcetype=config_xml NOT !|rex field=_raw "^(?P&lt;Config_Tag&gt;[^\t &gt;]+)[\t ]*(?P&lt;Config_Attrib&gt;[^&gt;]*)&gt;(?P&lt;Config_Value&gt;[^&lt;]*)"|reverse|search Config_Tag=*wip* Config_Value=*  |table Config_Tag, Config_Value, Config_Attrib</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
         <option name="count">50</option>
         <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
       </table>
     </panel>
   </row>

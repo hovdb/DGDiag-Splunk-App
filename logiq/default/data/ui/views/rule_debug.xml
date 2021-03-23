@@ -24,7 +24,7 @@
       <fieldForLabel>ruleVarAction</fieldForLabel>
       <fieldForValue>ruleVarAction</fieldForValue>
       <search>
-        <query>index=logiq host=$hosttok$ sourcetype=dglog ruleVarAction=*|stats count by ruleVarAction</query>
+        <query>index=logiq host=$hosttok|s$ sourcetype=dglog ruleVarAction=*|stats count by ruleVarAction</query>
         <earliest>0</earliest>
         <latest></latest>
       </search>
@@ -55,7 +55,7 @@
     <panel>
       <table>
         <search>
-          <query>index=logiq host=$hosttok$ sourcetype=dglog ruleVarAction=$rulevartok$ ruleVarName=*$rulevarNtok$* | transaction ruleVarName ruleVarAction maxspan=0s startswith=eval(isnull(ruleVarIndex)) mvlist=true | eval ruleVarAction=mvdedup(ruleVarAction) | eval ruleVarName=mvdedup(ruleVarName) | eval ruleVarValue=mvfilter(ruleVarValue!="NULL") | eval ruleVarIndex=mvfilter(ruleVarIndex!="NULL") | eval Time = strftime(_time, "%Y-%m-%d %H:%M:%S.%3N") | fields - _time | table Time, ruleVarAction, ruleVarName, ruleVarValue</query>
+          <query>index=logiq host=$hosttok|s$ sourcetype=dglog ruleVarAction=$rulevartok$ ruleVarName=*$rulevarNtok$* | transaction ruleVarName ruleVarAction maxspan=0s startswith=eval(isnull(ruleVarIndex)) mvlist=true | eval ruleVarAction=mvdedup(ruleVarAction) | eval ruleVarName=mvdedup(ruleVarName) | eval ruleVarValue=mvfilter(ruleVarValue!="NULL") | eval ruleVarIndex=mvfilter(ruleVarIndex!="NULL") | eval Time = strftime(_time, "%Y-%m-%d %H:%M:%S.%3N") | fields - _time | table Time, ruleVarAction, ruleVarName, ruleVarValue</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
           <sampleRatio>1</sampleRatio>

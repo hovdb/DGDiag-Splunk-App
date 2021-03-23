@@ -19,7 +19,7 @@
       <single>
         <title>Host Name</title>
         <search>
-          <query>index=logiq sourcetype=diag10 host=$hosttok$|table host</query>
+          <query>index=logiq host=$hosttok|s$ sourcetype=diag10 |table host</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
@@ -37,7 +37,7 @@
       <table>
         <title>Services</title>
         <search>
-          <query>index=logiq sourcetype=diag10 host=$hosttok$|table Name, DisplayName, Description, PathName, StartMode, State,</query>
+          <query>index=logiq host=$hosttok|s$ sourcetype=diag10 |table Name, DisplayName, Description, PathName, StartMode, State,</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>

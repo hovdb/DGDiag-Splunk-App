@@ -31,7 +31,7 @@
       <chart>
         <title>Vendors</title>
         <search>
-          <query>index="logiq" sourcetype=DIAG14 host=$hosttok$ $vendtok$|stats count(Name) by Vendor</query>
+          <query>index="logiq" host=$hosttok|s$ sourcetype=DIAG14 $vendtok$|stats count(Name) by Vendor</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
@@ -47,7 +47,7 @@
       <chart>
         <title>Applications</title>
         <search>
-          <query>index="logiq" sourcetype=DIAG14 host=$hosttok$ $vendtok$|stats count(Version) by Name</query>
+          <query>index="logiq" host=$hosttok|s$ sourcetype=DIAG14 $vendtok$|stats count(Version) by Name</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
@@ -62,7 +62,7 @@
       <table>
         <title>Applications Installed</title>
         <search>
-          <query>index="logiq" sourcetype=DIAG14 host=$hosttok$ $vendtok$|dedup Vendor, Version |sort Vendor, Name, -version|table Vendor, Name, Version,InstallDate,InstallLocation</query>
+          <query>index="logiq" host=$hosttok|s$ sourcetype=DIAG14 $vendtok$|dedup Vendor, Version |sort Vendor, Name, -version|table Vendor, Name, Version,InstallDate,InstallLocation</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>

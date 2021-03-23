@@ -55,7 +55,7 @@
       <single>
         <title>Free Disk Space</title>
         <search>
-          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType="DgServiceMonitor::CheckLowDiskSpace"|stats last(diskspace)</query>
+          <query>index=logiq host=$hosttok|s$ sourcetype=dglog EventType="DgServiceMonitor::CheckLowDiskSpace"|stats last(diskspace)</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
@@ -73,7 +73,7 @@
       <single>
         <title>Agent Version</title>
         <search>
-          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType="CDataProcessor::Start" "Agent Version:"|rex field=_raw Agent\sVersion:\s(?P&lt;Agent_Version&gt;\S+)|stats last(Agent_Version)</query>
+          <query>index=logiq host=$hosttok|s$ sourcetype=dglog EventType="CDataProcessor::Start" "Agent Version:"|rex field=_raw Agent\sVersion:\s(?P&lt;Agent_Version&gt;\S+)|stats last(Agent_Version)</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
@@ -90,7 +90,7 @@
       <table>
         <title>Event Types</title>
         <search>
-          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType=$eventtok|s$ $errtok$|dedup EventType|sort EventType|table EventType</query>
+          <query>index=logiq host=$hosttok|s$ sourcetype=dglog EventType=$eventtok|s$ $errtok$|dedup EventType|sort EventType|table EventType</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
@@ -108,7 +108,7 @@
       <event>
         <title>Events</title>
         <search>
-          <query>index=logiq sourcetype=dglog host=$hosttok$ EventType=$EventType|s$ $errtok$</query>
+          <query>index=logiq host=$hosttok|s$ sourcetype=dglog EventType=$EventType|s$ $errtok$</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
@@ -122,7 +122,7 @@
       <table>
         <title>IsAVirtualBoxProcess from dg.log/dglog.bak</title>
         <search>
-          <query>index=logiq sourcetype=dglog EventType="IsAVirtualBoxProcess" PID=$pid$|table _time, PID, process_path</query>
+          <query>index=logiq host=$hosttok|s$ sourcetype=dglog EventType="IsAVirtualBoxProcess" PID=$pid$|table _time, PID, process_path</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
