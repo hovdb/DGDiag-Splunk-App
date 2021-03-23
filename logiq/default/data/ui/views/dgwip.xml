@@ -25,7 +25,7 @@
       </search>
       <default>*</default>
     </input>
-    <input type="checkbox" token="field1">
+    <input type="checkbox" token="timetok.earliest">
       <label>Limit to last session for:</label>
       <fieldForLabel>host</fieldForLabel>
       <fieldForValue>sessionStartTime</fieldForValue>
