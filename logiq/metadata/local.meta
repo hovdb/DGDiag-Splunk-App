@@ -170,7 +170,7 @@ modtime = 1613778398.630440000
 
 [app/install/install_source_checksum]
 version = 8.1.3
-modtime = 1616526291.270434000
+modtime = 1616593525.257525000
 
 [inputs/monitor%3A%2F%2F%2Flogiq%2F%2A%2FDIAG07-HW_INFO.LOG]
 version = 8.1.2
@@ -344,8 +344,8 @@ modtime = 1616460232.543076000
 access = read : [ * ], write : [ admin, power ]
 export = none
 owner = admin
-version = 8.1.2
-modtime = 1616079921.508821000
+version = 8.1.3
+modtime = 1616594484.053591000
 
 [props/config_xml/EXTRACT-Config_Tag%2CConfig_Attrib%2CConfig_Value]
 access = read : [ * ], write : [ admin, power ]
@@ -428,3 +428,10 @@ export = none
 owner = admin
 version = 8.1.3
 modtime = 1616449815.523894000
+
+[props/dglog/EXTRACT-EventType%2CcacheAction%2CPID%2Cprocess%2Cparent_PID%2Cparent_process]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.3
+modtime = 1616595028.836250000
