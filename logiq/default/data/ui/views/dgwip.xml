@@ -19,11 +19,23 @@
       <fieldForLabel>process</fieldForLabel>
       <fieldForValue>process</fieldForValue>
       <search>
-        <query>index=logiq sourcetype=dgwip |stats count by process</query>
+        <query>index=logiq host=$hosttok|s$ (sourcetype=dgwip OR sourcetype=dglog) connectionID=* | rex field=log "^http: proxy (?P&lt;action&gt;.*)\s\[(?P&lt;process&gt;[^\/]+)\/(?P&lt;PID&gt;\d+)].*(?P&lt;method&gt;(GET|PUT|POST|DELETE|PATCH|OPTIONS))\s+(?P&lt;protocol&gt;\w+)\s+\S+\s+(?P&lt;url&gt;[^ ]+)\s+\d+\s+(?P&lt;status&gt;\d+)" | stats count BY process</query>
         <earliest>0</earliest>
         <latest></latest>
       </search>
       <default>*</default>
+    </input>
+    <input type="dropdown" token="actiontok">
+      <label>URL action</label>
+      <choice value="*">all</choice>
+      <default>*</default>
+      <fieldForLabel>action</fieldForLabel>
+      <fieldForValue>action</fieldForValue>
+      <search>
+        <query>index=logiq host=$hosttok|s$ (sourcetype=dgwip OR sourcetype=dglog) connectionID=* | rex field=log "^http: proxy (?P&lt;action&gt;.*)\s\[(?P&lt;process&gt;[^\/]+)\/(?P&lt;PID&gt;\d+)].*(?P&lt;method&gt;(GET|PUT|POST|DELETE|PATCH|OPTIONS))\s+(?P&lt;protocol&gt;\w+)\s+\S+\s+(?P&lt;url&gt;[^ ]+)\s+\d+\s+(?P&lt;status&gt;\d+)" | stats count BY action</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
     </input>
     <input type="checkbox" token="timetok.earliest">
       <label>Limit to last session for:</label>
@@ -46,11 +58,11 @@
   </fieldset>
   <row>
     <panel>
-      <title>DGWip Skipped URLs</title>
+      <title>URLs</title>
       <chart>
         <title>URLs</title>
         <search>
-          <query>index=logiq host=$hosttok|s$ sourcetype=dgwip process=$proctok$ skip=* |stats count BY url</query>
+          <query>index=logiq host=$hosttok|s$ (sourcetype=dgwip OR sourcetype=dglog) connectionID=* | rex field=log "^http: proxy (?P&lt;action&gt;.*)\s\[(?P&lt;process&gt;[^\/]+)\/(?P&lt;PID&gt;\d+)].*(?P&lt;method&gt;(GET|PUT|POST|DELETE|PATCH|OPTIONS))\s+(?P&lt;protocol&gt;\w+)\s+\S+\s+(?P&lt;url&gt;[^ ]+)\s+\d+\s+(?P&lt;status&gt;\d+)" | search action=$actiontok|s$ process=$proctok|s$ | stats count BY url</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
@@ -63,10 +75,10 @@
   </row>
   <row>
     <panel>
-      <title>Skip Candidates</title>
+      <title>URLs list</title>
       <table>
         <search>
-          <query>index=logiq host=$hosttok|s$ sourcetype=dgwip process=$proctok$ skip=* |dedup url|sort -process|table skip, process, url, protocol, method,status</query>
+          <query>index=logiq host=$hosttok|s$ (sourcetype=dgwip OR sourcetype=dglog) connectionID=* | rex field=log "^http: proxy (?P&lt;action&gt;.*)\s\[(?P&lt;process&gt;[^\/]+)\/(?P&lt;PID&gt;\d+)].*(?P&lt;method&gt;(GET|PUT|POST|DELETE|PATCH|OPTIONS))\s+(?P&lt;protocol&gt;\w+)\s+\S+\s+(?P&lt;url&gt;[^ ]+)\s+\d+\s+(?P&lt;status&gt;\d+)" | search action=$actiontok|s$ process=$proctok|s$ | dedup url | sort 0 -process | table action, process, url, protocol, method, status</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
           <sampleRatio>1</sampleRatio>
@@ -95,6 +107,36 @@
           <latest></latest>
         </search>
         <option name="count">50</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>WIP events by connection</title>
+        <search>
+          <query>index=logiq host=$hosttok|s$ (sourcetype=dgwip OR sourcetype=dglog) connectionID=* requestID=* | sort 0 -_time | stats list(requestID) AS requestID list(log) AS log by connectionID | sort 0 -connectionID | rename connectionID AS Connection, requestID AS Request, log AS Log | table Connection, Request, Log</query>
+          <earliest>$timetok.earliest$</earliest>
+          <latest>$timetok.latest$</latest>
+        </search>
+        <option name="count">5</option>
+        <option name="dataOverlayMode">none</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>WIP events by request</title>
+        <search>
+          <query>index=logiq host=$hosttok|s$ (sourcetype=dgwip OR sourcetype=dglog) connectionID=* requestID=* | regex requestID="\d+" | sort 0 -_time | stats list(log) AS log by connectionID requestID | sort 0 -connectionID | rename connectionID AS Connection, requestID AS Request, log AS Log | table Connection, Request, Log</query>
+          <earliest>$timetok.earliest$</earliest>
+          <latest>$timetok.latest$</latest>
+        </search>
         <option name="drilldown">none</option>
         <option name="refresh.display">progressbar</option>
       </table>

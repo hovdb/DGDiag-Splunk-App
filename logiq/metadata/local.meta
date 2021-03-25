@@ -41,7 +41,7 @@ access = read : [ * ], write : [ admin ]
 export = none
 owner = admin
 version = 8.1.3
-modtime = 1616510278.755170000
+modtime = 1616651419.104214000
 
 [views/applications_installed]
 access = read : [ * ], write : [ admin ]
@@ -170,7 +170,7 @@ modtime = 1613778398.630440000
 
 [app/install/install_source_checksum]
 version = 8.1.3
-modtime = 1616593525.257525000
+modtime = 1616635167.738387000
 
 [inputs/monitor%3A%2F%2F%2Flogiq%2F%2A%2FDIAG07-HW_INFO.LOG]
 version = 8.1.2
@@ -435,3 +435,21 @@ export = none
 owner = admin
 version = 8.1.3
 modtime = 1616595028.836250000
+
+[props/dglog/EXTRACT-dglogN]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.3
+modtime = 1616637076.920238000
+
+[props/dgwip/EXTRACT-dgwipN]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.3
+modtime = 1616637098.572552000
+
+[props/dgwip]
+version = 8.1.3
+modtime = 1616637146.162367000
