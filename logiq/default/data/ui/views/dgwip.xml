@@ -78,7 +78,7 @@
       <title>URLs list</title>
       <table>
         <search>
-          <query>index=logiq host=$hosttok|s$ (sourcetype=dgwip OR sourcetype=dglog) connectionID=* | rex field=log "^http: proxy (?P&lt;action&gt;.*)\s\[(?P&lt;process&gt;[^\/]+)\/(?P&lt;PID&gt;\d+)].*(?P&lt;method&gt;(GET|PUT|POST|DELETE|PATCH|OPTIONS))\s+(?P&lt;protocol&gt;\w+)\s+\S+\s+(?P&lt;url&gt;[^ ]+)\s+\d+\s+(?P&lt;status&gt;\d+)" | search action=$actiontok|s$ process=$proctok|s$ | dedup url | sort 0 -process | table action, process, url, protocol, method, status</query>
+          <query>index=logiq host=$hosttok|s$ (sourcetype=dgwip OR sourcetype=dglog) connectionID=* | rex field=log "^http: proxy (?P&lt;action&gt;.*)\s\[(?P&lt;process&gt;[^\/]+)\/(?P&lt;PID&gt;\d+)].*(?P&lt;method&gt;(GET|PUT|POST|DELETE|PATCH|OPTIONS))\s+(?P&lt;protocol&gt;\w+)\s+\S+\s+(?P&lt;url&gt;[^ ]+)\s+\d+\s+(?P&lt;status&gt;\d+)" | search action=$actiontok|s$ process=$proctok|s$ | sort 0 -_time | eval Time = strftime(_time, "%Y-%m-%d %H:%M:%S.%3N") | dedup Time action PID url status | table Time, action, process, PID, url, protocol, method, status</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
           <sampleRatio>1</sampleRatio>
@@ -115,14 +115,12 @@
   <row>
     <panel>
       <table>
-        <title>WIP events by connection</title>
+        <title>WIP events by request</title>
         <search>
-          <query>index=logiq host=$hosttok|s$ (sourcetype=dgwip OR sourcetype=dglog) connectionID=* requestID=* | sort 0 -_time | stats list(requestID) AS requestID list(log) AS log by connectionID | sort 0 -connectionID | rename connectionID AS Connection, requestID AS Request, log AS Log | table Connection, Request, Log</query>
+          <query>index=logiq host=$hosttok|s$ (sourcetype=dgwip OR sourcetype=dglog) connectionID=* | regex requestID="\d+" | sort 0 -_time | stats list(log) AS log list(_time) as _time by connectionID requestID | sort 0 -connectionID, -requestID | eval Time = strftime(_time, "%Y-%m-%d %H:%M:%S.%3N") | rename connectionID AS Connection, requestID AS Request, log AS Log | table Connection, Request, Time, Log</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
-        <option name="count">5</option>
-        <option name="dataOverlayMode">none</option>
         <option name="drilldown">none</option>
         <option name="refresh.display">progressbar</option>
       </table>
@@ -131,12 +129,14 @@
   <row>
     <panel>
       <table>
-        <title>WIP events by request</title>
+        <title>WIP events by connection</title>
         <search>
-          <query>index=logiq host=$hosttok|s$ (sourcetype=dgwip OR sourcetype=dglog) connectionID=* requestID=* | regex requestID="\d+" | sort 0 -_time | stats list(log) AS log by connectionID requestID | sort 0 -connectionID | rename connectionID AS Connection, requestID AS Request, log AS Log | table Connection, Request, Log</query>
+          <query>index=logiq host=$hosttok|s$ (sourcetype=dgwip OR sourcetype=dglog) connectionID=* requestID=* | sort 0 -_time | stats list(requestID) AS requestID list(log) AS log list(_time) AS _time by connectionID | sort 0 -connectionID | eval Time = strftime(_time, "%Y-%m-%d %H:%M:%S.%3N") | rename connectionID AS Connection, requestID AS Request, log AS Log | table Connection, Request, Time, Log</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
+        <option name="count">5</option>
+        <option name="dataOverlayMode">none</option>
         <option name="drilldown">none</option>
         <option name="refresh.display">progressbar</option>
       </table>
