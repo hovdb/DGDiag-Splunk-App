@@ -37,17 +37,6 @@
         <latest></latest>
       </search>
     </input>
-    <input type="checkbox" token="timetok.earliest">
-      <label>Limit to last session for:</label>
-      <fieldForLabel>host</fieldForLabel>
-      <fieldForValue>sessionStartTime</fieldForValue>
-      <search>
-        <query>|savedsearch sessionStart hosttok=$hosttok|s$|head 1</query>
-        <earliest>0</earliest>
-        <latest></latest>
-      </search>
-      <delimiter> </delimiter>
-    </input>
     <input type="time" token="timetok" searchWhenChanged="true">
       <label>Time Selection</label>
       <default>
@@ -90,7 +79,7 @@
         <option name="refresh.display">progressbar</option>
         <option name="rowNumbers">false</option>
         <option name="totalsRow">false</option>
-        <option name="wrap">true</option>
+        <option name="wrap">false</option>
         <drilldown>
           <link target="_blank">search?q=index%3Dlogiq%20sourcetype%3Ddgwip%20host%3D$hosttok$%20skip%3D%22$click.value$%22%20%22$click.name2$%22%3D%22$click.value2$*%22&amp;earliest=0&amp;latest=</link>
         </drilldown>
@@ -122,7 +111,7 @@
           <latest>$timetok.latest$</latest>
         </search>
         <option name="drilldown">none</option>
-        <option name="refresh.display">progressbar</option>
+        <option name="wrap">false</option>
       </table>
     </panel>
   </row>
@@ -139,6 +128,7 @@
         <option name="dataOverlayMode">none</option>
         <option name="drilldown">none</option>
         <option name="refresh.display">progressbar</option>
+        <option name="wrap">false</option>
       </table>
     </panel>
   </row>

@@ -2,10 +2,15 @@
     <define name="sysinfo_datetime" extract="year,month,day,hour,minute,second">
         <text><![CDATA[^\s*ENVIRONMENT INFORMATION FROM [^ ]+ ON\s(\d{4})-(\d{2})-(\d{2}) AT (\d{2}):(\d{2}):(\d{2})]]></text>
     </define>
+    <define name="sysinfo_usdatetime" extract="month,day,year,hour,minute,second,ampm">
+        <text><![CDATA[^\s*ENVIRONMENT INFORMATION FROM [^ ]+ ON\s(\d{1,2})\/(\d{1,2})\/(\d{4}) AT (\d{1,2}):(\d{1,2}):(\d{1,2}) ([AP]M)]]></text>
+    </define>
     <timePatterns>
       <use name="sysinfo_datetime"/> 
+	  <use name="sysinfo_usdatetime"/>
     </timePatterns>
     <datePatterns>
       <use name="sysinfo_datetime"/> 
+	  <use name="sysinfo_usdatetime"/>
     </datePatterns>
 </datetime>
