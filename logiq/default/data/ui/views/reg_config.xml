@@ -1,0 +1,45 @@
+<form>
+  <label>Registry Configuration</label>
+  <description>Registry Configuration</description>
+  <fieldset submitButton="false">
+    <input type="dropdown" token="hosttok" searchWhenChanged="true">
+      <label>Host Name</label>
+      <fieldForLabel>host</fieldForLabel>
+      <fieldForValue>host</fieldForValue>
+      <search>
+        <query>index=logiq |stats count by host</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <choice value="*">All</choice>
+      <default>*</default>
+    </input>
+    <input type="dropdown" token="keytok" searchWhenChanged="true">
+      <label>Key</label>
+      <choice value="*">Any</choice>
+      <default>*</default>
+      <fieldForLabel>rootKey</fieldForLabel>
+      <fieldForValue>rootKey</fieldForValue>
+      <search>
+        <query>index=logiq host=$hosttok|s$ sourcetype=DIAG03 | rex field=key "(?&lt;rootKey&gt;[^\\\\]+).*" | eval lKey = lower(rootKey) | sort 0 lKey | stats count by rootKey</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <suffix>*</suffix>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <search>
+          <query>index=logiq host=$hosttok|s$ sourcetype=DIAG03 key=$keytok|s$ | eval lKey=lower(key) | sort 0 lKey | eval values=mvzip(valueName,valueData,"="),_sorted=mvmap(values, lower(values)),_sorted=mvzip(_sorted,values,"|"),_sorted=mvsort(_sorted),_sorted=mvmap(_sorted,mvindex(split(_sorted,"|"),1)) | rename _sorted AS Values | rename lKey AS Key | fieldformat Key=key</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+        <fields>["Key","Values"]</fields>
+      </table>
+    </panel>
+  </row>
+</form>

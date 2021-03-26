@@ -89,6 +89,8 @@ version = 8.1.2
 modtime = 1615503582.428364000
 
 [views/process_flags]
+access = read : [ * ], write : [ admin ]
+export = none
 owner = admin
 version = 8.1.3
 modtime = 1616697354.649497000
@@ -170,7 +172,7 @@ modtime = 1613778398.630440000
 
 [app/install/install_source_checksum]
 version = 8.1.3
-modtime = 1616787546.080474000
+modtime = 1616824694.549058000
 
 [inputs/monitor%3A%2F%2F%2Flogiq%2F%2A%2FDIAG07-HW_INFO.LOG]
 version = 8.1.2
@@ -227,6 +229,10 @@ modtime = 1614202481.526919000
 version = 8.1.2
 modtime = 1614203693.726688000
 
+[transforms/dropstarlines]
+version = 8.1.2
+modtime = 1614203693.726688000
+
 [savedsearches/dglog_prcsflgs]
 access = read : [ * ], write : [ admin, power ]
 export = none
@@ -252,6 +258,8 @@ version = 8.1.2
 modtime = 1614221481.631209000
 
 [views/aci_classification]
+access = read : [ * ], write : [ admin, power ]
+export = none
 owner = admin
 version = 8.1.3
 modtime = 1616697470.209462000
@@ -264,11 +272,15 @@ version = 8.1.2
 modtime = 1614268620.746932000
 
 [views/config_xml]
+access = read : [ * ], write : [ admin, power ]
+export = none
 owner = admin
 version = 8.1.3
 modtime = 1616460201.592760000
 
 [views/aci_overview]
+access = read : [ * ], write : [ admin, power ]
+export = none
 owner = admin
 version = 8.1.2
 modtime = 1614397101.856024000
@@ -288,6 +300,8 @@ version = 8.1.2
 modtime = 1615427839.121232000
 
 [views/rule_debug]
+access = read : [ * ], write : [ admin, power ]
+export = none
 owner = admin
 version = 8.1.3
 modtime = 1616697483.558849000
@@ -326,16 +340,22 @@ version = 8.1.2
 modtime = 1614719326.998611000
 
 [views/dgagent]
+access = read : [ * ], write : [ admin, power ]
+export = none
 owner = admin
 version = 8.1.3
 modtime = 1616697509.549032000
 
 [views/proservaci]
+access = read : [ * ], write : [ admin, power ]
+export = none
 owner = admin
 version = 8.1.3
 modtime = 1616697498.669090000
 
 [views/compare_config]
+access = read : [ * ], write : [ admin, power ]
+export = none
 owner = admin
 version = 8.1.3
 modtime = 1616460232.543076000
@@ -458,3 +478,26 @@ modtime = 1616637146.162367000
 owner = admin
 version = 8.1.3
 modtime = 1616779047.236544000
+
+[props/DIAG03]
+owner = admin
+version = 8.1.3
+modtime = 1616779047.236544000
+
+[transforms/registryValue]
+version = 8.1.3
+modtime = 1616803950.609225000
+
+[props/DIAG03/EXTRACT-regkey]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.3
+modtime = 1616805604.966831000
+
+[views/reg_config]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.3
+modtime = 1616821676.089204000

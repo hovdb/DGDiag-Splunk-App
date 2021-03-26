@@ -8,7 +8,8 @@
   <view name="dgwip" />
   <view name="dg_log" />
   <view name="aci_classification" />
-  <collection label="Config.xml">
+  <collection label="Config">
+    <view name="reg_config" />
     <view name="config_xml" />
     <view name="compare_config" />
   </collection>
