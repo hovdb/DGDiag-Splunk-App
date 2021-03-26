@@ -458,8 +458,3 @@ modtime = 1616637146.162367000
 owner = admin
 version = 8.1.3
 modtime = 1616779047.236544000
-
-[inputs/monitor%3A%2F%2F%2Fopt%2Flogiq%2F%2A%2FDIAG01-FILE_VERSIONS.CSV]
-owner = admin
-version = 8.1.3
-modtime = 1616773490.430781000
