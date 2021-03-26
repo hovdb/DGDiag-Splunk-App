@@ -32,7 +32,7 @@
       <fieldForLabel>action</fieldForLabel>
       <fieldForValue>action</fieldForValue>
       <search>
-        <query>index=logiq host=$hosttok|s$ (sourcetype=dgwip OR sourcetype=dglog) connectionID=* | rex field=log "^http: proxy (?P&lt;action&gt;.*)\s\[(?P&lt;process&gt;[^\/]+)\/(?P&lt;PID&gt;\d+)].*(?P&lt;method&gt;(GET|PUT|POST|DELETE|PATCH|OPTIONS))\s+(?P&lt;protocol&gt;\w+)\s+\S+\s+(?P&lt;url&gt;[^ ]+)\s+\d+\s+(?P&lt;status&gt;\d+)" | stats count BY action</query>
+        <query>index=logiq host=$hosttok|s$ (sourcetype=dgwip OR sourcetype=dglog) connectionID=* | rex field=log ": proxy (?P&lt;action&gt;.*)\s\[(?P&lt;process&gt;[^\/]+)\/(?P&lt;PID&gt;\d+)].*(?P&lt;method&gt;(GET|PUT|POST|DELETE|PATCH|OPTIONS))\s+(?P&lt;protocol&gt;\w+)\s+\S+\s+(?P&lt;url&gt;[^ ]+)\s+\d+\s+(?P&lt;status&gt;\d+)" | stats count BY action</query>
         <earliest>0</earliest>
         <latest></latest>
       </search>
@@ -51,7 +51,7 @@
       <chart>
         <title>URLs</title>
         <search>
-          <query>index=logiq host=$hosttok|s$ (sourcetype=dgwip OR sourcetype=dglog) connectionID=* | rex field=log "^http: proxy (?P&lt;action&gt;.*)\s\[(?P&lt;process&gt;[^\/]+)\/(?P&lt;PID&gt;\d+)].*(?P&lt;method&gt;(GET|PUT|POST|DELETE|PATCH|OPTIONS))\s+(?P&lt;protocol&gt;\w+)\s+\S+\s+(?P&lt;url&gt;[^ ]+)\s+\d+\s+(?P&lt;status&gt;\d+)" | search action=$actiontok|s$ process=$proctok|s$ | stats count BY url</query>
+          <query>index=logiq host=$hosttok|s$ (sourcetype=dgwip OR sourcetype=dglog) connectionID=* | rex field=log ": proxy (?P&lt;action&gt;.*)\s\[(?P&lt;process&gt;[^\/]+)\/(?P&lt;PID&gt;\d+)].*(?P&lt;method&gt;(GET|PUT|POST|DELETE|PATCH|OPTIONS))\s+(?P&lt;protocol&gt;\w+)\s+\S+\s+(?P&lt;url&gt;[^ ]+)\s+\d+\s+(?P&lt;status&gt;\d+)" | search action=$actiontok|s$ process=$proctok|s$ | stats count BY url</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
@@ -67,7 +67,7 @@
       <title>URLs list</title>
       <table>
         <search>
-          <query>index=logiq host=$hosttok|s$ (sourcetype=dgwip OR sourcetype=dglog) connectionID=* | rex field=log "^http: proxy (?P&lt;action&gt;.*)\s\[(?P&lt;process&gt;[^\/]+)\/(?P&lt;PID&gt;\d+)].*(?P&lt;method&gt;(GET|PUT|POST|DELETE|PATCH|OPTIONS))\s+(?P&lt;protocol&gt;\w+)\s+\S+\s+(?P&lt;url&gt;[^ ]+)\s+\d+\s+(?P&lt;status&gt;\d+)" | search action=$actiontok|s$ process=$proctok|s$ | sort 0 -_time | eval Time = strftime(_time, "%Y-%m-%d %H:%M:%S.%3N") | dedup Time action PID url status | table Time, action, process, PID, url, protocol, method, status</query>
+          <query>index=logiq host=$hosttok|s$ (sourcetype=dgwip OR sourcetype=dglog) connectionID=* | rex field=log ": proxy (?P&lt;action&gt;.*)\s\[(?P&lt;process&gt;[^\/]+)\/(?P&lt;PID&gt;\d+)].*(?P&lt;method&gt;(GET|PUT|POST|DELETE|PATCH|OPTIONS))\s+(?P&lt;protocol&gt;\w+)\s+\S+\s+(?P&lt;url&gt;[^ ]+)\s+\d+\s+(?P&lt;status&gt;\d+)" | search action=$actiontok|s$ process=$proctok|s$ | sort 0 -_time | eval Time = strftime(_time, "%Y-%m-%d %H:%M:%S.%3N") | dedup Time action PID url status | table Time, action, process, PID, url, protocol, method, status</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
           <sampleRatio>1</sampleRatio>
