@@ -1,12 +1,12 @@
 <nav search_view="search">
   <view name="overview" default='true' />
   <view name="sys_info" />
-  <view name="dgwip" />
   <view name="applications_installed" />
+  <view name="task_list" />
   <view name="services_info" />
   <view name="process_flags" />
+  <view name="dgwip" />
   <view name="dg_log" />
-  <view name="task_list" />
   <view name="aci_classification" />
   <collection label="Config.xml">
     <view name="config_xml" />

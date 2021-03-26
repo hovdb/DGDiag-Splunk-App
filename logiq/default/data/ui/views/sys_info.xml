@@ -30,4 +30,18 @@
       </table>
     </panel>
   </row>
+  <row>
+    <panel>
+      <table>
+        <title>Version Information</title>
+        <search>
+          <query>index=logiq host=$hosttok|s$ sourcetype=DIAG01 | rex field="Full Path" ".*\\\\(?&lt;Filename&gt;.*)" | eval lowerFN=lower(Filename) | sort 0 lowerFN | fields - lowerFN | stats list(Filename) AS Filename list("Full Path") AS "Full Path" list(Version) AS Version by host | rename host AS Host | table Host, Filename, Version, "Full Path"</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
 </form>

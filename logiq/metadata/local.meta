@@ -170,7 +170,7 @@ modtime = 1613778398.630440000
 
 [app/install/install_source_checksum]
 version = 8.1.3
-modtime = 1616772929.311484000
+modtime = 1616776279.039947000
 
 [inputs/monitor%3A%2F%2F%2Flogiq%2F%2A%2FDIAG07-HW_INFO.LOG]
 version = 8.1.2
@@ -387,7 +387,7 @@ access = read : [ * ], write : [ admin, power ]
 export = none
 owner = admin
 version = 8.1.3
-modtime = 1616697215.898477000
+modtime = 1616780919.688152000
 
 [props/DIAG06]
 owner = admin
@@ -457,7 +457,7 @@ modtime = 1616637146.162367000
 [props/DIAG01]
 owner = admin
 version = 8.1.3
-modtime = 1616771222.428088000
+modtime = 1616779047.236544000
 
 [inputs/monitor%3A%2F%2F%2Fopt%2Flogiq%2F%2A%2FDIAG01-FILE_VERSIONS.CSV]
 owner = admin
