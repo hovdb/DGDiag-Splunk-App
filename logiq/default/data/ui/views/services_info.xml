@@ -13,6 +13,23 @@
       <choice value="*">All</choice>
       <default>*</default>
     </input>
+    <input type="dropdown" token="statetok">
+      <label>State</label>
+      <choice value="*">Any</choice>
+      <default>Running</default>
+      <fieldForLabel>State</fieldForLabel>
+      <fieldForValue>State</fieldForValue>
+      <search>
+        <query>index=logiq host=$hosttok|s$ sourcetype=diag10 | stats count BY State</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+    </input>
+    <input type="text" token="pathtok">
+      <label>Path</label>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
   </fieldset>
   <row>
     <panel>
@@ -37,12 +54,13 @@
       <table>
         <title>Services</title>
         <search>
-          <query>index=logiq host=$hosttok|s$ sourcetype=diag10 |table Name, DisplayName, Description, PathName, StartMode, State,</query>
+          <query>index=logiq host=$hosttok|s$ sourcetype=diag10 State=$statetok|s$ ProcessPath=$pathtok|s$ | rename Name AS _name | eval Name=lower(_name)|sort 0 Name|fieldformat Name=_name</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
         <option name="drilldown">none</option>
         <option name="refresh.display">progressbar</option>
+        <fields>["Name","DisplayName","Description","ProcessId","PathName","StartMode","State"]</fields>
       </table>
     </panel>
   </row>
