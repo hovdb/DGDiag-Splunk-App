@@ -160,8 +160,11 @@ version = 8.1.3
 modtime = 1616460355.862435000
 
 [nav/default]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = nobody
 version = 8.1.3
-modtime = 1616339832.439884000
+modtime = 1616902407.145376000
 
 [props/prcsflgs/EXTRACT-company]
 access = read : [ * ], write : [ admin ]
@@ -502,3 +505,17 @@ owner = admin
 version = 8.1.3
 modtime = 1616821676.089204000
 
+[views/settings_xml]
+owner = admin
+version = 8.1.3
+modtime = 1616903438.019339000
+
+[props/SETTINGS]
+owner = admin
+version = 8.1.3
+modtime = 1616902759.180837000
+
+[inputs/monitor%3A%2F%2F%2Fopt%2Flogiq]
+owner = admin
+version = 8.1.3
+modtime = 1616902916.895158000

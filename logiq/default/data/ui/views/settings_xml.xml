@@ -1,0 +1,108 @@
+<form>
+  <label>Settings XML</label>
+  <description>settings.xml</description>
+  <fieldset submitButton="false">
+    <input type="dropdown" token="hosttok" searchWhenChanged="true">
+      <label>Host</label>
+      <choice value="*">All</choice>
+      <fieldForLabel>host</fieldForLabel>
+      <fieldForValue>host</fieldForValue>
+      <search>
+        <query>index="logiq" sourcetype="SETTINGS"|stats count by host</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="dropdown" token="polnameTok" searchWhenChanged="true">
+      <label>PolicyName</label>
+      <choice value="*">All</choice>
+      <fieldForLabel>policyName</fieldForLabel>
+      <fieldForValue>policyName</fieldForValue>
+      <search>
+        <query>index="logiq" host=$hosttok|s$ sourcetype="SETTINGS"|stats count by policyName</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="dropdown" token="poltypeTok" searchWhenChanged="true">
+      <label>Policy Type</label>
+      <choice value="*">All</choice>
+      <fieldForLabel>policyType</fieldForLabel>
+      <fieldForValue>policyType</fieldForValue>
+      <search>
+        <query>index="logiq" host=$hosttok|s$ sourcetype="SETTINGS"|stats count by policyType</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="dropdown" token="rulenameTok" searchWhenChanged="true">
+      <label>RuleName</label>
+      <choice value="*">All</choice>
+      <fieldForLabel>ruleName</fieldForLabel>
+      <fieldForValue>ruleName</fieldForValue>
+      <search>
+        <query>index="logiq" host=$hosttok|s$ sourcetype="SETTINGS"|stats count by ruleName</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="dropdown" token="ruletypeTok" searchWhenChanged="true">
+      <label>RuleType</label>
+      <choice value="*">All</choice>
+      <fieldForLabel>ruleType</fieldForLabel>
+      <fieldForValue>ruleType</fieldForValue>
+      <search>
+        <query>index="logiq" host=$hosttok|s$ sourcetype="SETTINGS"|stats count by ruleType</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
+    <input type="text" token="rupolTok" searchWhenChanged="true">
+      <label>Rule or Policy ID</label>
+      <prefix>*</prefix>
+      <suffix>*</suffix>
+      <default>*</default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <title>Polices</title>
+        <search>
+          <query>index="logiq" host=$hosttok|s$ sourcetype="SETTINGS" policyType=$poltypeTok|s$ policyName=$polnameTok|s$ $rupolTok|s$|sort -policyType|table policyName, policyId, policyType, classificationTag, clsfnTagPermanent, enable</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="count">25</option>
+        <option name="drilldown">none</option>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Rules</title>
+        <search>
+          <query>index="logiq" sourcetype="SETTINGS" host=$hosttok$ sourcetype="SETTINGS" ruleName=$rulenameTok|s$ ruleType=$ruletypeTok|s$ $rupolTok|s$|sort -ruleType|table ruleName, ruleId, ruleType, actionType,continueRuleEvaluation</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="count">100</option>
+        <option name="drilldown">cell</option>
+        <drilldown>
+          <set token="rupolTok">$row.ruleId$</set>
+        </drilldown>
+      </table>
+    </panel>
+  </row>
+</form>
