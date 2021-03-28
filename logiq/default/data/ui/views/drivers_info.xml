@@ -1,5 +1,5 @@
 <form>
-  <label>Services Info</label>
+  <label>Drivers Info</label>
   <fieldset submitButton="false">
     <input type="dropdown" token="hosttok" searchWhenChanged="true">
       <label>Host Name</label>
@@ -20,7 +20,7 @@
       <fieldForLabel>State</fieldForLabel>
       <fieldForValue>State</fieldForValue>
       <search>
-        <query>index=logiq host=$hosttok|s$ sourcetype=diag10 | stats count BY State</query>
+        <query>index=logiq host=$hosttok|s$ sourcetype=diag11 | stats count BY State</query>
         <earliest>0</earliest>
         <latest></latest>
       </search>
@@ -52,15 +52,15 @@
   <row>
     <panel>
       <table>
-        <title>Services</title>
+        <title>Drivers</title>
         <search>
-          <query>index=logiq host=$hosttok|s$ sourcetype=diag10 State=$statetok|s$ ProcessPath=$pathtok|s$ | rename Name AS _name | eval Name=lower(_name)|sort 0 Name|fieldformat Name=_name</query>
+          <query>index=logiq host=$hosttok|s$ sourcetype=diag11 State=$statetok|s$ ProcessPath=$pathtok|s$ | rename Name AS _name | eval Name=lower(_name)|sort 0 Name|fieldformat Name=_name</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
         <option name="drilldown">none</option>
         <option name="refresh.display">progressbar</option>
-        <fields>["Name","DisplayName","Description","ProcessId","PathName","StartMode","State"]</fields>
+        <fields>["Name","DisplayName","Description","PathName","StartMode","State"]</fields>
       </table>
     </panel>
   </row>

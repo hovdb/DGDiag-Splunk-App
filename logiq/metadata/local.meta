@@ -69,10 +69,10 @@ owner = admin
 version = 8.1.1
 modtime = 1613574021.820927000
 
-[indexes/test10]
+[props/diag11]
 owner = admin
-version = 8.1.1
-modtime = 1613574042.143277000
+version = 8.1.3
+modtime = 1613574021.820927000
 
 [views/services_info]
 access = read : [ * ], write : [ admin, power ]
@@ -182,6 +182,10 @@ version = 8.1.2
 modtime = 1614189160.493876000
 
 [inputs/monitor%3A%2F%2F%2Flogiq%2F%2A%2FDIAG10-SERVICES_INFO.CSV]
+version = 8.1.2
+modtime = 1614189167.719951000
+
+[inputs/monitor%3A%2F%2F%2Flogiq%2F%2A%2FDIAG11-SYS_DRIVERS_INFO.CSV]
 version = 8.1.2
 modtime = 1614189167.719951000
 
