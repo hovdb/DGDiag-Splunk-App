@@ -32,7 +32,7 @@
     <panel>
       <table>
         <search>
-          <query>index=logiq host=$hosttok|s$ sourcetype=DIAG03 key=$keytok|s$ | eval lKey=lower(key) | sort 0 lKey | eval values=mvzip(valueName,valueData,"="),_sorted=mvmap(values, lower(values)),_sorted=mvzip(_sorted,values,"|"),_sorted=mvsort(_sorted),_sorted=mvmap(_sorted,mvindex(split(_sorted,"|"),1)) | rename _sorted AS Values | rename lKey AS Key | fieldformat Key=key</query>
+          <query>index=logiq host=$hosttok|s$ sourcetype=DIAG03 key=$keytok|s$ | eval Key=lower(key) | sort 0 Key | eval values=mvzip(valueName,valueData,"="),_sorted=mvmap(values, lower(values)),_sorted=mvzip(_sorted,values,"|"),_sorted=mvsort(_sorted),_sorted=mvmap(_sorted,mvindex(split(_sorted,"|"),1)) | rename _sorted AS Values | fieldformat Key=key</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>

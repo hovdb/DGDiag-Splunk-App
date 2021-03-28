@@ -68,7 +68,7 @@
       <table>
         <title>Task List</title>
         <search>
-          <query>index=logiq host=$hosttok|s$ sourcetype=diag12 process=$proctok$ PID=$pidtok$ dll=$dlltok$|rex field=dll mode=sed "s/\s+(.+)/\1/g"|makemv tokenizer=",?\s*([^,]+)" dll|eval _sorted=mvmap(dll, lower(dll)),_sorted=mvzip(_sorted,dll,"|"),_sorted=mvsort(_sorted),_sorted=mvmap(_sorted,mvindex(split(_sorted,"|"),1)),_sorted=mvjoin(_sorted, ", ")|rename _sorted AS DLLs process AS _process|eval Process=lower(_process)|fieldformat Process=_process</query>
+          <query>index=logiq host=$hosttok|s$ sourcetype=diag12 process=$proctok$ PID=$pidtok$ dll=$dlltok$|rex field=dll mode=sed "s/\s+(.+)/\1/g"|makemv tokenizer=",?\s*([^,]+)" dll|eval _sorted=mvmap(dll, lower(dll)),_sorted=mvzip(_sorted,dll,"|"),_sorted=mvsort(_sorted),_sorted=mvmap(_sorted,mvindex(split(_sorted,"|"),1)),_sorted=mvjoin(_sorted, ", ")|rename _sorted AS DLLs process AS _process|eval Process=lower(_process)|sort 0 Process|fieldformat Process=_process</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
@@ -84,7 +84,7 @@
       <table>
         <title>Unique Processes Names</title>
         <search>
-          <query>index=logiq host=$hosttok|s$ sourcetype=diag12 process=$proctok$ PID=$pidtok$ dll=$dlltok$|rename process AS _process|eval Process=lower(_process)|dedup Process|fieldformat Process=_process</query>
+          <query>index=logiq host=$hosttok|s$ sourcetype=diag12 process=$proctok$ PID=$pidtok$ dll=$dlltok$|rename process AS _process|eval Process=lower(_process)|dedup Process|sort 0 Process|fieldformat Process=_process</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
