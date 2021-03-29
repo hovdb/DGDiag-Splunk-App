@@ -1,9 +1,12 @@
 <nav search_view="search">
   <view name="overview" default='true' />
-  <view name="sys_info" />
-  <view name="applications_installed" />
-  <view name="task_list" />
-  <view name="services_info" />
+  <collection label="System Info">
+    <view name="sys_info" />
+    <view name="applications_installed" />
+    <view name="task_list" />
+    <view name="services_info" />
+    <view name="drivers_info" />
+  </collection>
   <view name="process_flags" />
   <view name="dgwip" />
   <view name="dg_log" />
