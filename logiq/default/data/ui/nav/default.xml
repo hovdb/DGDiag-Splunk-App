@@ -16,6 +16,7 @@
     <view name="reg_config" />
     <view name="config_xml" />
     <view name="compare_config" />
+    <view name="content_inspection_config" />
   </collection>
   <collection label="ProServ" >
     <view name="rule_debug" />

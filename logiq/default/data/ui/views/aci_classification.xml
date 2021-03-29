@@ -115,7 +115,6 @@
         <option name="dataOverlayMode">none</option>
         <option name="drilldown">cell</option>
         <option name="percentagesRow">false</option>
-        <option name="refresh.display">progressbar</option>
         <option name="rowNumbers">true</option>
         <option name="totalsRow">true</option>
         <option name="wrap">true</option>
@@ -148,10 +147,11 @@
       <table>
         <title>CI Duration</title>
         <search>
-          <query>index=logiq host=$hosttok|s$ sourcetype=dglog duration&gt;*|table _time, duration, EventType, start_end, File</query>
+          <query>index=logiq host=$hosttok|s$ sourcetype=dglog |rex field=_raw ".*duration=(?P&lt;duration&gt;\S+)ms.*"|search duration&gt;$eltok|s$|table _time, duration, EventType, start_end, File</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
+        <option name="count">50</option>
         <option name="drilldown">none</option>
         <option name="refresh.display">progressbar</option>
         <format type="color" field="duration">

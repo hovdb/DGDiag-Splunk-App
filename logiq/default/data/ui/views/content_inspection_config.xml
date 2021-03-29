@@ -1,0 +1,33 @@
+<form>
+  <label>Content Inspection Config</label>
+  <description>Content Inspection Config ciconfig.xml</description>
+  <fieldset submitButton="false">
+    <input type="dropdown" token="hosttok" searchWhenChanged="true">
+      <label>Host Name</label>
+      <fieldForLabel>host</fieldForLabel>
+      <fieldForValue>host</fieldForValue>
+      <search>
+        <query>index=logiq |stats count by host</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <choice value="*">All</choice>
+      <default>*</default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <title>Target Entity Name and Threshold</title>
+        <search>
+          <query>index="logiq" host=$hosttok|s$ sourcetype="CICONFIG"|table name, threshold</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="count">50</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</form>

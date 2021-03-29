@@ -88,9 +88,11 @@
           <earliest>0</earliest>
           <latest></latest>
         </search>
-        <option name="drilldown">none</option>
-        <option name="refresh.display">progressbar</option>
+        <option name="drilldown">cell</option>
         <fields>["Process"]</fields>
+        <drilldown>
+          <set token="proctok">$click.value2$</set>
+        </drilldown>
       </table>
     </panel>
   </row>
