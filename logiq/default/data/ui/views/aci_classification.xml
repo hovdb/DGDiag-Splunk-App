@@ -46,8 +46,7 @@
     </input>
     <input type="text" token="eltok" searchWhenChanged="true">
       <label>Elapsed &amp; Duration &gt; (MS)</label>
-      <default>*</default>
-      <initialValue>*</initialValue>
+      <default>0</default>
     </input>
     <input type="time" token="timetok" searchWhenChanged="true">
       <label>Time Range</label>
@@ -147,14 +146,14 @@
       <table>
         <title>CI Duration</title>
         <search>
-          <query>index=logiq host=$hosttok|s$ sourcetype=dglog |rex field=_raw ".*duration=(?P&lt;duration&gt;\S+)ms.*"|search duration&gt;$eltok|s$|table _time, duration, EventType, start_end, File</query>
+          <query>index=logiq host=$hosttok|s$ sourcetype=dglog perf=CI_PERF|transaction perf File mvlist=elapsedMS connected=false maxspan=1s maxevents=3|eval totalExtractMS=if(mvcount(elapsedMS)&gt;2,mvindex(elapsedMS,0),null()), totalElapsedMS=if(mvcount(elapsedMS)&gt;2,mvindex(elapsedMS,2),mvindex(elapsedMS,0))|search File=$pathtok|s$ totalElapsedMS&gt;$eltok$|eval Time=strftime(_time, "%Y-%m-%d %H:%M:%S.%3N")|rename totalElapsedMS AS "Total elapsed ms" totalExtractMS AS "Total content extract ms" start_end AS "Start or End?"|table Time,"Total elapsed ms","Total content extract ms",extraction,entity,keyword,"Start or End?",File</query>
           <earliest>$timetok.earliest$</earliest>
           <latest>$timetok.latest$</latest>
         </search>
         <option name="count">50</option>
         <option name="drilldown">none</option>
         <option name="refresh.display">progressbar</option>
-        <format type="color" field="duration">
+        <format type="color" field="Total elapsed ms">
           <colorPalette type="list">[#53A051,#006D9C,#F8BE34,#F1813F,#DC4E41]</colorPalette>
           <scale type="threshold">150,300,600,1200</scale>
         </format>
