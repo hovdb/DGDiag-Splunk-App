@@ -208,6 +208,14 @@ modtime = 1614189222.535081000
 version = 8.1.2
 modtime = 1614189225.502023000
 
+[inputs/evtx%3A%2F%2F%2Flogiq%2F%2A%2FDIAG04-DG_EVT_LOG_APP.evt]
+version = 8.1.3
+modtime = 1614189225.502023000
+
+[inputs/evtx%3A%2F%2F%2Flogiq%2F%2A%2FDIAG05-DG_EVT_LOG_SYS.evt]
+version = 8.1.3
+modtime = 1614189225.502023000
+
 [props/dglog/EXTRACT-dglog%20%3A%20EXTRACT-diskspace]
 access = read : [ * ], write : [ admin, power ]
 export = none
@@ -394,6 +402,16 @@ export = none
 owner = admin
 version = 8.1.3
 modtime = 1616780919.688152000
+
+[props/DIAG04]
+owner = admin
+version = 8.1.3
+modtime = 1616342459.066916000
+
+[props/DIAG05]
+owner = admin
+version = 8.1.3
+modtime = 1616342459.066916000
 
 [props/DIAG06]
 owner = admin
