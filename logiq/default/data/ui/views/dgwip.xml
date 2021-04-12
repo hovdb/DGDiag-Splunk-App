@@ -19,7 +19,7 @@
       <fieldForLabel>process</fieldForLabel>
       <fieldForValue>process</fieldForValue>
       <search>
-        <query>index=logiq host=$hosttok|s$ (sourcetype=dgwip OR sourcetype=dglog) connectionID=* | rex field=log "^http: proxy (?P&lt;action&gt;.*)\s\[(?P&lt;process&gt;[^\/]+)\/(?P&lt;PID&gt;\d+)].*(?P&lt;method&gt;(GET|PUT|POST|DELETE|PATCH|OPTIONS))\s+(?P&lt;protocol&gt;\w+)\s+\S+\s+(?P&lt;url&gt;[^ ]+)\s+\d+\s+(?P&lt;status&gt;\d+)" | stats count BY process</query>
+        <query>index=logiq host=$hosttok|s$ (sourcetype=dgwip OR sourcetype=dglog) connectionID=* | rex field=log ": proxy (?P&lt;action&gt;.*)\s\[(?P&lt;process&gt;[^\/]+)\/(?P&lt;PID&gt;\d+)].*(?P&lt;method&gt;(GET|PUT|POST|DELETE|PATCH|OPTIONS))\s+(?P&lt;protocol&gt;\w+)\s+\S+\s+(?P&lt;url&gt;[^ ]+)\s+\d+\s+(?P&lt;status&gt;\d+)" | stats count BY process</query>
         <earliest>0</earliest>
         <latest></latest>
       </search>
