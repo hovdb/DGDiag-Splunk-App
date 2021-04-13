@@ -19,7 +19,7 @@
       <fieldForLabel>process</fieldForLabel>
       <fieldForValue>process</fieldForValue>
       <search>
-        <query>index=logiq host=$hosttok|s$ (sourcetype=dgwip OR sourcetype=dglog) connectionID=* | rex field=log "^http: proxy (?P&lt;action&gt;.*)\s\[(?P&lt;process&gt;[^\/]+)\/(?P&lt;PID&gt;\d+)].*(?P&lt;method&gt;(GET|PUT|POST|DELETE|PATCH|OPTIONS))\s+(?P&lt;protocol&gt;\w+)\s+\S+\s+(?P&lt;url&gt;[^ ]+)\s+\d+\s+(?P&lt;status&gt;\d+)" | stats count BY process</query>
+        <query>index=logiq host=$hosttok|s$ (sourcetype=dgwip OR sourcetype=dglog) connectionID=* | rex field=log ": proxy (?P&lt;action&gt;.*)\s\[(?P&lt;process&gt;[^\/]+)\/(?P&lt;PID&gt;\d+)].*(?P&lt;method&gt;(GET|PUT|POST|DELETE|PATCH|OPTIONS))\s+(?P&lt;protocol&gt;\w+)\s+\S+\s+(?P&lt;url&gt;[^ ]+)\s+\d+\s+(?P&lt;status&gt;\d+)" | stats count BY process</query>
         <earliest>0</earliest>
         <latest></latest>
       </search>
@@ -91,13 +91,14 @@
       <table>
         <title>config.xml wip settings</title>
         <search>
-          <query>index=logiq host=$hosttok|s$ sourcetype=config_xml NOT !|rex field=_raw "^(?P&lt;Config_Tag&gt;[^\t &gt;]+)[\t ]*(?P&lt;Config_Attrib&gt;[^&gt;]*)&gt;(?P&lt;Config_Value&gt;[^&lt;]*)"|reverse|search Config_Tag=*wip* Config_Value=*  |table Config_Tag, Config_Value, Config_Attrib</query>
+          <query>index="logiq" host=$hosttok|s$ sourcetype="config_xml"|transpose 0 column_name="Config"|rename "row 1" AS Value|regex Config="^appSettings\\.[^{]+$"|join max=0 type=left Config [search index=logiq host=$hosttok|s$ sourcetype=config_xml|transpose 0 column_name="Config"|rename "row 1" AS Value|regex Config="^appSettings\\..*{@"|rex field=Config max_match=0 "(?&lt;Config&gt;[^{]*){@(?&lt;Attribute&gt;.*)}"|eval Attribute=mvzip(Attribute,Value,"=")|fields - Value]|stats list(Attribute) AS Attribute BY Config Value|rex field=Config mode=sed "s/^appSettings\\.(.*)/\\1/g"|eval lConfig=lower(Config)|sort 0 lConfig|search Config="wip*"|rename Config AS _Config lConfig AS Config|fieldformat Config=_Config</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
         <option name="count">50</option>
         <option name="drilldown">none</option>
         <option name="refresh.display">progressbar</option>
+        <fields>["Config","Value","Attribute"]</fields>
       </table>
     </panel>
   </row>

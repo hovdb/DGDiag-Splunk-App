@@ -35,11 +35,11 @@
       <table>
         <title>Full list comparing both config.xml</title>
         <search>
-          <query>index=logiq host=$hosttok2|s$ sourcetype=config_xml NOT !|rex field=_raw "^(?P&lt;Config_Tag&gt;[^\t &gt;]+)[\t ]*(?P&lt;Config_Attrib&gt;[^&gt;]*)&gt;(?P&lt;Config_Value&gt;[^&lt;]*)"|append [search index=logiq host=$hosttok1$ sourcetype=config_xml NOT !|rex field=_raw "^(?P&lt;Config_Tag2&gt;[^\t &gt;]+)[\t ]*(?P&lt;Config_Attrib2&gt;[^&gt;]*)&gt;(?P&lt;Config_Value2&gt;[^&lt;]*)"]|eval config1=Config_Tag." - ".Config_Value." - ".Config_Attrib|eval config2=Config_Tag2." - ".Config_Value2." - ".Config_Attrib2| eval Settings=coalesce(config1, config2) |search $tagtok$|sort - Settings|table host,Settings</query>
+          <query>index="logiq" host=$hosttok2|s$ sourcetype="config_xml"|transpose 0 column_name="Config"|rename "row 1" AS Value|regex Config="^appSettings\\.[^{]+$"|join max=0 type=left Config [search index=logiq host=$hosttok2|s$ sourcetype=config_xml|transpose 0 column_name="Config"|rename "row 1" AS Value|regex Config="^appSettings\\..*{@"|rex field=Config max_match=0 "(?&lt;Config&gt;[^{]*){@(?&lt;Attribute&gt;.*)}"|eval Attribute=mvzip(Attribute,Value,"=")|fields - Value]|stats list(Attribute) AS Attribute BY Config Value|eval host=$hosttok2|s$|append[search index="logiq" host=$hosttok1|s$ sourcetype="config_xml"|transpose 0 column_name="Config"|rename "row 1" AS Value|regex Config="^appSettings\\.[^{]+$"|join max=0 type=left Config [search index=logiq host=$hosttok1|s$ sourcetype=config_xml|transpose 0 column_name="Config"|rename "row 1" AS Value|regex Config="^appSettings\\..*{@"|rex field=Config max_match=0 "(?&lt;Config&gt;[^{]*){@(?&lt;Attribute&gt;.*)}"|eval Attribute=mvzip(Attribute,Value,"=")|fields - Value]|stats list(Attribute) AS Attribute BY Config Value|rename Config AS Config2 Value AS Value2 Attribute AS Attribute2|eval host=$hosttok1|s$]|foreach Config* [rex field=&lt;&lt;FIELD&gt;&gt; mode=sed "s/^appSettings\\.(.*)/\\1/g"]|eval config1=Config." - ".Value." - ".Attribute|eval config2=Config2." - ".Value2." - ".Attribute2| eval Settings=coalesce(config1, config2)|search Settings=$tagtok|s$|sort 0 Settings |table host,Settings</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
-        <option name="count">100</option>
+        <option name="count">20</option>
         <option name="drilldown">none</option>
         <option name="refresh.display">progressbar</option>
       </table>
@@ -48,11 +48,11 @@
       <table>
         <title>Differences between the two config.xml</title>
         <search>
-          <query>index=logiq host=$hosttok1|s$ sourcetype=config_xml NOT !|rex field=_raw "^(?P&lt;Config_Tag&gt;[^\t &gt;]+)[\t ]*(?P&lt;Config_Attrib&gt;[^&gt;]*)&gt;(?P&lt;Config_Value&gt;[^&lt;]*)"|append [search index=logiq host=$hosttok2$ sourcetype=config_xml NOT !|rex field=_raw "^(?P&lt;Config_Tag2&gt;[^\t &gt;]+)[\t ]*(?P&lt;Config_Attrib2&gt;[^&gt;]*)&gt;(?P&lt;Config_Value2&gt;[^&lt;]*)"]|eval config1=Config_Tag." - ".Config_Value." - ".Config_Attrib|eval config2=Config_Tag2." - ".Config_Value2." - ".Config_Attrib2|eval Settings=coalesce(config1, config2) |sort - Settings|search $tagtok$|stats count values(Settings) by Settings|where count=1|sort - Settings|table Settings</query>
+          <query>index="logiq" host=$hosttok2|s$ sourcetype="config_xml"|transpose 0 column_name="Config"|rename "row 1" AS Value|regex Config="^appSettings\\.[^{]+$"|join max=0 type=left Config [search index=logiq host=$hosttok2|s$ sourcetype=config_xml|transpose 0 column_name="Config"|rename "row 1" AS Value|regex Config="^appSettings\\..*{@"|rex field=Config max_match=0 "(?&lt;Config&gt;[^{]*){@(?&lt;Attribute&gt;.*)}"|eval Attribute=mvzip(Attribute,Value,"=")|fields - Value]|stats list(Attribute) AS Attribute BY Config Value|eval host=$hosttok2|s$|append[search index="logiq" host=$hosttok1|s$ sourcetype="config_xml"|transpose 0 column_name="Config"|rename "row 1" AS Value|regex Config="^appSettings\\.[^{]+$"|join max=0 type=left Config [search index=logiq host=$hosttok1|s$ sourcetype=config_xml|transpose 0 column_name="Config"|rename "row 1" AS Value|regex Config="^appSettings\\..*{@"|rex field=Config max_match=0 "(?&lt;Config&gt;[^{]*){@(?&lt;Attribute&gt;.*)}"|eval Attribute=mvzip(Attribute,Value,"=")|fields - Value]|stats list(Attribute) AS Attribute BY Config Value|rename Config AS Config2 Value AS Value2 Attribute AS Attribute2|eval host=$hosttok1|s$]|foreach Config* [rex field=&lt;&lt;FIELD&gt;&gt; mode=sed "s/^appSettings\\.(.*)/\\1/g"]|eval config1=Config." - ".Value." - ".Attribute|eval config2=Config2." - ".Value2." - ".Attribute2|eval Settings=coalesce(config1, config2)|search Settings=$tagtok|s$|stats count list(host) AS host BY Settings|where count=1|sort 0 Settings|table host,Settings</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
-        <option name="count">100</option>
+        <option name="count">20</option>
         <option name="drilldown">none</option>
         <option name="refresh.display">progressbar</option>
       </table>

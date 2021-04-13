@@ -41,7 +41,7 @@ access = read : [ * ], write : [ admin ]
 export = none
 owner = admin
 version = 8.1.3
-modtime = 1616771559.282366000
+modtime = 1617368999.411340000
 
 [views/applications_installed]
 access = read : [ * ], write : [ admin ]
@@ -58,11 +58,6 @@ modtime = 1613159386.988976000
 owner = admin
 version = 8.1.1
 modtime = 1613159906.821452000
-
-[indexes/systeminfo]
-owner = admin
-version = 8.1.1
-modtime = 1613159914.776694000
 
 [props/diag10]
 owner = admin
@@ -175,7 +170,7 @@ modtime = 1613778398.630440000
 
 [app/install/install_source_checksum]
 version = 8.1.3
-modtime = 1617123465.499796000
+modtime = 1618345852.215896000
 
 [inputs/monitor%3A%2F%2F%2Flogiq%2F%2A%2FDIAG07-HW_INFO.LOG]
 version = 8.1.2
@@ -213,6 +208,14 @@ modtime = 1614189222.535081000
 version = 8.1.2
 modtime = 1614189225.502023000
 
+[inputs/evtx%3A%2F%2F%2Flogiq%2F%2A%2FDIAG04-DG_EVT_LOG_APP.evt]
+version = 8.1.3
+modtime = 1614189225.502023000
+
+[inputs/evtx%3A%2F%2F%2Flogiq%2F%2A%2FDIAG05-DG_EVT_LOG_SYS.evt]
+version = 8.1.3
+modtime = 1614189225.502023000
+
 [props/dglog/EXTRACT-dglog%20%3A%20EXTRACT-diskspace]
 access = read : [ * ], write : [ admin, power ]
 export = none
@@ -227,18 +230,12 @@ owner = admin
 version = 8.1.2
 modtime = 1614198585.916351000
 
-[indexes/test]
-owner = admin
-version = 8.1.2
-modtime = 1614202481.526919000
-
-[transforms/configfields]
-version = 8.1.2
-modtime = 1614203693.726688000
-
 [transforms/dropstarlines]
-version = 8.1.2
-modtime = 1614203693.726688000
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = nobody
+version = 8.1.3
+modtime = 1617068884.562879000
 
 [savedsearches/dglog_prcsflgs]
 access = read : [ * ], write : [ admin, power ]
@@ -256,13 +253,8 @@ modtime = 1614372112.205866000
 
 [props/config_xml]
 owner = admin
-version = 8.1.2
-modtime = 1614794969.258953000
-
-[indexes/test2]
-owner = admin
-version = 8.1.2
-modtime = 1614221481.631209000
+version = 8.1.3
+modtime = 1617077854.620360000
 
 [views/aci_classification]
 access = read : [ * ], write : [ admin, power ]
@@ -283,7 +275,7 @@ access = read : [ * ], write : [ admin, power ]
 export = none
 owner = admin
 version = 8.1.3
-modtime = 1616460201.592760000
+modtime = 1617315198.881166000
 
 [views/aci_overview]
 access = read : [ * ], write : [ admin, power ]
@@ -348,11 +340,6 @@ owner = admin
 version = 8.1.2
 modtime = 1614707321.217420000
 
-[indexes/testers]
-owner = admin
-version = 8.1.2
-modtime = 1614719326.998611000
-
 [views/dgagent]
 access = read : [ * ], write : [ admin, power ]
 export = none
@@ -372,7 +359,7 @@ access = read : [ * ], write : [ admin, power ]
 export = none
 owner = admin
 version = 8.1.3
-modtime = 1616460232.543076000
+modtime = 1617315165.601158000
 
 [props/dglog/EXTRACT-EventType%2CcacheAction%2CPID%2Cprocess%2Cparent_PID%2Cparent_process%2CprocessGUID%2CparentGUID]
 access = read : [ * ], write : [ admin, power ]
@@ -380,13 +367,6 @@ export = none
 owner = admin
 version = 8.1.3
 modtime = 1616594484.053591000
-
-[props/config_xml/EXTRACT-Config_Tag%2CConfig_Attrib%2CConfig_Value]
-access = read : [ * ], write : [ admin, power ]
-export = none
-owner = admin
-version = 8.1.2
-modtime = 1615483148.502331000
 
 [props/dglog/EVAL-sorted_flags]
 access = read : [ * ], write : [ admin, power ]
@@ -422,6 +402,16 @@ export = none
 owner = admin
 version = 8.1.3
 modtime = 1616780919.688152000
+
+[props/DIAG04]
+owner = admin
+version = 8.1.3
+modtime = 1616342459.066916000
+
+[props/DIAG05]
+owner = admin
+version = 8.1.3
+modtime = 1616342459.066916000
 
 [props/DIAG06]
 owner = admin
@@ -499,12 +489,18 @@ version = 8.1.3
 modtime = 1616779047.236544000
 
 [transforms/registryValue]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = nobody
 version = 8.1.3
-modtime = 1616803950.609225000
+modtime = 1617068903.566519000
 
 [transforms/extractPathFileParamsComplex]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = nobody
 version = 8.1.3
-modtime = 1616803950.609225000
+modtime = 1617068889.194559000
 
 [props/DIAG03/EXTRACT-regkey]
 access = read : [ * ], write : [ admin, power ]
@@ -544,3 +540,60 @@ modtime = 1617036759.175056000
 owner = admin
 version = 8.1.3
 modtime = 1617037920.332762000
+
+[savedsearches/configAttributes]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.3
+modtime = 1618247538.888819000
+
+[props/DIAG03/REPORT-regvalue]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.3
+modtime = 1617068785.909182000
+
+[props/DIAG07/REPORT-fields]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.3
+modtime = 1617068800.911313000
+
+[props/diag10/REPORT-PathName]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.3
+modtime = 1617068833.410674000
+
+[props/diag11/REPORT-PathName]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.3
+modtime = 1617068840.920856000
+
+[props/dglog/EVAL-flags_sorted]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.3
+modtime = 1617068865.918200000
+
+[transforms/fields]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = nobody
+version = 8.1.3
+modtime = 1617068894.006864000
+
+[transforms/prcsflgs]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = nobody
+version = 8.1.3
+modtime = 1617068898.621114000
+
