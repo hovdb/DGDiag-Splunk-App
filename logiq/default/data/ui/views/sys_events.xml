@@ -1,0 +1,48 @@
+<form>
+  <label>Windows System Events</label>
+  <fieldset submitButton="false">
+    <input type="dropdown" token="hosttok" searchWhenChanged="true">
+      <label>Host Name</label>
+      <fieldForLabel>host</fieldForLabel>
+      <fieldForValue>host</fieldForValue>
+      <search>
+        <query>index=logiq |stats count by host</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <choice value="*">All</choice>
+      <default>*</default>
+    </input>
+    <input type="text" token="toklevel">
+      <label>Level</label>
+      <default>2</default>
+    </input>
+    <input type="dropdown" token="tokprovider">
+      <label>Provider</label>
+      <choice value="*">Any</choice>
+      <default>*</default>
+      <fieldForLabel>Provider</fieldForLabel>
+      <fieldForValue>Provider</fieldForValue>
+      <search>
+        <query>index="logiq" host=$hosttok|s$ sourcetype="DIAG05" Event.System.Level&lt;=$toklevel$|rename Event.System.Provider{@Name} AS Provider|stats count by Provider|eval _lp=lower(Provider)|sort _lp</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <title>Windows Application Events</title>
+        <search>
+          <query>index="logiq" host=$hosttok|s$ sourcetype="DIAG05"|rename Event.System.Computer AS Computer, Event.System.Provider{@Name} AS Provider, Event.System.Level AS Level, Event.EventData.Data AS DataValues, Event.EventData.Data{@Name} AS DataNames|search Level&lt;=$toklevel$ Provider=$tokprovider|s$|spath input=DataValues output=EventData path=string|eval EventData=if(isnull(EventData),mvzip(DataNames,DataValues,"="),EventData)|table _time,Computer,Provider,Level,EventData</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="count">100</option>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+      </table>
+    </panel>
+  </row>
+</form>
