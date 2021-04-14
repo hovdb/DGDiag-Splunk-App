@@ -152,14 +152,14 @@ access = read : [ * ], write : [ admin, power ]
 export = none
 owner = admin
 version = 8.1.3
-modtime = 1617040515.720034000
+modtime = 1618515513.338130000
 
 [nav/default]
 access = read : [ * ], write : [ admin, power ]
 export = none
 owner = nobody
 version = 8.1.3
-modtime = 1618416837.241165000
+modtime = 1618505927.511602000
 
 [props/prcsflgs/EXTRACT-company]
 access = read : [ * ], write : [ admin ]
@@ -170,7 +170,7 @@ modtime = 1613778398.630440000
 
 [app/install/install_source_checksum]
 version = 8.1.3
-modtime = 1618421807.760837000
+modtime = 1618512246.023769000
 
 [inputs/monitor%3A%2F%2F%2Flogiq%2F%2A%2FDIAG07-HW_INFO.LOG]
 version = 8.1.2
@@ -602,12 +602,19 @@ access = read : [ * ], write : [ admin, power ]
 export = none
 owner = admin
 version = 8.1.3
-modtime = 1618420671.040692000
+modtime = 1618511837.597704000
 
 [views/sys_events]
 access = read : [ * ], write : [ admin, power ]
 export = none
 owner = admin
 version = 8.1.3
-modtime = 1618421504.385230000
+modtime = 1618496393.458227000
+
+[views/dg_events]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.3
+modtime = 1618510572.518292000
 
