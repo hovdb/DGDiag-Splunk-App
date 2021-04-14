@@ -18,6 +18,10 @@
     <view name="compare_config" />
     <view name="content_inspection_config" />
   </collection>
+  <collection label="Event Logs">
+    <view name="app_events" />
+    <view name="sys_events" />
+  </collection>
   <collection label="ProServ" >
     <view name="rule_debug" />
     <view name="proservaci" />
