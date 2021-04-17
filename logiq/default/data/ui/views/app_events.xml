@@ -13,21 +13,40 @@
       <choice value="*">All</choice>
       <default>*</default>
     </input>
-    <input type="text" token="toklevel">
-      <label>Level</label>
-      <default>2</default>
+    <input type="multiselect" token="toklevels">
+      <label>Level in</label>
+      <choice value="*">Any</choice>
+      <delimiter>,</delimiter>
+      <fieldForLabel>level_type</fieldForLabel>
+      <fieldForValue>Level</fieldForValue>
+      <search>
+        <query>index="logiq" host=$hosttok|s$ sourcetype="DIAG04"|appendpipe[|inputlookup evt_levels|rename level AS Event.System.Level]|rename Event.System.Level AS Level|eval level_type=if(isnull(level_type),Level,level_type)|stats count by Level,level_type</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <default>1,2</default>
     </input>
-    <input type="dropdown" token="tokprovider">
-      <label>Provider</label>
+    <input type="multiselect" token="tokproviders">
+      <label>Providers</label>
       <choice value="*">Any</choice>
       <default>*</default>
       <fieldForLabel>Provider</fieldForLabel>
       <fieldForValue>Provider</fieldForValue>
       <search>
-        <query>index="logiq" host=$hosttok|s$ sourcetype="DIAG04" Event.System.Level&lt;=$toklevel$|rename Event.System.Provider{@Name} AS Provider|stats count by Provider|eval _lp=lower(Provider)|sort _lp</query>
+        <query>index="logiq" host=$hosttok|s$ sourcetype="DIAG04" Event.System.Level IN ($toklevels$)|rename Event.System.Provider{@Name} AS Provider|stats count by Provider|eval _lp=lower(Provider)|sort 0 _lp</query>
         <earliest>0</earliest>
         <latest></latest>
       </search>
+      <delimiter>,</delimiter>
+      <valuePrefix>"</valuePrefix>
+      <valueSuffix>"</valueSuffix>
+    </input>
+    <input type="time" token="timetok" searchWhenChanged="true">
+      <label>Event Time</label>
+      <default>
+        <earliest>0</earliest>
+        <latest></latest>
+      </default>
     </input>
   </fieldset>
   <row>
@@ -35,13 +54,14 @@
       <table>
         <title>Windows Application Events</title>
         <search>
-          <query>index="logiq" host=$hosttok|s$ sourcetype="DIAG04"|rename Event.System.Computer AS Computer, Event.System.Provider{@Name} AS Provider, Event.System.Level AS Level, Event.EventData.Data AS DataValues, Event.EventData.Data{@Name} AS DataNames|search Level&lt;=$toklevel$ Provider=$tokprovider|s$|spath input=DataValues output=EventData path=string|eval EventData=if(isnull(EventData),mvzip(DataNames,DataValues,"="),EventData)|table _time,Computer,Provider,Level,EventData</query>
-          <earliest>0</earliest>
-          <latest></latest>
+          <query>index="logiq" host=$hosttok|s$ sourcetype="DIAG04"|rename Event.System.Computer AS Computer, Event.System.Provider{@Name} AS Provider, Event.System.Level AS Level, Event.EventData.Data AS DataValues, Event.EventData.Data{@Name} AS DataNames|search Level IN($toklevels$) Provider IN ($tokproviders$)|xpath field=DataValues outfield=EventData "./string"|eval EventData=if(isnull(EventData),mvzip(DataNames,DataValues,"="),EventData)|eval level_type=if(isnull(level_type),Level,level_type)|sort 0 -_time|fieldformat Level=level_type</query>
+          <earliest>$timetok.earliest$</earliest>
+          <latest>$timetok.latest$</latest>
         </search>
-        <option name="count">100</option>
+        <option name="count">25</option>
         <option name="drilldown">none</option>
         <option name="refresh.display">progressbar</option>
+        <fields>["_time","Computer","Provider","Level","EventData"]</fields>
       </table>
     </panel>
   </row>

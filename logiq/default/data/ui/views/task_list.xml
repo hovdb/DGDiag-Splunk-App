@@ -72,8 +72,7 @@
           <earliest>0</earliest>
           <latest></latest>
         </search>
-        <option name="drilldown">cell</option>
-        <option name="refresh.display">progressbar</option>
+        <option name="drilldown">none</option>
         <fields>["Process","PID","DLLs"]</fields>
         <drilldown>
           <link target="_blank">/app/logiq/dg_log?form.pid=$click.value2$</link>
@@ -88,7 +87,8 @@
           <earliest>0</earliest>
           <latest></latest>
         </search>
-        <option name="drilldown">cell</option>
+        <option name="count">25</option>
+        <option name="drilldown">none</option>
         <fields>["Process"]</fields>
         <drilldown>
           <set token="proctok">$click.value2$</set>

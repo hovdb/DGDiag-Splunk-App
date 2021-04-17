@@ -21,6 +21,7 @@
   <collection label="Event Logs">
     <view name="app_events" />
     <view name="sys_events" />
+    <view name="dg_events" />
   </collection>
   <collection label="ProServ" >
     <view name="rule_debug" />

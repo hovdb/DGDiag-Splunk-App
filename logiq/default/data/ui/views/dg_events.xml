@@ -1,0 +1,54 @@
+<form>
+  <label>DG Events</label>
+  <fieldset submitButton="false">
+    <input type="dropdown" token="hosttok" searchWhenChanged="true">
+      <label>Host Name</label>
+      <fieldForLabel>host</fieldForLabel>
+      <fieldForValue>host</fieldForValue>
+      <search>
+        <query>index=logiq |stats count by host</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <choice value="*">All</choice>
+      <default>*</default>
+    </input>
+    <input type="time" token="timetok" searchWhenChanged="true">
+      <label>Event Time</label>
+      <default>
+        <earliest>0</earliest>
+        <latest></latest>
+      </default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <table>
+        <title>DG involved events</title>
+        <search>
+          <query>index="logiq" host=$hosttok|s$ sourcetype="DIAG04" Event.System.EventID=1000|rename Event.System.Computer AS Computer, Event.System.Provider{@Name} AS Provider, Event.System.Level AS Level, Event.EventData.Data AS DataValues, Event.EventData.Data{@Name} AS DataNames|xpath field=DataValues outfield=EventData "./string"|eval EventData=if(isnull(EventData),mvzip(DataNames,DataValues,"="),EventData)|eval level_type=if(isnull(level_type),Level,level_type)|eval dg_modules=[|inputlookup dg_modules|stats values(module_name) as query|eval query=mvjoin(query,"|")|fields query]|eval dg_modules=split(dg_modules,"|")|eval module_index=mvmap(dg_modules, mvfind(EventData, dg_modules))|search module_index=*|sort 0 -_time|fieldformat Level=level_type</query>
+          <earliest>$timetok.earliest$</earliest>
+          <latest>$timetok.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+        <fields>["_time","Computer","Provider","Level","EventData"]</fields>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>DG installer events</title>
+        <search>
+          <query>index="logiq" host=$hosttok|s$ sourcetype="DIAG04" Event.System.EventID=1013 Event.System.Provider{@Name}="MsiInstaller"|rename Event.System.Computer AS Computer, Event.System.Provider{@Name} AS Provider, Event.System.Level AS Level, Event.EventData.Data AS DataValues, Event.EventData.Data{@Name} AS DataNames|xpath field=DataValues outfield=EventData "./string"|eval EventData=if(isnull(EventData),mvzip(DataNames,DataValues,"="),EventData)|eval level_type=if(isnull(level_type),Level,level_type)|eval found_dg=mvfilter(like(EventData,"%Digital Guardian%"))|search found_dg=*|sort 0 -_time|fieldformat Level=level_type</query>
+          <earliest>$timetok.earliest$</earliest>
+          <latest>$timetok.latest$</latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="refresh.display">progressbar</option>
+        <fields>["_time","Computer","Provider","Level","EventData"]</fields>
+      </table>
+    </panel>
+  </row>
+</form>
