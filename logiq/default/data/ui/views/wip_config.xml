@@ -1,0 +1,84 @@
+<form>
+  <label>WIP Config</label>
+  <fieldset submitButton="false">
+    <input type="dropdown" token="hosttok" searchWhenChanged="true">
+      <label>Host Name</label>
+      <fieldForLabel>host</fieldForLabel>
+      <fieldForValue>host</fieldForValue>
+      <search>
+        <query>index=logiq|stats count by host</query>
+        <earliest>0</earliest>
+        <latest></latest>
+      </search>
+      <choice value="*">All</choice>
+      <default>*</default>
+    </input>
+  </fieldset>
+  <row>
+    <panel>
+      <single>
+        <title>Host Name(s)</title>
+        <search>
+          <query>index="logiq" host=$hosttok|s$ sourcetype="wipconfig"|eventstats max(config_version) AS version_limit|where config_version=version_limit|stats count by host|eval lc=lower(host)|sort lc|fields host|mvcombine delim=", " host|nomv host</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0xdc4e41"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <single>
+        <title>WIP config version</title>
+        <search>
+          <query>index="logiq" host=$hosttok|s$ sourcetype="wipconfig"|stats max(config_version) AS version_limit</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>Settings used by WIP process</title>
+        <search>
+          <query>index="logiq" host=$hosttok|s$ sourcetype="wipconfig"|eventstats max(config_version) AS version_limit|where config_version=version_limit|fields - _*|fields config.*|transpose 0 column_name="_config"|rename "row 1" AS Value|rex field=_config mode=sed "s/^config\\.(.*)/\\1/g"|eval Config=lower(_config)|sort 0 Config|fieldformat Config=_config</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="drilldown">none</option>
+        <option name="wrap">false</option>
+        <fields>["Config","Value"]</fields>
+      </table>
+    </panel>
+  </row>
+  <row>
+    <panel>
+      <table>
+        <title>config.xml WIP settings</title>
+        <search>
+          <query>index="logiq" host=$hosttok|s$ sourcetype="config_xml"|transpose 0 column_name="Config"|rename "row 1" AS Value|regex Config="^appSettings\\.[^{]+$"|join max=0 type=left Config [search index=logiq host=$hosttok|s$ sourcetype=config_xml|transpose 0 column_name="Config"|rename "row 1" AS Value|regex Config="^appSettings\\..*{@"|rex field=Config max_match=0 "(?&lt;Config&gt;[^{]*){@(?&lt;Attribute&gt;.*)}"|eval Attribute=mvzip(Attribute,Value,"=")|fields - Value]|stats list(Attribute) AS Attribute BY Config Value|rex field=Config mode=sed "s/^appSettings\\.(.*)/\\1/g"|eval lConfig=lower(Config)|sort 0 lConfig|search Config="wip*"|rename Config AS _Config lConfig AS Config|fieldformat Config=_Config</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="count">50</option>
+        <option name="drilldown">none</option>
+        <option name="wrap">false</option>
+        <fields>["Config","Value"]</fields>
+      </table>
+    </panel>
+  </row>
+</form>

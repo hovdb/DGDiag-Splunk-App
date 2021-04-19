@@ -20,7 +20,7 @@
       <table>
         <title>Target Entity Name and Threshold</title>
         <search>
-          <query>index="logiq" host=$hosttok|s$ sourcetype="CICONFIG"|table name, threshold</query>
+          <query>index="logiq" host=$hosttok|s$ sourcetype="CICONFIG"|eval lc=lower(name)|sort 0 lc|stats list(name) AS Name list(threshold) AS Threshold by host|rename host AS Host|table Host, Name, Threshold</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>

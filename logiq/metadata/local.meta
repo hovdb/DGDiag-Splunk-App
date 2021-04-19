@@ -41,14 +41,14 @@ access = read : [ * ], write : [ admin ]
 export = none
 owner = admin
 version = 8.1.3
-modtime = 1618605307.674068000
+modtime = 1618784230.141781000
 
 [views/applications_installed]
 access = read : [ * ], write : [ admin ]
 export = none
 owner = admin
 version = 8.1.3
-modtime = 1616460537.683945000
+modtime = 1618788782.825679000
 
 [props/DIAG07]
 version = 8.1.1
@@ -74,7 +74,7 @@ access = read : [ * ], write : [ admin, power ]
 export = none
 owner = admin
 version = 8.1.3
-modtime = 1616955861.081253000
+modtime = 1618788841.006085000
 
 [views/overview]
 access = read : [ * ], write : [ admin ]
@@ -88,7 +88,7 @@ access = read : [ * ], write : [ admin ]
 export = none
 owner = admin
 version = 8.1.3
-modtime = 1616697354.649497000
+modtime = 1618795725.666702000
 
 [props/dglog/EXTRACT-processFlags]
 access = read : [ * ], write : [ admin ]
@@ -152,14 +152,14 @@ access = read : [ * ], write : [ admin, power ]
 export = none
 owner = admin
 version = 8.1.3
-modtime = 1618515513.338130000
+modtime = 1618788825.596571000
 
 [nav/default]
 access = read : [ * ], write : [ admin, power ]
 export = none
 owner = nobody
 version = 8.1.3
-modtime = 1618505927.511602000
+modtime = 1618757847.728193000
 
 [props/prcsflgs/EXTRACT-company]
 access = read : [ * ], write : [ admin ]
@@ -170,7 +170,7 @@ modtime = 1613778398.630440000
 
 [app/install/install_source_checksum]
 version = 8.1.3
-modtime = 1618604488.458548000
+modtime = 1618757337.952308000
 
 [inputs/monitor%3A%2F%2F%2Flogiq%2F%2A%2FDIAG07-HW_INFO.LOG]
 version = 8.1.2
@@ -519,7 +519,7 @@ modtime = 1616956312.321511000
 [views/settings_xml]
 owner = admin
 version = 8.1.3
-modtime = 1616903438.019339000
+modtime = 1618795966.387600000
 
 [props/SETTINGS]
 owner = admin
@@ -539,7 +539,7 @@ modtime = 1617036759.175056000
 [views/content_inspection_config]
 owner = admin
 version = 8.1.3
-modtime = 1617037920.332762000
+modtime = 1618796995.687353000
 
 [savedsearches/configAttributes]
 access = read : [ * ], write : [ admin, power ]
@@ -602,14 +602,14 @@ access = read : [ * ], write : [ admin, power ]
 export = none
 owner = admin
 version = 8.1.3
-modtime = 1618511837.597704000
+modtime = 1618760766.285746000
 
 [views/sys_events]
 access = read : [ * ], write : [ admin, power ]
 export = none
 owner = admin
 version = 8.1.3
-modtime = 1618496393.458227000
+modtime = 1618761127.657073000
 
 [views/dg_events]
 access = read : [ * ], write : [ admin, power ]
@@ -647,3 +647,14 @@ modtime = 1617068903.566519000
 [inputs/monitor%3A%2F%2F%2Flogiq%2F%2A%2FDgWip%2FV%2A.cfg%2Fconfig.json]
 version = 8.1.3
 modtime = 1614189225.502023000
+
+[views/wip_config]
+access = read : [ * ], write : [ admin, power ]
+export = none
+owner = admin
+version = 8.1.3
+modtime = 1618796579.326568000
+
+[views/drivers_info]
+version = 8.1.3
+modtime = 1618788855.747111000

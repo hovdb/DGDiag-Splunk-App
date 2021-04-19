@@ -28,12 +28,17 @@
       <default>*</default>
       <initialValue>*</initialValue>
     </input>
+    <input type="text" token="pidtok" searchWhenChanged="true">
+      <label>PID</label>
+      <default>*</default>
+      <initialValue>*</initialValue>
+    </input>
     <input type="dropdown" token="comptok" searchWhenChanged="true">
       <label>Company</label>
       <fieldForLabel>company</fieldForLabel>
       <fieldForValue>company</fieldForValue>
       <search>
-        <query>index=logiq sourcetype=prcsflgs|stats count by company</query>
+        <query>index=logiq sourcetype=prcsflgs|stats count by company|eval lc=lower(company)|sort 0 lc</query>
         <earliest>0</earliest>
         <latest></latest>
       </search>
@@ -48,11 +53,6 @@
         <earliest>0</earliest>
         <latest></latest>
       </default>
-    </input>
-    <input type="text" token="pidtok" searchWhenChanged="true">
-      <label>PID</label>
-      <default>*</default>
-      <initialValue>*</initialValue>
     </input>
   </fieldset>
   <row>

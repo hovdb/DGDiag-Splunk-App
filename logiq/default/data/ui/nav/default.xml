@@ -14,6 +14,7 @@
   <view name="settings_xml" />
   <collection label="Config">
     <view name="reg_config" />
+    <view name="wip_config" />
     <view name="config_xml" />
     <view name="compare_config" />
     <view name="content_inspection_config" />

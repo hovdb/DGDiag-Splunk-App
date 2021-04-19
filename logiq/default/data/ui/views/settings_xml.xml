@@ -21,7 +21,7 @@
       <fieldForLabel>policyName</fieldForLabel>
       <fieldForValue>policyName</fieldForValue>
       <search>
-        <query>index="logiq" host=$hosttok|s$ sourcetype="SETTINGS"|stats count by policyName</query>
+        <query>index="logiq" host=$hosttok|s$ sourcetype="SETTINGS"|stats count by policyName|eval lc=lower(policyName)|sort 0 lc</query>
         <earliest>0</earliest>
         <latest></latest>
       </search>
@@ -47,7 +47,7 @@
       <fieldForLabel>ruleName</fieldForLabel>
       <fieldForValue>ruleName</fieldForValue>
       <search>
-        <query>index="logiq" host=$hosttok|s$ sourcetype="SETTINGS"|stats count by ruleName</query>
+        <query>index="logiq" host=$hosttok|s$ sourcetype="SETTINGS"|stats count by ruleName|eval lc=lower(ruleName)|sort 0 lc</query>
         <earliest>0</earliest>
         <latest></latest>
       </search>

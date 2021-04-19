@@ -7,7 +7,7 @@
       <fieldForLabel>host</fieldForLabel>
       <fieldForValue>host</fieldForValue>
       <search>
-        <query>index=logiq |stats count by host</query>
+        <query>index=logiq |stats count by host|eval lc=lower(host)|sort 0  lc</query>
         <earliest>0</earliest>
         <latest></latest>
       </search>
@@ -32,6 +32,24 @@
       <initialValue>*</initialValue>
     </input>
   </fieldset>
+  <row>
+    <panel>
+      <single>
+        <title>Host Name(s)</title>
+        <search>
+          <query>index=logiq host=$hosttok|s$|stats count by host|eval lc=lower(host)|sort lc|fields host|mvcombine delim=", " host|nomv host</query>
+          <earliest>0</earliest>
+          <latest></latest>
+        </search>
+        <option name="colorMode">block</option>
+        <option name="drilldown">none</option>
+        <option name="rangeColors">["0x53a051","0xdc4e41"]</option>
+        <option name="rangeValues">[0]</option>
+        <option name="refresh.display">progressbar</option>
+        <option name="useColors">1</option>
+      </single>
+    </panel>
+  </row>
   <row>
     <panel>
       <single>

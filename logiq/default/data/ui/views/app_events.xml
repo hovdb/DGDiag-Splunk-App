@@ -25,6 +25,9 @@
         <latest></latest>
       </search>
       <default>1,2</default>
+      <change>
+        <eval token="form.toklevels">if(mvcount('form.toklevels')>1,if(mvfind('form.toklevels',"^\\*+$")=0,mvfilter('form.toklevels'!="*"),if(mvfind('form.toklevels',"\\*")=mvcount('form.toklevels')-1,mvfilter('form.toklevels'="*"),'form.toklevels')),'form.toklevels')</eval>
+      </change>
     </input>
     <input type="multiselect" token="tokproviders">
       <label>Providers</label>
@@ -40,6 +43,9 @@
       <delimiter>,</delimiter>
       <valuePrefix>"</valuePrefix>
       <valueSuffix>"</valueSuffix>
+      <change>
+        <eval token="form.tokproviders">if(mvcount('form.tokproviders')>1,if(mvfind('form.tokproviders',"^\\*+$")=0,mvfilter('form.tokproviders'!="*"),if(mvfind('form.tokproviders',"\\*")=mvcount('form.tokproviders')-1,mvfilter('form.tokproviders'="*"),'form.tokproviders')),'form.tokproviders')</eval>
+      </change>
     </input>
     <input type="time" token="timetok" searchWhenChanged="true">
       <label>Event Time</label>

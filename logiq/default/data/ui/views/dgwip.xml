@@ -89,37 +89,6 @@
   <row>
     <panel>
       <table>
-        <title>Actual wip settings</title>
-        <search>
-          <query>index="logiq" host=$hosttok|s$ sourcetype="wipconfig"|eventstats max(config_version) AS version_limit|where config_version=version_limit|fields - _*|fields config.*|transpose 0 column_name="_config"|rename "row 1" AS Value|rex field=_config mode=sed "s/^config\\.(.*)/\\1/g"|eval Config=lower(_config)|sort 0 lc|fieldformat Config=_config</query>
-          <earliest>0</earliest>
-          <latest></latest>
-        </search>
-        <option name="drilldown">none</option>
-        <option name="wrap">false</option>
-        <fields>["Config","Value"]</fields>
-      </table>
-    </panel>
-  </row>
-  <row>
-    <panel>
-      <table>
-        <title>config.xml wip settings</title>
-        <search>
-          <query>index="logiq" host=$hosttok|s$ sourcetype="config_xml"|transpose 0 column_name="Config"|rename "row 1" AS Value|regex Config="^appSettings\\.[^{]+$"|join max=0 type=left Config [search index=logiq host=$hosttok|s$ sourcetype=config_xml|transpose 0 column_name="Config"|rename "row 1" AS Value|regex Config="^appSettings\\..*{@"|rex field=Config max_match=0 "(?&lt;Config&gt;[^{]*){@(?&lt;Attribute&gt;.*)}"|eval Attribute=mvzip(Attribute,Value,"=")|fields - Value]|stats list(Attribute) AS Attribute BY Config Value|rex field=Config mode=sed "s/^appSettings\\.(.*)/\\1/g"|eval lConfig=lower(Config)|sort 0 lConfig|search Config="wip*"|rename Config AS _Config lConfig AS Config|fieldformat Config=_Config</query>
-          <earliest>0</earliest>
-          <latest></latest>
-        </search>
-        <option name="count">50</option>
-        <option name="drilldown">none</option>
-        <option name="wrap">false</option>
-        <fields>["Config","Value","Attribute"]</fields>
-      </table>
-    </panel>
-  </row>
-  <row>
-    <panel>
-      <table>
         <title>WIP events by request</title>
         <search>
           <query>index=logiq host=$hosttok|s$ (sourcetype=dgwip OR sourcetype=dglog) connectionID=* | regex requestID="\d+" | sort 0 -_time | stats list(log) AS log list(_time) as _time by connectionID requestID | sort 0 -connectionID, -requestID | eval Time = strftime(_time, "%Y-%m-%d %H:%M:%S.%3N") | rename connectionID AS Connection, requestID AS Request, log AS Log | table Connection, Request, Time, Log</query>

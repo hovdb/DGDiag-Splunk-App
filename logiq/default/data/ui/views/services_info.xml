@@ -6,7 +6,7 @@
       <fieldForLabel>host</fieldForLabel>
       <fieldForValue>host</fieldForValue>
       <search>
-        <query>index=logiq |stats count by host</query>
+        <query>index=logiq |stats count by host|eval lc=lower(host)|sort 0  lc</query>
         <earliest>0</earliest>
         <latest></latest>
       </search>
@@ -20,7 +20,7 @@
       <fieldForLabel>State</fieldForLabel>
       <fieldForValue>State</fieldForValue>
       <search>
-        <query>index=logiq host=$hosttok|s$ sourcetype=diag10 | stats count BY State</query>
+        <query>index=logiq host=$hosttok|s$ sourcetype=diag10 | stats count BY State|eval lc=lower(State)|sort 0 lc</query>
         <earliest>0</earliest>
         <latest></latest>
       </search>
@@ -34,9 +34,9 @@
   <row>
     <panel>
       <single>
-        <title>Host Name</title>
+        <title>Host Name(s)</title>
         <search>
-          <query>index=logiq host=$hosttok|s$|stats count BY host</query>
+          <query>index=logiq host=$hosttok|s$|stats count by host|eval lc=lower(host)|sort lc|fields host|mvcombine delim=", " host|nomv host</query>
           <earliest>0</earliest>
           <latest></latest>
         </search>
